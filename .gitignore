@@ -83,3 +83,13 @@ benchmarks/
 /原题复做轨总表.md
 /dashboard-summary.json
 schema/producer-binding-v1.json
+
+# Local provider credentials must never be committed.
+*.secret
+**/auth.json
+**/credentials.json
+**/api-key
+**/api_key
+**/caller-secret
+**/internal-secret
+**/cursor-public-secret
