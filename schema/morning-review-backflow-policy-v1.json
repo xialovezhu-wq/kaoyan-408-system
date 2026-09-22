@@ -1,0 +1,16 @@
+{
+  "schema": "morning_review_backflow_policy_v1",
+  "enabled": false,
+  "effective_date": "2026-07-19",
+  "timezone": "Asia/Shanghai",
+  "eligible_source": "morning_review",
+  "eligible_first_results": [
+    "partial",
+    "uncertain",
+    "wrong"
+  ],
+  "fast_capture_formalization_authorized": false,
+  "formal_write_authorized": false,
+  "daily_curation_requires_explicit_date": true,
+  "authorization_basis": "Public template; the operator must explicitly authorize local capture and formal intake."
+}

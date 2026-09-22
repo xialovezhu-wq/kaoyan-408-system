@@ -1,0 +1,6 @@
+interface:
+  display_name: "408 日学习闭环"
+  short_description: "20–30 秒首段实质教学，按回执续题或明确停题"
+  default_prompt: "使用 $kaoyan-408-daily-study-loop，在新v2逐题学习并自动封完整Capture，学习零正式判分/FSRS；旧active/paused保持原合同。"
+policy:
+  allow_implicit_invocation: true

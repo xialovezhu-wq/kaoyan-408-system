@@ -1,0 +1,6 @@
+interface:
+  display_name: "408 错题入库"
+  short_description: "保存完整临时私有包，禁止临时附件路径进入正式面"
+  default_prompt: "使用 $kaoyan-408-wrong-intake 保存完整408学习证据；新晨间每题Capture，明确普通快速入库也封完整包，只存事实等待网页增强。"
+policy:
+  allow_implicit_invocation: true

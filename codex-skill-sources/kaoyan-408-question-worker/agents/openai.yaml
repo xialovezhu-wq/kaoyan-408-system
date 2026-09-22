@@ -1,0 +1,6 @@
+interface:
+  display_name: "408 单题学习"
+  short_description: "20–30 秒首段实质教学，一次查询覆盖知识点理解记录"
+  default_prompt: "使用 $kaoyan-408-question-worker，按当前作答讲解，一次小路由读取已有个人摘要；正式决策等网页加强包。"
+policy:
+  allow_implicit_invocation: true

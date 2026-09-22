@@ -1,0 +1,6 @@
+interface:
+  display_name: "408 正式入库加强包"
+  short_description: "执行网页成稿，正式更新指定Capture和受影响知识点摘要"
+  default_prompt: "使用 $kaoyan-408-enhancement-intake 处理我给出的408网页加强包，按最终成稿完成正式写入与个人摘要同步，不扩集合、不重复学习事件。"
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sol-morning-selection-decision-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "decision_maker", "snapshot_sha256", "luna_candidate_set_sha256",
+    "max_items", "selected", "rejected", "formal_write_count"
+  ],
+  "properties": {
+    "schema": {"const": "sol_morning_selection_decision_v1"},
+    "decision_maker": {"const": "root_sol"},
+    "snapshot_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "luna_candidate_set_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "max_items": {"const": 5},
+    "formal_write_count": {"const": 0},
+    "selected": {
+      "type": "array", "maxItems": 5,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["candidate_id", "selection_reason"],
+        "properties": {
+          "candidate_id": {"type": "string"},
+          "selection_reason": {"type": "string", "maxLength": 1200}
+        }
+      }
+    },
+    "rejected": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["candidate_id", "reason_code", "reason"],
+        "properties": {
+          "candidate_id": {"type": "string"},
+          "reason_code": {"type": "string"},
+          "reason": {"type": "string", "maxLength": 800}
+        }
+      }
+    }
+  }
+}

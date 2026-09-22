@@ -1,0 +1,6 @@
+interface:
+  display_name: "408 日终错题编纂"
+  short_description: "串行编纂并闭合 Obsidian 稳定图片与 T9 原始包"
+  default_prompt: "使用 $kaoyan-408-daily-intake-curation：按原学习日期逐日串行编纂；先把需展示附件提升到 kaoyan-408-details 稳定目录并复验 embed，再归档完整包到 T9，最后才清理临时重文件；失败只恢复后置层，绝不重跑 apply。"
+policy:
+  allow_implicit_invocation: true

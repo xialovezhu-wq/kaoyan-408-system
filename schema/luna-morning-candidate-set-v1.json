@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "luna-morning-candidate-set-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "snapshot_sha256", "runtime_identity_receipt_sha256",
+    "candidates", "formal_write_count"
+  ],
+  "properties": {
+    "schema": {"const": "luna_morning_candidate_set_v1"},
+    "snapshot_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "runtime_identity_receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "formal_write_count": {"const": 0},
+    "candidates": {
+      "type": "array",
+      "maxItems": 80,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id", "action_id", "review_unit_id", "formal_node_id",
+          "knowledge_points", "evidence_refs", "last_answer_date",
+          "last_answer_result", "recent_exposure", "recommendation_reason",
+          "counterevidence", "semantic_score"
+        ],
+        "properties": {
+          "candidate_id": {"type": "string"},
+          "action_id": {"type": "string"},
+          "review_unit_id": {"type": ["string", "null"]},
+          "formal_node_id": {"type": "string"},
+          "knowledge_points": {"type": "array", "items": {"type": "string"}},
+          "evidence_refs": {"type": "array", "items": {"type": "object"}},
+          "last_answer_date": {"type": ["string", "null"]},
+          "last_answer_result": {"type": ["string", "null"]},
+          "recent_exposure": {"type": "array", "items": {"type": "object"}},
+          "recommendation_reason": {"type": "string", "maxLength": 1200},
+          "counterevidence": {"type": "array", "items": {"type": "string", "maxLength": 500}},
+          "semantic_score": {"type": "integer", "minimum": 0, "maximum": 100}
+        }
+      }
+    }
+  }
+}

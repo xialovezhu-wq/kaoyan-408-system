@@ -1,0 +1,6 @@
+interface:
+  display_name: "408 晨间复盘控制面"
+  short_description: "接收D包生成DeepSeek交接，按知识点准备与恢复晨间学习"
+  default_prompt: "使用 $kaoyan-408-morning-control 承接D包、绑定规范知识点和摘要，生成DeepSeek新会话提示词，开始新v2或恢复原有会话。"
+policy:
+  allow_implicit_invocation: true

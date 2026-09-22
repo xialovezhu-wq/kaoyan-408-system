@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "luna-morning-candidate-shards-v1",
+  "title": "Dynamically planned native Luna morning candidate shards",
+  "description": "Root Sol chooses zero, one or multiple shards from frozen evidence domains and expected benefit. root_direct uses zero shards and carries every eligible frozen candidate. native_luna_shards uses one or more disjoint authorized scopes. The deterministic validator derives the safety bound, materializes static candidate fields from the snapshot, and produces one validated_luna_morning_candidate_set_v1 fan-in object.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "snapshot_sha256",
+    "planner",
+    "delegation_mode",
+    "planning_reason",
+    "shard_plan_sha256",
+    "shards",
+    "formal_write_count"
+  ],
+  "properties": {
+    "schema": {"const": "luna_morning_candidate_shard_bundle_v1"},
+    "snapshot_sha256": {"$ref": "#/$defs/sha256"},
+    "planner": {"const": "root_sol"},
+    "delegation_mode": {
+      "enum": ["root_direct", "native_luna_shards"]
+    },
+    "planning_reason": {"type": "string", "minLength": 1, "maxLength": 1200},
+    "shard_plan_sha256": {"$ref": "#/$defs/sha256"},
+    "formal_write_count": {"const": 0},
+    "shards": {
+      "type": "array",
+      "$comment": "root_direct has zero shards. native_luna_shards has one or more, with no fixed topology. Python enforces an upper bound derived from the number of unique frozen candidates and the global frozen-candidate safety cap.",
+      "items": {"$ref": "#/$defs/shard"}
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"delegation_mode": {"const": "root_direct"}},
+        "required": ["delegation_mode"]
+      },
+      "then": {
+        "properties": {"shards": {"maxItems": 0}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"delegation_mode": {"const": "native_luna_shards"}},
+        "required": ["delegation_mode"]
+      },
+      "then": {
+        "properties": {"shards": {"minItems": 1}}
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "safeId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:#/-]{0,255}$"
+    },
+    "runtimeReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "model",
+        "reasoning_effort",
+        "service_tier",
+        "native_leaf",
+        "identity_status",
+        "snapshot_sha256",
+        "shard_id",
+        "authorized_scope_sha256",
+        "formal_write_count"
+      ],
+      "properties": {
+        "schema": {"const": "native_luna_shard_runtime_receipt_v1"},
+        "model": {"const": "gpt-5.6-luna"},
+        "reasoning_effort": {"const": "max"},
+        "service_tier": {"const": "fast"},
+        "native_leaf": {"const": true},
+        "identity_status": {"const": "runtime_confirmed"},
+        "snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "shard_id": {"$ref": "#/$defs/safeId"},
+        "authorized_scope_sha256": {"$ref": "#/$defs/sha256"},
+        "formal_write_count": {"const": 0}
+      }
+    },
+    "advisoryCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "recommendation_reason",
+        "counterevidence",
+        "semantic_score"
+      ],
+      "properties": {
+        "candidate_id": {"$ref": "#/$defs/safeId"},
+        "recommendation_reason": {"type": "string", "minLength": 1, "maxLength": 1200},
+        "counterevidence": {
+          "type": "array",
+          "items": {"type": "string", "maxLength": 500}
+        },
+        "semantic_score": {"type": "integer", "minimum": 0, "maximum": 100}
+      }
+    },
+    "advisory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "snapshot_sha256",
+        "shard_id",
+        "authorized_scope_sha256",
+        "runtime_identity_receipt_sha256",
+        "candidates",
+        "formal_write_count"
+      ],
+      "properties": {
+        "schema": {"const": "luna_morning_candidate_shard_advisory_v1"},
+        "snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "shard_id": {"$ref": "#/$defs/safeId"},
+        "authorized_scope_sha256": {"$ref": "#/$defs/sha256"},
+        "runtime_identity_receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "candidates": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/advisoryCandidate"}
+        },
+        "formal_write_count": {"const": 0}
+      }
+    },
+    "shard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shard_id",
+        "evidence_domain",
+        "authorized_candidate_ids",
+        "authorized_scope_sha256",
+        "runtime_identity_receipt",
+        "runtime_identity_receipt_sha256",
+        "advisory"
+      ],
+      "properties": {
+        "shard_id": {"$ref": "#/$defs/safeId"},
+        "evidence_domain": {"type": "string", "minLength": 1, "maxLength": 300},
+        "authorized_candidate_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/safeId"}
+        },
+        "authorized_scope_sha256": {"$ref": "#/$defs/sha256"},
+        "runtime_identity_receipt": {"$ref": "#/$defs/runtimeReceipt"},
+        "runtime_identity_receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "advisory": {"$ref": "#/$defs/advisory"}
+      }
+    }
+  }
+}
