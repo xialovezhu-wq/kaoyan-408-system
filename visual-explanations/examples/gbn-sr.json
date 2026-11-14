@@ -1,0 +1,124 @@
+{
+  "kind": "sequence",
+  "title": "GBN 与 SR 如何处理乱序帧",
+  "initial": 0,
+  "steps": [
+    "0 号帧丢失",
+    "发送 1 号帧",
+    "1 号帧到达"
+  ],
+  "panels": [
+    {
+      "label": "GBN · 回退 N 帧",
+      "lanes": [
+        "发送方",
+        "接收方"
+      ],
+      "frames": [
+        {
+          "fields": [
+            {
+              "id": "gbn-handling",
+              "label": "接收方",
+              "value": "仍等待 0 号帧",
+              "detail": "当前一步的接收处理。",
+              "active": true
+            }
+          ],
+          "event": {
+            "id": "gbn-frame-0",
+            "label": "0 号帧丢失",
+            "from": 0,
+            "lost": true
+          }
+        },
+        {
+          "fields": [
+            {
+              "id": "gbn-handling",
+              "label": "接收方",
+              "value": "仍等待 0 号帧",
+              "detail": "当前一步的接收处理。",
+              "active": true
+            }
+          ],
+          "event": {
+            "id": "gbn-frame-1",
+            "label": "发送 1 号帧",
+            "from": 0,
+            "lost": false,
+            "arrives": 2
+          }
+        },
+        {
+          "fields": [
+            {
+              "id": "gbn-handling",
+              "label": "接收方",
+              "value": "丢弃 1 号帧",
+              "detail": "当前一步的接收处理。",
+              "active": true
+            }
+          ],
+          "event": null
+        }
+      ]
+    },
+    {
+      "label": "SR · 选择重传",
+      "lanes": [
+        "发送方",
+        "接收方"
+      ],
+      "frames": [
+        {
+          "fields": [
+            {
+              "id": "sr-handling",
+              "label": "接收方",
+              "value": "仍等待 0 号帧",
+              "detail": "当前一步的接收处理。",
+              "active": true
+            }
+          ],
+          "event": {
+            "id": "sr-frame-0",
+            "label": "0 号帧丢失",
+            "from": 0,
+            "lost": true
+          }
+        },
+        {
+          "fields": [
+            {
+              "id": "sr-handling",
+              "label": "接收方",
+              "value": "仍等待 0 号帧",
+              "detail": "当前一步的接收处理。",
+              "active": true
+            }
+          ],
+          "event": {
+            "id": "sr-frame-1",
+            "label": "发送 1 号帧",
+            "from": 0,
+            "lost": false,
+            "arrives": 2
+          }
+        },
+        {
+          "fields": [
+            {
+              "id": "sr-handling",
+              "label": "接收方",
+              "value": "暂存 1 号帧",
+              "detail": "当前一步的接收处理。",
+              "active": true
+            }
+          ],
+          "event": null
+        }
+      ]
+    }
+  ]
+}

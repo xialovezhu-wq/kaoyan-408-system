@@ -1,0 +1,16 @@
+{
+  "name": "codex-inline-visual-build",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@a2ui/lit": "0.15.0",
+    "@a2ui/web_core": "0.15.0",
+    "@ui-sdk/core": "0.1.0-beta.1",
+    "lit": "3.3.3",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "esbuild": "0.27.2",
+    "playwright-core": "1.58.2"
+  }
+}

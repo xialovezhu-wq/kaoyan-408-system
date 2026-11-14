@@ -1,0 +1,123 @@
+{
+  "kind": "compare",
+  "title": "二维子空间的公共解",
+  "axes": [
+    "x₁",
+    "x₂"
+  ],
+  "bounds": [
+    -2,
+    2,
+    -2,
+    2
+  ],
+  "objects": [
+    {
+      "id": "a",
+      "label": "A 的解集",
+      "ink": "a"
+    },
+    {
+      "id": "b",
+      "label": "B 的解集",
+      "ink": "b"
+    },
+    {
+      "id": "common",
+      "label": "公共解",
+      "ink": "result"
+    }
+  ],
+  "cases": [
+    {
+      "label": "两条约束相同",
+      "items": {
+        "a": {
+          "kind": "segment",
+          "points": [
+            [
+              0,
+              -2
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "note": "竖直直线"
+        },
+        "b": {
+          "kind": "segment",
+          "points": [
+            [
+              0,
+              -2
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "note": "竖直直线"
+        },
+        "common": {
+          "kind": "segment",
+          "points": [
+            [
+              0,
+              -2
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "note": "同一条直线"
+        }
+      }
+    },
+    {
+      "label": "改变 B 的约束",
+      "items": {
+        "a": {
+          "kind": "segment",
+          "points": [
+            [
+              0,
+              -2
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "note": "竖直直线"
+        },
+        "b": {
+          "kind": "segment",
+          "points": [
+            [
+              -2,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "note": "水平直线"
+        },
+        "common": {
+          "kind": "point",
+          "points": [
+            [
+              0,
+              0
+            ]
+          ],
+          "note": "只剩原点"
+        }
+      }
+    }
+  ]
+}

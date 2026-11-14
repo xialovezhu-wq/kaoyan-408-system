@@ -1,0 +1,23 @@
+{
+  "kind": "slice",
+  "title": "沿固定横坐标观察三角区域",
+  "control": "固定 x",
+  "xmin": 0,
+  "xmax": 2,
+  "ymin": 0,
+  "ymax": 2,
+  "initial": 1,
+  "step": 0.05,
+  "samples": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      2,
+      0,
+      2
+    ]
+  ]
+}

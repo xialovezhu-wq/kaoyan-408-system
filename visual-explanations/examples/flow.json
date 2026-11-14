@@ -1,0 +1,45 @@
+{
+  "kind": "flow",
+  "title": "一次队列取出",
+  "initial": 0,
+  "steps": [
+    "取出前",
+    "取出后"
+  ],
+  "panels": [
+    {
+      "label": "队列",
+      "frames": [
+        {
+          "fields": [
+            {
+              "id": "front",
+              "label": "队首",
+              "value": "甲",
+              "detail": "甲先入队。",
+              "active": true
+            },
+            {
+              "id": "next",
+              "label": "后继",
+              "value": "乙",
+              "detail": "乙在甲之后。",
+              "active": true
+            }
+          ]
+        },
+        {
+          "fields": [
+            {
+              "id": "front",
+              "label": "队首",
+              "value": "乙",
+              "detail": "甲已取出。",
+              "active": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

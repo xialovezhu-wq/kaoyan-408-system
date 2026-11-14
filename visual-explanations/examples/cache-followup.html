@@ -1,0 +1,105 @@
+<section id="cs408-cache-followup" aria-label="Cache 地址字段">
+  <h3>Cache 块大小与地址字段</h3>
+  <p class="text-small">公开机制示例 · 数据容量 8 KiB · 2 路 · 32 位字节地址</p>
+  <div class="cache-controls">
+    <label for="cs408-block-size" class="form-label">块大小</label>
+    <output for="cs408-block-size" class="tabular-nums" data-block-size>32 B</output>
+    <input id="cs408-block-size" class="form-range" type="range" min="32" max="64" step="32" value="32" aria-valuetext="32 B">
+  </div>
+  <figure class="cache-address">
+    <figcaption class="text-small">地址高位 → 低位</figcaption>
+    <div class="cache-fields" data-fields>
+      <div class="cache-field cache-tag"><span>标记</span><span data-tag class="text-small tabular-nums"></span></div>
+      <div class="cache-field cache-index"><span>组索引</span><span data-index class="text-small tabular-nums"></span></div>
+      <div class="cache-field cache-offset"><span>块内偏移</span><span data-offset class="text-small tabular-nums"></span></div>
+    </div>
+  </figure>
+  <div class="viz-row cache-actions">
+    <button type="button" class="btn btn-primary" data-ask>按当前配置追问</button>
+    <span class="text-small" data-count role="status"></span>
+  </div>
+  <p class="text-small" role="alert" data-feedback hidden></p>
+</section>
+<style>
+  #cs408-cache-followup { display: grid; gap: calc(var(--font-size-base) * .55); color: var(--foreground); }
+  #cs408-cache-followup .cache-controls { display: grid; align-items: start; grid-template-columns: 1fr auto; gap: .15rem .5rem; }
+  #cs408-cache-followup .cache-controls input { grid-column: 1 / -1; inline-size: 100%; min-inline-size: 0; }
+  #cs408-cache-followup .cache-address { margin: 0; }
+  #cs408-cache-followup .cache-address figcaption { margin-block-end: .25rem; }
+  #cs408-cache-followup .cache-fields { display: grid; grid-template-columns: minmax(0,20fr) minmax(max-content,7fr) minmax(max-content,5fr); }
+  #cs408-cache-followup .cache-field { display: grid; align-content: center; text-align: center; padding: .35rem .18rem; }
+  #cs408-cache-followup .cache-tag { background: var(--muted); }
+  #cs408-cache-followup .cache-index { background: color-mix(in srgb,var(--viz-series-1) 23%,var(--background)); }
+  #cs408-cache-followup .cache-offset { background: color-mix(in srgb,var(--viz-series-2) 28%,var(--background)); }
+  #cs408-cache-followup .cache-actions { gap: .45rem .8rem; }
+</style>
+<script>
+(() => {
+  const root = document.getElementById('cs408-cache-followup');
+  const slider = root.querySelector('input');
+  const button = root.querySelector('[data-ask]');
+  const feedback = root.querySelector('[data-feedback]');
+  const size = root.querySelector('[data-block-size]');
+  const fields = root.querySelector('[data-fields]');
+  const count = root.querySelector('[data-count]');
+  const tagLabel = root.querySelector('[data-tag]');
+  const indexLabel = root.querySelector('[data-index]');
+  const offsetLabel = root.querySelector('[data-offset]');
+  const fixture = Object.freeze({ capacityBytes: 8192, ways: 2, addressBits: 32, baselineBytes: 32 });
+
+  function currentBlock() {
+    const value = slider.valueAsNumber;
+    if (value !== 32 && value !== 64) throw new Error('块大小必须是 32 B 或 64 B。');
+    return value;
+  }
+
+  function draw() {
+    const block = currentBlock();
+    const sets = fixture.capacityBytes / (fixture.ways * block);
+    const offset = Math.log2(block);
+    const index = Math.log2(sets);
+    const tag = fixture.addressBits - offset - index;
+    size.textContent = block + ' B';
+    slider.setAttribute('aria-valuetext', size.textContent);
+    fields.style.gridTemplateColumns = [
+      'minmax(0,' + tag + 'fr)',
+      'minmax(max-content,' + index + 'fr)',
+      'minmax(max-content,' + offset + 'fr)'
+    ].join(' ');
+    tagLabel.textContent = 'A31–A' + (offset + index) + ' · ' + tag + ' 位';
+    indexLabel.textContent = 'A' + (offset + index - 1) + '–A' + offset + ' · ' + index + ' 位';
+    offsetLabel.textContent = 'A' + (offset - 1) + '–A0 · ' + offset + ' 位';
+    count.textContent = sets + ' 组';
+  }
+
+  slider.addEventListener('input', draw);
+  draw();
+
+  button.addEventListener('click', async () => {
+    feedback.hidden = true;
+    const host = window.openai;
+    if (typeof host?.sendFollowUpMessage !== 'function') {
+      feedback.textContent = '当前窗口无法发起追问。';
+      feedback.hidden = false;
+      return;
+    }
+    // Snapshot only public inputs at the explicit click. The preview
+    // control never calls the host and no calculated answers are sent.
+    const block = currentBlock();
+    const prompt = '按图中当前配置追问 408 Cache 公开示例。' +
+      '按字节编址，物理地址 ' + fixture.addressBits + ' 位，Cache 数据容量 ' +
+      fixture.capacityBytes + ' B，相联度 ' + fixture.ways + ' 路，' +
+      '基准块大小 ' + fixture.baselineBytes + ' B，当前块大小 ' + block + ' B。' +
+      '请先复述收到的公开配置，再解释相比基准，块内偏移和组索引的位数与位界怎样变化。';
+    button.disabled = true;
+    try {
+      await host.sendFollowUpMessage({ prompt, title: '按当前配置追问' });
+    } catch {
+      feedback.textContent = '追问未发出，请重试。';
+      feedback.hidden = false;
+    } finally {
+      button.disabled = false;
+    }
+  });
+})();
+</script>

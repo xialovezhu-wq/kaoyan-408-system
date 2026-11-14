@@ -1,0 +1,103 @@
+<div id="__ROOT_ID__">
+  <h3 data-visual-title></h3>
+  <div data-visual-mount></div>
+</div>
+<style>
+  #__ROOT_ID__ { container: visual-explanation / inline-size; color: var(--foreground); }
+  #__ROOT_ID__ [data-visual-title] { margin-block-end: 0.65em; }
+  #__ROOT_ID__ a2ui-surface, #__ROOT_ID__ ve-stack, #__ROOT_ID__ ve-steps,
+  #__ROOT_ID__ ve-mechanism, #__ROOT_ID__ ve-detail { display: block; min-inline-size: 0; }
+  #__ROOT_ID__ .ve-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 0.55em; margin-block-end: 0.8em; }
+  #__ROOT_ID__ .ve-step-label { min-inline-size: 0; overflow-wrap: anywhere; }
+  #__ROOT_ID__ .ve-step-timeline { margin-block-end: 1em; }
+  #__ROOT_ID__ .ve-step-stops { display: grid; grid-template-columns: repeat(var(--ve-step-count), minmax(0,1fr)); list-style: none; margin: 0; padding: 0; }
+  #__ROOT_ID__ .ve-step-stops li { min-inline-size: 0; padding-inline: 0.15em; }
+  #__ROOT_ID__ .ve-step-track { position: relative; margin-inline: var(--ve-track-inset); block-size: max(28px, 2em); cursor: ew-resize; user-select: none; touch-action: pan-y; }
+  #__ROOT_ID__ .ve-step-rail { position: absolute; inset-inline: 0; inset-block-start: 50%; block-size: 2px; transform: translateY(-50%); background: linear-gradient(to right, var(--viz-series-1, var(--foreground)) var(--ve-step-progress, 0%), var(--border) var(--ve-step-progress, 0%)); }
+  #__ROOT_ID__ .ve-step-thumb { position: absolute; inset-inline-start: var(--ve-step-progress, 0%); inset-block-start: 50%; inline-size: 0.9em; block-size: 0.9em; border-radius: 50%; transform: translate(-50%, -50%); background: var(--viz-series-1, var(--foreground)); pointer-events: none; }
+  #__ROOT_ID__ .ve-panels { display: grid; gap: 1em; }
+  #__ROOT_ID__ .ve-panel { min-inline-size: 0; }
+  #__ROOT_ID__ .ve-panel h4 { margin: 0 0 0.45em; font-size: inherit; font-weight: 500; }
+  #__ROOT_ID__ .ve-time-axis { display: flex; justify-content: space-between; gap: 0.5em; padding-inline: 4%; }
+  #__ROOT_ID__ .ve-lanes { position: relative; padding-block: 0.3em; }
+  #__ROOT_ID__ .ve-lanes::before, #__ROOT_ID__ .ve-lanes::after {
+    content: ""; position: absolute; inset-block: 0; border-inline-start: 1px solid var(--border);
+    pointer-events: none;
+  }
+  #__ROOT_ID__ .ve-lanes::before { inset-inline-start: 11%; }
+  #__ROOT_ID__ .ve-lanes::after { inset-inline-end: 11%; }
+  #__ROOT_ID__ .ve-events { display: grid; padding: 0; margin: 0; list-style: none; }
+  #__ROOT_ID__ .ve-event { position: relative; display: grid; place-items: center; min-block-size: 2.15em; }
+  #__ROOT_ID__ .ve-event[data-current="true"] { min-block-size: 3.25em; }
+  #__ROOT_ID__ .ve-event svg { position: absolute; inset-inline: 0; inset-block-end: 0; inline-size: 100%; block-size: 1.3em; pointer-events: none; }
+  #__ROOT_ID__ .ve-lanes > .ve-trajectory { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; pointer-events: none; }
+  #__ROOT_ID__ .ve-events[data-spanning="true"] { grid-auto-rows: 1fr; }
+  #__ROOT_ID__ .ve-events[data-spanning="true"] .ve-event { min-block-size: 3.5em; }
+  #__ROOT_ID__ .ve-event-label { z-index: 1; margin-block-end: 0.7em; max-inline-size: 74%; overflow-wrap: anywhere; }
+  #__ROOT_ID__ .ve-event-hit { z-index: 1; margin-block-end: 0.7em; max-inline-size: 74%; }
+  #__ROOT_ID__ .ve-event-label:not(button) { color: var(--muted-foreground); background: var(--background); }
+  #__ROOT_ID__ .ve-arrow { stroke: var(--muted-foreground); fill: none; vector-effect: non-scaling-stroke; }
+  #__ROOT_ID__ .ve-event[data-current="true"] .ve-arrow { stroke: var(--viz-series-1, var(--foreground)); stroke-width: 2; }
+  #__ROOT_ID__ .ve-arrow:is([data-lost="true"], [data-sent-only="true"]) { stroke-dasharray: 4 3; }
+  #__ROOT_ID__ .ve-arrow-head { fill: var(--muted-foreground); }
+  #__ROOT_ID__ .ve-event[data-current="true"] .ve-arrow-head { fill: var(--viz-series-1, var(--foreground)); }
+  #__ROOT_ID__ [data-message-path][data-selected="true"] .ve-arrow { stroke: var(--viz-series-1, var(--foreground)); stroke-width: 2; }
+  #__ROOT_ID__ [data-message-path][data-selected="true"] .ve-arrow-head { fill: var(--viz-series-1, var(--foreground)); }
+  #__ROOT_ID__ .ve-fields { display: grid; gap: 0.25em; padding: 0.65em 0 0; margin: 0; border-block-start: 1px solid var(--border); }
+  #__ROOT_ID__ .ve-field { display: grid; grid-template-columns: max-content minmax(0,1fr); gap: 0.6em; align-items: baseline; }
+  #__ROOT_ID__ .ve-field dd { margin: 0; min-inline-size: 0; overflow-wrap: anywhere; }
+  #__ROOT_ID__ .ve-field[data-active="true"] .ve-status-cell { border-inline-start: 2px solid var(--viz-series-1, var(--foreground)); padding-inline-start: 0.45em; font-weight: 500; }
+  #__ROOT_ID__ .ve-status-cell { min-inline-size: 0; overflow-wrap: anywhere; }
+  #__ROOT_ID__ .ve-status-change { display: block; margin-block-start: 0.2em; color: var(--muted-foreground); }
+  #__ROOT_ID__ .ve-status-comparison { border-collapse: collapse; table-layout: fixed; inline-size: 100%; margin-block-start: 0.85em; }
+  #__ROOT_ID__ .ve-status-comparison caption { text-align: start; font-weight: 500; margin-block-end: 0.35em; }
+  #__ROOT_ID__ .ve-status-comparison :is(th, td) { text-align: start; vertical-align: top; overflow-wrap: anywhere; padding: 0.35em 0.4em; border-block-end: 1px solid var(--border); }
+  #__ROOT_ID__ .ve-status-comparison th { font-weight: 500; }
+  #__ROOT_ID__ .ve-status-comparison thead th:first-child { inline-size: 22%; }
+  #__ROOT_ID__ .ve-compact-side { display: none; }
+  #__ROOT_ID__ .ve-status-comparison tbody td[data-active="true"] { box-shadow: inset 2px 0 var(--viz-series-1, var(--foreground)); }
+  #__ROOT_ID__ .ve-state-detail td { color: var(--foreground); }
+  #__ROOT_ID__ p.ve-state-detail { margin-block-start: 0.35em; font-weight: 400; }
+  #__ROOT_ID__ .ve-flow { display: grid; gap: 0.3em; }
+  #__ROOT_ID__ .ve-flow-node { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: baseline; gap: 0.6em; }
+  #__ROOT_ID__ .ve-flow-node > span { overflow-wrap: anywhere; }
+  #__ROOT_ID__ .ve-flow-edge { margin-inline-start: 0.75em; min-inline-size: 0; overflow-wrap: anywhere; }
+  #__ROOT_ID__ [data-visual-detail]:not(:empty) { margin-block-start: 0.8em; overflow-wrap: anywhere; }
+  #__ROOT_ID__ .ve-slice { display: block; max-inline-size: 100%; }
+  #__ROOT_ID__ [data-visual-controls] label { display: grid; gap: 0.35em; width: 100%; }
+  #__ROOT_ID__ [hidden] { display: none; }
+  @container visual-explanation (min-width: 610px) {
+    #__ROOT_ID__ .ve-panels[data-pair="true"] { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.35em; }
+  }
+  @container visual-explanation (max-width: 520px) {
+    #__ROOT_ID__ .ve-step-stops { display: flex; flex-wrap: wrap; row-gap: 0.35em; }
+    #__ROOT_ID__ .ve-step-track { margin-inline: 0.7em; }
+    #__ROOT_ID__ .ve-status-comparison, #__ROOT_ID__ .ve-status-comparison tbody { display: block; }
+    #__ROOT_ID__ .ve-status-comparison thead { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); }
+    #__ROOT_ID__ .ve-status-comparison tbody tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #__ROOT_ID__ .ve-status-comparison tbody th, #__ROOT_ID__ .ve-state-detail td { grid-column: 1 / -1; }
+    #__ROOT_ID__ .ve-compact-side { display: block; margin-block-end: 0.25em; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    #__ROOT_ID__ .ve-field .ve-status-cell { transition: color 140ms ease; }
+    #__ROOT_ID__ .ve-step-track:not([data-dragging="true"]) .ve-step-thumb { transition: inset-inline-start 130ms ease-out; }
+  }
+  @media (forced-colors: active) {
+    #__ROOT_ID__ .ve-step-thumb { forced-color-adjust: none; background: Highlight; }
+    #__ROOT_ID__ .ve-step-rail { forced-color-adjust: none; background: ButtonText; }
+  }
+  __LOCAL_STYLES__
+</style>
+<script type="application/json" id="__ROOT_ID__-data">__VISUAL_DATA__</script>
+<script>__VIEW_BUNDLE__</script>
+__A2UI_SCRIPT__
+<script>
+(() => {
+  const root = document.getElementById('__ROOT_ID__');
+  const data = JSON.parse(document.getElementById('__ROOT_ID__-data').textContent);
+  const host = root.querySelector('[data-visual-mount]');
+  root.querySelector('[data-visual-title]').textContent = data.title;
+  const adapter = typeof CodexVisualA2ui === 'undefined' ? null : CodexVisualA2ui;
+  __VIEW_GLOBAL__.start(root, host, data, adapter);
+})();
+</script>
