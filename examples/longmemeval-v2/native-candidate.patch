@@ -1,0 +1,227 @@
+diff --git a/codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md b/codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md
+index 6045d81..40c1c47 100644
+--- a/codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md
++++ b/codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md
+@@ -10,6 +10,8 @@ python3 scripts/runtime_paths_408.py --run exam_tutoring_context_408.py resolve
+ 
+ Supply the verified current identity and the necessary concepts or mechanisms in one request. Reuse campaign/D `teaching_context` when it already covers the explanation. Read `records[].personal_context` and `personal_read_receipt`. A bounded record preserves whole claim statements, their basis and any known validity dates. Use statements only under the stated conditions. `omitted_claim_count`, `omitted_fields`, `omitted_points` and `omitted_subpoints` describe this delivery. Read `full/core` in the same exact permitted scope if a specific missing condition, conflict or source would change the explanation.
+ 
++For a multi-point explanation, check whether the returned claims or bounded summaries cover every required point. `records[].omitted_fields` names optional definitions, navigation and syllabus details omitted for this delivery. Use the receipt's profile version plus `claim_id` to anchor a claim. Interpret `event_at` as occurrence and `recorded_at` as the recorded judgment revision.
++
+ An independent Pxx with unbound parent personal history returns `withheld_scope`, `unscoped_parent_personal_history`, `complete=false` and `current_question_only`. Select a KSP only when the current public question supports the link.
+ 
+ - `complete=true` confirms the selected full personal objects were read and version-checked.
+diff --git a/schema/exam-tutoring-context-v1.md b/schema/exam-tutoring-context-v1.md
+index e3c26b1..5051418 100644
+--- a/schema/exam-tutoring-context-v1.md
++++ b/schema/exam-tutoring-context-v1.md
+@@ -126,6 +126,8 @@ python3 scripts/runtime_paths_408.py --run exam_tutoring_context_408.py refresh-
+ 
+ 同点当前判断保留原作者给出的内容、依据、证据状态、日期和更正身份。先照顾每个已返回点的当前判断，再保留提示后修复、`next_check` 和可用短摘要。超过预算时整段省略，禁止只留半句条件。被替代、撤回及有冲突的判断不参与当前投影。`historical_claim_count` 和 `conflicted_claim_count` 保留回读入口提示。缺项、未返回的点或小点及可选资料分别由 `missing_points`、`omitted_points`、`omitted_subpoints`、`omitted_fields`、`omitted_claim_count` 或 `omitted_materials` 表达。
+ 
++跨点预算先给每个保留点的当前核证判断或可用完整短摘要留空间，大纲范围和适用边界随保留点返回。逐点释义、跳转和大纲对象详情按余量返回，省略时在该点 `omitted_fields` 标记。同题考频仍由精确题目开场优先交付。核证判断的 `event_at` 是实际发生时间，已知的 `recorded_at` 是该判断版本的记录时间。来源通过读取回执中的已验概况版本和返回的 `claim_id` 定位，原回合保留在完整证据。历史回放由 `memory history|trace` 及冻结版本完成。
++
+ `question_exam_introduction` 使用同题考频。`question_visual_template.binding_only` 只携带精确版本和来源状态，供已备 D 图解校验。需要图解时按同一权限用 `--personal-scope full --materials visual` 补读。正式编纂或确需查完整证据时在同题、同机制、同 view 使用 `--personal-scope full --materials core`。`--personal-scope summary` 仍为旧导航视图。便携查询保持原请求、分页和缓存接口。
+ 
+ `known-version` 绑定题/Pxx、机制、view、材料、范围和有效预算。来源漂移会使旧个人内容失效。未知点仍返回 `missing_points`，可以继续使用同次已经核验的其他点。`protected` 和独立 Pxx 的范围门禁先于完整个人对象读取。当前作答决定诊断与判分。
+diff --git a/scripts/exam_tutoring_context_408.py b/scripts/exam_tutoring_context_408.py
+index 583dea0..a1327ed 100644
+--- a/scripts/exam_tutoring_context_408.py
++++ b/scripts/exam_tutoring_context_408.py
+@@ -2588,7 +2588,8 @@ def _subpoint_teaching_result(manifest, routed, normalized, read_artifact,
+         "question_visual_sources_current": question_visual_current,
+         "question_introduction_identity": routed.get("question_introduction_identity"),
+         "question_introduction_entry": routed.get("question_introduction_entry"),
+-        "view": view, "delivery_policy": TEACHING_DELIVERY_POLICY,
++        "view": view, "delivery_policy": (teaching_memory.DELIVERY_POLICY if
++            normalized.get("personal_scope") == teaching_memory.SCOPE else TEACHING_DELIVERY_POLICY),
+         "teaching_plan_sources_current": plan_states,
+         "visual_template_sources_current": visual_states,
+         "syllabus_visual_template_sources_current": syllabus_visual_states}))
+@@ -2650,7 +2651,8 @@ def _prepared_teaching_result(repo_root, manifest, routed, normalized, read_arti
+     question_visual_current = question_visual_source_state(routed, view)
+     version = _sha256_bytes(_canonical_bytes({
+         "source_version": manifest["source_version"], "query": normalized,
+-        "view": view, "delivery_policy": TEACHING_DELIVERY_POLICY,
++        "view": view, "delivery_policy": (teaching_memory.DELIVERY_POLICY if
++            normalized.get("personal_scope") == teaching_memory.SCOPE else TEACHING_DELIVERY_POLICY),
+         "points": {code: routed["point_entries"].get(code) for code in requested},
+         "syllabus_entries": syllabus_entries,
+         "question_visual_entry": routed.get("question_visual_entry"),
+diff --git a/scripts/teaching_memory_408.py b/scripts/teaching_memory_408.py
+index 7b9a98d..684c632 100644
+--- a/scripts/teaching_memory_408.py
++++ b/scripts/teaching_memory_408.py
+@@ -8,15 +8,20 @@ from zoneinfo import ZoneInfo
+ from knowledge_profile_408 import CLAIMS_SCHEMA, teaching_focus_hot
+ 
+ SCOPE = "teaching"
++DELIVERY_POLICY = "bounded-evidence-priority-v1"
+ _SHANGHAI = ZoneInfo("Asia/Shanghai")
+ _EPOCH = dt.datetime.min.replace(tzinfo=dt.timezone.utc)
+ _CLAIM_FIELDS = ("claim_id", "kind", "basis", "evidence_status", "content", "event_at",
+-                 "valid_from", "valid_to", "supersedes")
++                 "recorded_at", "valid_from", "valid_to", "supersedes")
+ _RECORD_FIELDS = ("schema", "knowledge_point", "subpoint_id", "syllabus_id", "title", "concept_name",
+                   "status", "reason", "view", "content_fields_redacted", "has_personal_history",
+                   "parent_profile_version", "brief_status", "concept_brief", "syllabus_context",
+                   "obsidian_uri", "markdown_link", "personal_context")
+ _OPTIONAL_SURFACES = ("local_syllabus_lessons", "cached_visuals", "automatic_visual_teaching", "visual_dispatch")
++_POINT_DETAILS = ("concept_brief", "markdown_link", "obsidian_uri")
++_SYLLABUS_DETAILS = ("exam_frequency", "paths", "frequency_intro", "context_object", "frequency_intro_ref")
++_DETAIL_ORDER = ("concept_brief", "exam_frequency", "markdown_link", "obsidian_uri",
++                 "paths", "frequency_intro", "context_object", "frequency_intro_ref")
+ 
+ 
+ def _event_time(row):
+@@ -102,15 +107,21 @@ def fit(result, limit):
+     receipt = result.get("personal_read_receipt", {})
+     records = result.get("records", [])
+ 
+-    # Keep identities, status and an exact frequency introduction. Under a
+-    # tight budget remove optional objective detail before losing a point.
+-    for record in reversed(records):
+-        if fits():
+-            break
+-        for key in ("concept_brief", "obsidian_uri", "markdown_link", "syllabus_context"):
+-            if key in record:
+-                record.pop(key)
+-                record.setdefault("omitted_fields", []).append(key)
++    # Reserve space for evidence across points. Keep the syllabus boundary
++    # and verified profile receipt alongside each retained point.
++    point_details = []
++    for record in records:
++        details = []
++        for target, keys in (
++            (record, _POINT_DETAILS),
++            (record.get("syllabus_context", {}), _SYLLABUS_DETAILS),
++        ):
++            for key in keys:
++                if key in target:
++                    details.append((target, key, target.pop(key)))
++        if details:
++            record["omitted_fields"] = [key for _, key, _ in details]
++        point_details.append(details)
+     while records and not fits():
+         row = records.pop()
+         for key, target in (("subpoint_id", "omitted_subpoints"), ("syllabus_id", "omitted_syllabus_entries"),
+@@ -167,11 +178,28 @@ def fit(result, limit):
+         if (memory["claim_view"]["claims"] and len(atoms["claims"]) > 1
+                 and atoms["claims"][1]["evidence_status"] == "prompted_repair"):
+             add_claim(memory, atoms["claims"][1])
+-    for key in ("next_check", "short_summary", "teaching_focus"):
++    for memory in memories:
++        atoms = candidates[memory["identity"]]
++        if not atoms["claims"] and "short_summary" in atoms:
++            add_field(memory, "short_summary", atoms["short_summary"])
++    for key in ("next_check", "teaching_focus", "short_summary"):
+         for memory in memories:
+             atoms = candidates[memory["identity"]]
+-            if key in atoms and (not atoms["claims"] or memory["claim_view"]["claims"]):
++            if (key in atoms and key in memory["omitted_fields"]
++                    and (not atoms["claims"] or memory["claim_view"]["claims"])):
+                 add_field(memory, key, atoms[key])
++    # Return definitions and navigation where space permits. Allocate each
++    # kind across the selected points before spending on the next kind.
++    for detail_key in _DETAIL_ORDER:
++        for record, details in zip(records, point_details):
++            for target, key, value in details:
++                if key != detail_key:
++                    continue
++                target[key] = value
++                record["omitted_fields"].remove(key)
++                if not fits():
++                    target.pop(key)
++                    record["omitted_fields"].append(key)
+     for memory in memories:
+         atoms = candidates[memory["identity"]]
+         projected = memory["claim_view"]["claims"]
+@@ -185,6 +213,9 @@ def fit(result, limit):
+         if not fits():
+             result.pop(key)
+             result["omitted_materials"].append(key)
++    for record in records:
++        if record.get("omitted_fields") == []:
++            record.pop("omitted_fields")
+     result["truncated"] = (result["truncated"] or bool(result["omitted_materials"])
+         or any(row.get("omitted_fields") for row in records)
+         or any(memory["omitted_fields"] or memory["claim_view"]["omitted_claim_count"] for memory in memories))
+diff --git a/tests/test_longmemeval_v2_teaching_408.py b/tests/test_longmemeval_v2_teaching_408.py
+new file mode 100644
+index 0000000..0ce9bbc
+--- /dev/null
++++ b/tests/test_longmemeval_v2_teaching_408.py
+@@ -0,0 +1,73 @@
++"""Synthetic boundary cases for the bounded 408 teaching projection."""
++import json
++from pathlib import Path
++import sys
++import unittest
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
++import teaching_memory_408 as teaching
++
++
++CASES = {
++    "C01": ("字节编址且块为32字节时，块内位数为5。",
++            "每字4字节且按字编址时，同一块含8个可编址字，块内位数为3。"),
++    "C02": ("已连续收到编号小于100的字节，之后收到[120,140)，累计ACK仍为100。",
++            "普通数据按字节占序号，SYN和FIN各占一个序号。"),
++    "C03": ("TLB未命中但页表项表示页已驻留且访问合法，完成翻译，无需处理缺页。",
++            "访问合法、目标页未驻留时发生缺页，调入成功后重试原访存。"),
++    "C04": ("P1运行时间6、时刻0到达，P2运行时间2、时刻1到达；非抢占SJF下P1先完成。",
++            "最短剩余时间优先可在时刻1抢占，P2运行至时刻3再继续P1。"),
++    "C05": ("无权图中BFS求最少边数，从起点按层扩展。",
++            "一般图带非负边权时可用Dijkstra求最小权值和。"),
++    "C06": ("安全状态要求存在可满足所有进程最大剩余需求的一种完成顺序。",
++            "找不到安全序列说明系统不安全，当前是否已死锁取决于实际等待关系。"),
++}
++
++
++def record(identity, text):
++    claim = {"claim_id": "SYNTH-" + identity, "kind": "observation", "basis": "observed_attempt",
++             "lifecycle": "current", "evidence_status": "explicit_gap", "content": text,
++             "event_at": "2026-11-01", "recorded_at": "2026-11-04T03:00:00+00:00"}
++    personal = teaching.selected_context(
++        {"claims_schema": teaching.CLAIMS_SCHEMA, "claims": [claim]}, identity, "test-version")
++    return {
++        "knowledge_point": identity, "status": "semantic_current",
++        "syllabus_context": {"scope_status": "in_scope", "teaching_boundary": "本题条件",
++                             "exam_frequency": {"total_count": 1}},
++        "concept_brief": {"description": "可按需展开的释义。" * 35},
++        "personal_context": personal,
++    }
++
++
++class BoundedEvidenceTests(unittest.TestCase):
++    def test_independent_conditions_remain_atomic_across_points(self):
++        for identifier, conditions in CASES.items():
++            with self.subTest(case=identifier):
++                left, right = (record(f"{identifier}-{i}", text)
++                               for i, text in enumerate(conditions, start=1))
++                payload = {"records": [left, right], "returned": 2}
++                result = teaching.fit(payload, 1950)
++                self.assertEqual(result["returned"], 2)
++                self.assertEqual(result["omitted_points"], [])
++                self.assertTrue(result["truncated"])
++                for row, expected in zip(result["records"], conditions):
++                    self.assertIn("concept_brief", row["omitted_fields"])
++                    self.assertEqual(row["syllabus_context"]["teaching_boundary"], "本题条件")
++                    claim, = row["personal_context"]["claim_view"]["claims"]
++                    self.assertEqual(claim["content"], expected)
++                    self.assertEqual(claim["recorded_at"], "2026-11-04T03:00:00+00:00")
++                size = len(json.dumps(result, ensure_ascii=False, separators=(",", ":")).encode()) + 1
++                self.assertEqual(result["serialized_bytes"], size)
++                self.assertLessEqual(size, 1950)
++
++    def test_followup_metadata_restored_when_it_fits(self):
++        point = record("C01-1", CASES["C01"][0])
++        result = teaching.fit({"records": [point], "returned": 1}, 8192)
++        row, = result["records"]
++        self.assertIn("concept_brief", row)
++        self.assertNotIn("omitted_fields", row)
++        self.assertFalse(result["truncated"])
++
++
++if __name__ == "__main__":
++    unittest.main()
