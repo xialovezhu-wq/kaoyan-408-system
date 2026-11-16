@@ -292,6 +292,9 @@ def resolve(descriptor: Mapping[str, Any], normalized: Mapping[str, Any],
 
     question_scope = None
     scope_id = visual_identity if normalized.get("question_part") else (introduction_identity or visual_identity)
+    independent_question = bool(normalized.get("question_part")) or any(
+        re.search(r"(?:-|#)P\d{2,3}$", identity, re.I)
+        for identity in (scope_id, visual_identity, *normalized.get("source", [])) if identity)
     if scope_id and normalized.get("stage") != "pre_answer":
         question_scope = reader.get("question-scope", scope_id)
         if question_scope is not None and (
@@ -300,8 +303,14 @@ def resolve(descriptor: Mapping[str, Any], normalized: Mapping[str, Any],
                 or not isinstance(question_scope.get("syllabus_ids"), list)):
             raise ValueError("hot_route_question_scope_invalid")
     assessed = set(question_scope["assessed_points"]) if question_scope is not None else None
-    part_syllabus = (set(question_scope["syllabus_ids"])
-                     if question_scope and re.search(r"-P\d{2}$", scope_id) else set())
+    part_syllabus = set(question_scope["syllabus_ids"]) if independent_question and question_scope else set()
+    bound_focus = ()
+    if independent_question and question_scope:
+        from exam_year_teaching_408 import verified_personal_focus
+        bound_focus = tuple(key for key in verified_personal_focus(question_scope, visual_entry or {})
+                            if reader.get("subpoint", key) is not None)
+        question_scope = {**question_scope, "personal_subpoint_binding": "verified" if bound_focus else "missing"}
+    allowed_subpoints = set(bound_focus) if independent_question else None
 
     requested: list[str] = []
     missing: list[str] = []
@@ -313,13 +322,22 @@ def resolve(descriptor: Mapping[str, Any], normalized: Mapping[str, Any],
     explicit_points = {code for term in normalized.get("knowledge", [])
                        + normalized.get("weak_knowledge", [])
                        for code in canonical_knowledge_points(term)}
+    rejected_subpoint = False
 
     def add_subpoint(term):
+        nonlocal rejected_subpoint
+        if allowed_subpoints is not None and _norm(term).startswith("ksp-"):
+            identity = "KSP-" + _norm(term)[4:]
+            if identity not in allowed_subpoints:
+                missing.append(term)
+                rejected_subpoint = True
+                return True
         direct = reader.get("subpoint", term)
         keys = ["KSP-" + term.strip()[4:].lower()] if direct else reader.get("subpoint-alias", term)
         if not keys:
             return False
-        candidates = {key: reader.get("subpoint", key) for key in keys}
+        candidates = {key: reader.get("subpoint", key) for key in keys
+                      if allowed_subpoints is None or key in allowed_subpoints}
         if any(not isinstance(row, dict) or not isinstance(row.get("teaching_views"), dict)
                for row in candidates.values()):
             raise ValueError("hot_route_subpoint_invalid")
@@ -336,6 +354,8 @@ def resolve(descriptor: Mapping[str, Any], normalized: Mapping[str, Any],
         else:
             if term not in missing:
                 missing.append(term)
+            if independent_question:
+                rejected_subpoint = True
         return True
 
     def add_code(code: str, is_weak: bool) -> None:
@@ -409,6 +429,9 @@ def resolve(descriptor: Mapping[str, Any], normalized: Mapping[str, Any],
     for term in normalized.get("mechanism", []):
         if not add_subpoint(term) and not add_syllabus(term):
             missing.append(term)
+    if bound_focus and not subpoint_entries and not syllabus_entries and not rejected_subpoint:
+        for key in bound_focus:
+            add_subpoint(key)
 
     exact_formals: list[str] = []
     for value in normalized.get("formal", []):
@@ -492,6 +515,7 @@ def resolve(descriptor: Mapping[str, Any], normalized: Mapping[str, Any],
         "subpoint_entries": subpoint_entries,
         "syllabus_entries": syllabus_entries,
         "question_scope": question_scope,
+        "independent_question": independent_question,
         "question_visual_identity": visual_identity,
         "question_visual_entry": visual_entry,
         "question_visual_reason": visual_reason,

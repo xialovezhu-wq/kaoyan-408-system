@@ -24,13 +24,13 @@ description: 408真题、独立小问与局部纠偏。按精确题号读取同�
 python3 scripts/runtime_paths_408.py --run exam_tutoring_context_408.py resolve --repo . --current-question-id <当前精确题ID> --view <protected|after_attempt|direct> --personal-scope teaching --materials core
 ```
 
-同次传已核 KSP 或具体机制词。未定位小点时，按 `question_scope.assessed_points`、`syllabus_ids` 和 `teaching_boundary` 选当前题实际需要的点。`personal_read_receipt.records[].status=bounded` 绑定已核验的个人对象，使用 `records[].personal_context` 本次返回的完整判断句、条件和检查动作。`omitted_claim_count`、`omitted_fields`、`omitted_points` 和 `omitted_subpoints` 标出本轮省略。确有一项会改变本轮解释时，才用同题、同机制、同权限的 `--personal-scope full --materials core` 或精确 `memory trace` 补读。`evidence_only` 只支持可核事实。`stale`、`unavailable`、`not_applicable` 或受保护时，从当前题和真实作答继续。
+已知独立小问时先传精确 Pxx。入口自动取现行课件已核的本问 KSP。需要收窄才同次传已核 KSP 或登记的机制别名。父考点、考纲条目和教学边界用于定位本问条件。沿[个人上下文](references/personal-learning-context.md)解读 `personal_read_receipt`、缺项状态和同范围补读。
 
 一次精确 `resolve` 同时取得本题和个人概况；旧 `query` 的有限字节结果用于兼容，不能用它判断完整概况是否存在。若精确路由命中而概况过期或仅有事实，保留同次返回的其它有效摘要。当前已授权读取、能守本题/Pxx/年份范围且旧证据会改变讲法时，用同版 `memory history` 或 `trace` 定点核对真实角色、日期、提示依赖和更正。概况过期、尚未编写、命中歧义和出于保护而隐藏分别说明。仅在机制身份未定或仍有具体证据缺口时做一次范围内本机候选补查；精确入口不等待 OpenAI 向量重算或整库刷新。
 
 确需校验个人记忆版本时，本机用原结果的 `version` 传 `--known-version`，便携快照用 `context_version`。`unchanged` 复用聊天实际持有的同题/Pxx、机制、view、materials、读取范围和预算的结果。新断点或正式更新后只读受影响的范围。
 
-独立Pxx未命中已核精确KSP，旧父点概况又未绑定本问时，回执`withheld_scope/unscoped_parent_personal_history`、`complete=false`，按`current_question_only`处理；summary、direct或“教师材料”标签都不能放开兄弟范围。仅当当前题公开条件能核到对应KSP时按原入口读其全文，否则说明本问个性化未就绪，只用当前题和作答，不为修复而编造scope或个人事实。
+独立 Pxx 没有有效逐问绑定时按 `current_question_only` 讲解。使用本问题设和真实作答，必要时说明个人证据缺口。同父考点或同考纲条目的其他小点也须有本问绑定。
 
 明确的题号/KP/KSP直接精读。只有自然语言机制描述且身份未定时，用同入口`memory discover --query '<本轮公开描述>' --intent concept --view protected --limit 8`找候选，再按题面核对并resolve。用户问过去某次作答或说法时用`--intent experience --actor user`，找助手解释用assistant，保留本轮题目/机制/年份约束并沿候选trace_request回读；event-after/before与latest/no-latest按真实时间要求传入。protected拒绝个人经历；after_attempt未绑定当前题的历史查询仅有元数据，不能升view补答案。direct中的native_record_summary是摘要，verified_original_turn才是核过来源的回合片段，仍核截断，不冒称完整原话。参数、原回合范围和known-before限制见统一查询合同（`<repo>/schema/memory-access-408-v1.md`）。必要条件缺项或身份有歧义时，同范围 discover 可带 --evidence-gap 做一次本机补查，保留原候选、来源与停止原因。精确题和 KSP 先 resolve；命中后精确回读。旧wiki只作补充；默认后端依共享合同的本地资格策略，精确身份、经历及保护边界不变，reranker未默认；经历命中不证明弱点、独立掌握或新增学习。
 将个人证据落实到具体步骤。与当前作答相符的独立窄机制简带；首次出错或提示后才修复的步骤，拆开条件、对象和状态变化，图从该处开始；未验证的条件用同一条 `next_check` 准备下一次短检查。若当前作答不同，以当前第一断点为准。旧叙述无结构化结论时，只采信能核实的原事实，不由相同术语、选项或图效推断掌握。简要交代真正改变本轮讲法的个人证据。

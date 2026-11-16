@@ -5,19 +5,14 @@
   "review_branch": "memory/20261116-cs408",
   "baseline_sha": "209b2e76ee7df50f72c38bfe77c3329fea2a5e3b",
   "original_b2_tested_sha": "65cb4b320be15374669bf3ce97e9bae17e49b790",
-  "b2_rollout_sha256_matches": {
-    "scripts/knowledge_learning_paths_408.py": "2dba7d16a3481677c4ab5c1b1f7e512da3d37ddfb512403fbdb33950abe244e7",
-    "scripts/exam_tutoring_context_408.py": "1548b3782356a5a4642349e8d387514bedbacde17784bd340b5fcbffcbcfdf33",
-    "scripts/teaching_memory_408.py": "1e751d0ca73dcf791f733cd8f230761e312a451abaa5be47a4dfa22767915898"
-  },
-  "runtime_state": "B2_LIVE_WITH_VERIFIED_OBSERVED_SUPERSESSION_GUARD",
+  "runtime_state": "B2_LIVE_WITH_OBSERVED_SUPERSESSION_GUARD_AND_QUERY_ALIGNMENT",
   "native_git_head_at_readback": "bd26908dbfe1d77d080a7dabb99c3b4029f3dccb",
   "native_branch": "codex/recent-408-study-20260715",
   "native_git_head_scope": "Runtime source includes existing worktree bytes. The native Git HEAD alone is not the runtime version.",
-  "native_source_version": "1359438276f219408ca7a7a4483592cec017c7a4b47c93694542c6947c19d147",
-  "native_source_version_before": "9a83a70fe28220c87e83596f498fdede818a54257ed305dba489c6f146aedfbf",
+  "native_source_version": "5ff7b3551eaa1a280bebd8c8d4f0561f9ee6405fe04d3c93372f649a131a793a",
+  "native_source_version_before": "1359438276f219408ca7a7a4483592cec017c7a4b47c93694542c6947c19d147",
   "native_state_relative_path": "wiki/study_vaults/408-full/state/exam-tutoring-context-v1",
-  "native_entrypoint": "python3 scripts/runtime_paths_408.py --run exam_tutoring_context_408.py resolve --repo . --concept <verified-point> --view <authorized-view> --personal-scope teaching --materials core",
+  "native_entrypoint": "python3 scripts/runtime_paths_408.py --run exam_tutoring_context_408.py resolve --repo . --current-question-id <verified-question-or-Pxx> --view <authorized-view> --personal-scope teaching --materials core",
   "lookup_same_scope": "Use the existing full/core or memory trace under the same accepted scope and permissions.",
   "resolved_interpreter": {
     "path": "/usr/local/bin/python3",
@@ -116,7 +111,7 @@
         "enabled": true,
         "matches_installed": true,
         "file_count": 11,
-        "skill_md_sha256": "cfac99b30d71794995ebe713978a4ed3592e86500b05b7f10e630fa3626d8ec3"
+        "skill_md_sha256": "8925d85d7142069838aeff8632004d21e9f48c6c07369b38ef8029204ae7c82f"
       },
       "kaoyan-408-rollback-review": {
         "enabled": true,
@@ -133,7 +128,17 @@
     },
     "shared_relative_path": "_shared/kaoyan-408",
     "shared_file_count": 5,
-    "updated_authoring_reference_sha256": "7a5f58d323e5b60e67c90079f23ceb5daeeeb67c3789483b4809239db695ea71"
+    "updated_authoring_reference_sha256": "7a5f58d323e5b60e67c90079f23ceb5daeeeb67c3789483b4809239db695ea71",
+    "query_worker_readback": {
+      "method": "skills/list(forceReload=true)",
+      "diagnostics": 0,
+      "enabled": true,
+      "source_bytes_match": true,
+      "files": {
+        "kaoyan-408-question-worker/SKILL.md": "8925d85d7142069838aeff8632004d21e9f48c6c07369b38ef8029204ae7c82f",
+        "kaoyan-408-question-worker/references/personal-learning-context.md": "253cd21f736acc19f2a4d6d167c44208602b6a091aff159fe2c94c14cdb56d60"
+      }
+    }
   },
   "scope_exclusions": [
     "Live host-specific authorization descriptor; shape is documented in managed-408-formal-problem-document-capture-v1.md.",
@@ -147,7 +152,7 @@
     "config": 1,
     "schema": 41,
     "runtime": 182,
-    "test": 1
+    "test": 5
   },
   "sanitized_file_count": 4,
   "files": [
@@ -1083,7 +1088,7 @@
       "purpose": "Current Skill resource",
       "runtime_relative_path": "codex-skill-sources/kaoyan-408-question-worker/SKILL.md",
       "published_relative_path": "runtime-review/current/codex-skill-sources/kaoyan-408-question-worker/SKILL.md",
-      "runtime_sha256": "cfac99b30d71794995ebe713978a4ed3592e86500b05b7f10e630fa3626d8ec3",
+      "runtime_sha256": "8925d85d7142069838aeff8632004d21e9f48c6c07369b38ef8029204ae7c82f",
       "dependencies": [
         "codex-skill-sources/_shared/kaoyan-408/local-paths.md",
         "codex-skill-sources/kaoyan-408-daily-intake-curation/SKILL.md",
@@ -1092,8 +1097,8 @@
         "scripts/runtime_paths_408.py"
       ],
       "installed_relative_path": "kaoyan-408-question-worker/SKILL.md",
-      "installed_sha256": "cfac99b30d71794995ebe713978a4ed3592e86500b05b7f10e630fa3626d8ec3",
-      "published_sha256": "cfac99b30d71794995ebe713978a4ed3592e86500b05b7f10e630fa3626d8ec3",
+      "installed_sha256": "8925d85d7142069838aeff8632004d21e9f48c6c07369b38ef8029204ae7c82f",
+      "published_sha256": "8925d85d7142069838aeff8632004d21e9f48c6c07369b38ef8029204ae7c82f",
       "sanitization": [],
       "required_by": [
         "codex-skill-sources/kaoyan-408-daily-intake-curation/references/daily-closeout.md"
@@ -1220,14 +1225,14 @@
       "purpose": "Current Skill resource",
       "runtime_relative_path": "codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md",
       "published_relative_path": "runtime-review/current/codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md",
-      "runtime_sha256": "45a58091f10d64f324aa39c984b36fd35d87463b15f5fbc72aeff0734759a22b",
+      "runtime_sha256": "253cd21f736acc19f2a4d6d167c44208602b6a091aff159fe2c94c14cdb56d60",
       "dependencies": [
         "scripts/exam_tutoring_context_408.py",
         "scripts/runtime_paths_408.py"
       ],
       "installed_relative_path": "kaoyan-408-question-worker/references/personal-learning-context.md",
-      "installed_sha256": "45a58091f10d64f324aa39c984b36fd35d87463b15f5fbc72aeff0734759a22b",
-      "published_sha256": "45a58091f10d64f324aa39c984b36fd35d87463b15f5fbc72aeff0734759a22b",
+      "installed_sha256": "253cd21f736acc19f2a4d6d167c44208602b6a091aff159fe2c94c14cdb56d60",
+      "published_sha256": "253cd21f736acc19f2a4d6d167c44208602b6a091aff159fe2c94c14cdb56d60",
       "sanitization": [],
       "required_by": []
     },
@@ -1785,12 +1790,12 @@
       "purpose": "Native resolver, source versions and answer scope",
       "runtime_relative_path": "schema/exam-tutoring-context-v1.md",
       "published_relative_path": "runtime-review/current/schema/exam-tutoring-context-v1.md",
-      "runtime_sha256": "9cfd406b4cfa34b3e6e41c7843dddfc8f3693c38331c3202a53eabb09cf8b8d8",
+      "runtime_sha256": "44d7e9a40c514876a4f9d39ab3b10847942665a6145fedc0ec9aa5ca1b43c1ca",
       "dependencies": [
         "scripts/exam_tutoring_context_408.py",
         "scripts/runtime_paths_408.py"
       ],
-      "published_sha256": "9cfd406b4cfa34b3e6e41c7843dddfc8f3693c38331c3202a53eabb09cf8b8d8",
+      "published_sha256": "44d7e9a40c514876a4f9d39ab3b10847942665a6145fedc0ec9aa5ca1b43c1ca",
       "sanitization": [],
       "required_by": [
         "schema/408-knowledge-profile-v1.md",
@@ -3184,12 +3189,13 @@
       "purpose": "Native resolve, protected view, freshness, refresh-current and memory dispatch",
       "runtime_relative_path": "scripts/exam_tutoring_context_408.py",
       "published_relative_path": "runtime-review/current/scripts/exam_tutoring_context_408.py",
-      "runtime_sha256": "1548b3782356a5a4642349e8d387514bedbacde17784bd340b5fcbffcbcfdf33",
+      "runtime_sha256": "65520a402cb10d9b10dd0f86047c2afae6d192a234017ceb0f68a43b8e0c637e",
       "dependencies": [
         "scripts/concept_review_408.py",
         "scripts/conversation_package_408.py",
         "scripts/exam_figure_binding_408.py",
         "scripts/exam_point_links_408.py",
+        "scripts/exam_year_teaching_408.py",
         "scripts/intake_lib_408.py",
         "scripts/interactive_teaching_408.py",
         "scripts/knowledge_history_sources_408.py",
@@ -3223,7 +3229,7 @@
         "support/interactive-408/scene.html",
         "support/semantic-408/lesson.html"
       ],
-      "published_sha256": "1548b3782356a5a4642349e8d387514bedbacde17784bd340b5fcbffcbcfdf33",
+      "published_sha256": "65520a402cb10d9b10dd0f86047c2afae6d192a234017ceb0f68a43b8e0c637e",
       "sanitization": [],
       "required_by": [
         "codex-skill-sources/kaoyan-408-enhancement-intake/references/local-quality-author.md",
@@ -3252,7 +3258,10 @@
         "scripts/seal_knowledge_observations_408.py",
         "scripts/study_bridge_408.py",
         "scripts/study_commit_followup_408.py",
-        "scripts/study_personalization_408.py"
+        "scripts/study_personalization_408.py",
+        "tests/test_complete_personal_context_408.py",
+        "tests/test_exam_tutoring_context_408.py",
+        "tests/test_question_visual_templates_408.py"
       ]
     },
     {
@@ -3315,17 +3324,20 @@
       "purpose": "Project-owned runtime dependency",
       "runtime_relative_path": "scripts/exam_year_teaching_408.py",
       "published_relative_path": "runtime-review/current/scripts/exam_year_teaching_408.py",
-      "runtime_sha256": "d2fb50d85be4f8fd3510a431130107615dae4733fb60b8507ee60bae76b8009d",
+      "runtime_sha256": "bc339b20871ed529caffa504bf51fc8af0e8404aaea0ed1e91dc5a2c030b7a0b",
       "dependencies": [
         "scripts/capture_context_408.py",
         "scripts/exam_tutoring_context_408.py",
+        "scripts/question_visual_templates_408.py",
         "scripts/render_interactive_408.py",
         "scripts/runtime_paths_408.py"
       ],
-      "published_sha256": "d2fb50d85be4f8fd3510a431130107615dae4733fb60b8507ee60bae76b8009d",
+      "published_sha256": "bc339b20871ed529caffa504bf51fc8af0e8404aaea0ed1e91dc5a2c030b7a0b",
       "sanitization": [],
       "required_by": [
-        "codex-skill-sources/kaoyan-408-question-worker/references/interactive-delivery.md"
+        "codex-skill-sources/kaoyan-408-question-worker/references/interactive-delivery.md",
+        "scripts/exam_tutoring_context_408.py",
+        "scripts/knowledge_hot_routes_408.py"
       ]
     },
     {
@@ -3938,11 +3950,12 @@
       "purpose": "Project-owned runtime dependency",
       "runtime_relative_path": "scripts/knowledge_hot_routes_408.py",
       "published_relative_path": "runtime-review/current/scripts/knowledge_hot_routes_408.py",
-      "runtime_sha256": "d2ccbe5bd7dd09c52561d7f13ccea0dcddda981775565cc533605bf2b6b5f6e4",
+      "runtime_sha256": "267bbfc0cb2afa0b7722d093a4117cc65ac71212c670204e063fd334ac7f3e4e",
       "dependencies": [
+        "scripts/exam_year_teaching_408.py",
         "scripts/knowledge_learning_records_408.py"
       ],
-      "published_sha256": "d2ccbe5bd7dd09c52561d7f13ccea0dcddda981775565cc533605bf2b6b5f6e4",
+      "published_sha256": "267bbfc0cb2afa0b7722d093a4117cc65ac71212c670204e063fd334ac7f3e4e",
       "sanitization": [],
       "required_by": [
         "scripts/annual_focused_training_408.py",
@@ -3950,7 +3963,8 @@
         "scripts/formal_quality_index_408.py",
         "scripts/memory_access_408.py",
         "scripts/seal_knowledge_observations_408.py",
-        "scripts/study_personalization_408.py"
+        "scripts/study_personalization_408.py",
+        "tests/test_question_visual_templates_408.py"
       ]
     },
     {
@@ -4026,6 +4040,8 @@
         "scripts/portable_visual_teaching_408.py",
         "scripts/syllabus_context_408.py",
         "scripts/teaching_memory_408.py",
+        "tests/test_complete_personal_context_408.py",
+        "tests/test_exam_tutoring_context_408.py",
         "tests/test_knowledge_claims_408.py"
       ]
     },
@@ -4107,7 +4123,8 @@
         "scripts/exam_tutoring_context_408.py",
         "scripts/knowledge_tutoring_query_408.py",
         "scripts/local_quality_408.py",
-        "scripts/question_visual_templates_408.py"
+        "scripts/question_visual_templates_408.py",
+        "tests/test_question_visual_templates_408.py"
       ]
     },
     {
@@ -4188,7 +4205,7 @@
       "purpose": "Project-owned runtime dependency",
       "runtime_relative_path": "scripts/local_quality_408.py",
       "published_relative_path": "runtime-review/current/scripts/local_quality_408.py",
-      "runtime_sha256": "796308c2e08d0c5a156e1fa6eac63c9818eedd9cb908c361e3ad6f62b6180daf",
+      "runtime_sha256": "0efb9ec170d578e1abb70fc99272056818bdad1b6598b6263fe7f725ff1b0cba",
       "dependencies": [
         "scripts/build_true_exam_corpus.py",
         "scripts/exam_lesson_408.py",
@@ -4207,7 +4224,7 @@
         "scripts/teaching_research_408.py",
         "scripts/visual_layout_408.py"
       ],
-      "published_sha256": "796308c2e08d0c5a156e1fa6eac63c9818eedd9cb908c361e3ad6f62b6180daf",
+      "published_sha256": "0efb9ec170d578e1abb70fc99272056818bdad1b6598b6263fe7f725ff1b0cba",
       "sanitization": [],
       "required_by": [
         "codex-skill-sources/kaoyan-408-enhancement-intake/references/local-quality-author.md",
@@ -4216,7 +4233,8 @@
         "scripts/exam_tutoring_context_408.py",
         "scripts/formal_quality_408.py",
         "scripts/mark_study_episode_408.py",
-        "scripts/source_visual_408.py"
+        "scripts/source_visual_408.py",
+        "tests/test_local_quality_408.py"
       ]
     },
     {
@@ -4594,7 +4612,8 @@
         "scripts/campaign_episode_supplement_408.py",
         "scripts/cs408-turn.sh",
         "scripts/learning_turn_408.py",
-        "scripts/study_bridge_408.py"
+        "scripts/study_bridge_408.py",
+        "tests/test_question_visual_templates_408.py"
       ]
     },
     {
@@ -5198,10 +5217,12 @@
       "required_by": [
         "schema/question-visual-408-v1.md",
         "scripts/exam_tutoring_context_408.py",
+        "scripts/exam_year_teaching_408.py",
         "scripts/knowledge_tutoring_query_408.py",
         "scripts/local_quality_408.py",
         "scripts/portable_question_teaching_408.py",
-        "scripts/teaching_research_408.py"
+        "scripts/teaching_research_408.py",
+        "tests/test_question_visual_templates_408.py"
       ]
     },
     {
@@ -5714,7 +5735,8 @@
         "scripts/render_semantic_408.py",
         "scripts/semantic_teaching_408.py",
         "scripts/study_bridge_408.py",
-        "scripts/visual_teaching_templates_408.py"
+        "scripts/visual_teaching_templates_408.py",
+        "tests/test_question_visual_templates_408.py"
       ]
     },
     {
@@ -5999,7 +6021,8 @@
         "scripts/local_focused_training_408.py",
         "scripts/native_morning_sources_408.py",
         "scripts/study_bridge_408.py",
-        "scripts/study_commit_followup_408.py"
+        "scripts/study_commit_followup_408.py",
+        "tests/test_question_visual_templates_408.py"
       ]
     },
     {
@@ -6169,11 +6192,11 @@
       "purpose": "B2 scoped compaction, repair units and byte budget",
       "runtime_relative_path": "scripts/teaching_memory_408.py",
       "published_relative_path": "runtime-review/current/scripts/teaching_memory_408.py",
-      "runtime_sha256": "1e751d0ca73dcf791f733cd8f230761e312a451abaa5be47a4dfa22767915898",
+      "runtime_sha256": "f5e9b9130934cbd0b3bfda9c3536ef24edc642df884330e1638d621c6bfa7503",
       "dependencies": [
         "scripts/knowledge_profile_408.py"
       ],
-      "published_sha256": "1e751d0ca73dcf791f733cd8f230761e312a451abaa5be47a4dfa22767915898",
+      "published_sha256": "f5e9b9130934cbd0b3bfda9c3536ef24edc642df884330e1638d621c6bfa7503",
       "sanitization": [],
       "required_by": [
         "scripts/exam_tutoring_context_408.py"
@@ -6386,6 +6409,38 @@
     },
     {
       "role": "test",
+      "purpose": "Regression coverage for native query alignment",
+      "runtime_relative_path": "tests/test_complete_personal_context_408.py",
+      "published_relative_path": "runtime-review/current/tests/test_complete_personal_context_408.py",
+      "runtime_sha256": "4f0d5b9429119fe7b5684c381eba34edb677dc1b922fbbc4a7f5607128d0b42c",
+      "dependencies": [
+        "scripts/exam_tutoring_context_408.py",
+        "scripts/knowledge_profile_408.py",
+        "tests/test_exam_tutoring_context_408.py"
+      ],
+      "published_sha256": "4f0d5b9429119fe7b5684c381eba34edb677dc1b922fbbc4a7f5607128d0b42c",
+      "sanitization": [],
+      "required_by": []
+    },
+    {
+      "role": "test",
+      "purpose": "Shared synthetic tutoring fixture",
+      "runtime_relative_path": "tests/test_exam_tutoring_context_408.py",
+      "published_relative_path": "runtime-review/current/tests/test_exam_tutoring_context_408.py",
+      "runtime_sha256": "a75f7835b9223e215271ff7ccf7159fc551464a75169bf9096d3887bdc1b20ed",
+      "dependencies": [
+        "scripts/exam_tutoring_context_408.py",
+        "scripts/knowledge_profile_408.py"
+      ],
+      "published_sha256": "a75f7835b9223e215271ff7ccf7159fc551464a75169bf9096d3887bdc1b20ed",
+      "sanitization": [],
+      "required_by": [
+        "tests/test_complete_personal_context_408.py",
+        "tests/test_question_visual_templates_408.py"
+      ]
+    },
+    {
+      "role": "test",
       "purpose": "Existing synthetic claim contract checks and one targeted regression",
       "runtime_relative_path": "tests/test_knowledge_claims_408.py",
       "published_relative_path": "runtime-review/current/tests/test_knowledge_claims_408.py",
@@ -6396,6 +6451,48 @@
       "published_sha256": "2c6f0b4c13d744b401acf65f603ab178025817e12f4504823733d0a8aea837fd",
       "sanitization": [],
       "required_by": []
+    },
+    {
+      "role": "test",
+      "purpose": "Regression coverage for native query alignment",
+      "runtime_relative_path": "tests/test_local_quality_408.py",
+      "published_relative_path": "runtime-review/current/tests/test_local_quality_408.py",
+      "runtime_sha256": "43d844124a84682a8e3cbb8f3b92aff95fd0ee04d84642c4c4db78c87b33cc84",
+      "dependencies": [
+        "scripts/local_quality_408.py"
+      ],
+      "published_sha256": "43d844124a84682a8e3cbb8f3b92aff95fd0ee04d84642c4c4db78c87b33cc84",
+      "sanitization": [],
+      "required_by": []
+    },
+    {
+      "role": "test",
+      "purpose": "Regression coverage for native query alignment",
+      "runtime_relative_path": "tests/test_question_visual_templates_408.py",
+      "published_relative_path": "runtime-review/current/tests/test_question_visual_templates_408.py",
+      "runtime_sha256": "037e3ae0fb148b7250d4b07ff0abb491d373ef9fe9588059389699895478fde5",
+      "dependencies": [
+        "scripts/exam_tutoring_context_408.py",
+        "scripts/knowledge_hot_routes_408.py",
+        "scripts/lesson_alignment_408.py",
+        "scripts/morning_campaign_turn_408.py",
+        "scripts/question_visual_templates_408.py",
+        "scripts/source_visual_408.py",
+        "scripts/study_personalization_408.py",
+        "tests/test_exam_tutoring_context_408.py"
+      ],
+      "published_sha256": "037e3ae0fb148b7250d4b07ff0abb491d373ef9fe9588059389699895478fde5",
+      "sanitization": [],
+      "required_by": []
     }
-  ]
+  ],
+  "original_b2_candidate_module_sha256": {
+    "scripts/knowledge_learning_paths_408.py": "2dba7d16a3481677c4ab5c1b1f7e512da3d37ddfb512403fbdb33950abe244e7",
+    "scripts/exam_tutoring_context_408.py": "1548b3782356a5a4642349e8d387514bedbacde17784bd340b5fcbffcbcfdf33",
+    "scripts/teaching_memory_408.py": "1e751d0ca73dcf791f733cd8f230761e312a451abaa5be47a4dfa22767915898"
+  },
+  "b2_rollout_sha256_matches": {
+    "scripts/knowledge_learning_paths_408.py": "2dba7d16a3481677c4ab5c1b1f7e512da3d37ddfb512403fbdb33950abe244e7"
+  },
+  "review_release_base_sha": "95b50be7ffe38feb8f352874cc453eda44f6fc85"
 }

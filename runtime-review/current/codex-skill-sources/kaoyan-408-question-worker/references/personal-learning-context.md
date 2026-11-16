@@ -5,7 +5,7 @@ Use the same exact current question, point/KSP and allowed view as the teaching 
 ## Selected personal semantics
 
 ```text
-python3 scripts/runtime_paths_408.py --run exam_tutoring_context_408.py resolve --repo . --current-question-id <exact-current-id> --concept <known-point-or-KSP> --view <protected|after_attempt|direct> --personal-scope teaching --materials core
+python3 scripts/runtime_paths_408.py --run exam_tutoring_context_408.py resolve --repo . --current-question-id <exact-current-id> --view <protected|after_attempt|direct> --personal-scope teaching --materials core
 ```
 
 Supply the verified current identity and the necessary concepts or mechanisms in one request. Reuse campaign/D `teaching_context` when it already covers the explanation. Read `records[].personal_context` and `personal_read_receipt`. A bounded record preserves whole claim statements, their basis and any known validity dates. Use statements only under the stated conditions. `omitted_claim_count`, `omitted_fields`, `omitted_points` and `omitted_subpoints` describe this delivery. Read `full/core` in the same exact permitted scope if a specific missing condition, conflict or source would change the explanation.
@@ -14,7 +14,7 @@ For a multi-point explanation, check whether the returned claims or bounded summ
 
 Apply a correction only when the current stem satisfies its conditions. Keep competing conditions distinct and carry prompt dependence into the explanation. When a repair or its condition is missing, rely on the current stem and attempt. If the gap changes the explanation, use the existing same-scope source reference. A historical recorded repair supports a check of that mechanism, and a prompted response supports a later independent check.
 
-An independent Pxx with unbound parent personal history returns `withheld_scope`, `unscoped_parent_personal_history`, `complete=false` and `current_question_only`. Select a KSP only when the current public question supports the link.
+独立 Pxx 自动复用同版课件已核的逐问小点，`question_scope.personal_subpoint_binding=verified`。传入明确小点或已登记别名时只在该小问绑定内收窄。自然措辞未命中时看 `missing_points`，同次返回的默认小点仍来自本问绑定。绑定缺失或已变化时，`withheld_scope` 表示本问个人依据受限，按 `current_question_only` 使用当前作答。
 
 - `complete=true` confirms the selected full personal objects were read and version-checked.
 - `bounded` confirms a checked object with limited teaching content. `summary_only` is the existing navigation view.
@@ -30,7 +30,7 @@ For `--known-version` use the native `version` of the response held in this chat
 
 Direct learner observations, question-associated sources, assistant explanations and reviewed interpretations retain different roles. `point_binding=explicit_point` with learner evidence can support a narrow personal claim; `question_associated`, formal summaries or assistant explanation alone cannot prove a learner error or independent repair.
 
-Use current claims according to their basis, evidence_status, lifecycle and source turns. `legacy_unstructured` preserves the old wording without inventing claim-level evidence. Superseded/retracted claims remain historical, not current tutoring premises. Reviewed means the author checked the evidence; it does not mean independent mastery.
+Use current claims according to their basis, evidence_status, lifecycle and source turns. A claim marked `unverified` can guide a check. Treat `legacy_unstructured` as navigation unless a specific observation can be supported by its source. Superseded and retracted claims remain historical. Reviewed means the author checked the evidence.
 
 Explicit preferences, observed effects, self-reported understanding and independent transfer stay separate. Apply the preference only to its recorded scope; a new user instruction governs this turn. Unknown dates or ambiguous same-day order cannot establish a newest error. Import, file modification and recorded time do not replace actual event time.
 

@@ -182,6 +182,13 @@ def fit(result, limit):
             return False
         return True
 
+    def add_surface(key, surface):
+        result[key] = surface
+        result["omitted_materials"].remove(key)
+        if not fits():
+            result.pop(key)
+            result["omitted_materials"].append(key)
+
     def repair_missing(memory):
         view = memory.get("claim_view") or {}
         return view.get("omitted_repair_claim_count", 0) or view.get("unreviewed_repair_count", 0)
@@ -211,6 +218,8 @@ def fit(result, limit):
             if (key in atoms and key in memory["omitted_fields"] and not repair_missing(memory)
                     and (not atoms["claims"] or memory["claim_view"]["claims"])):
                 add_field(memory, key, atoms[key])
+    if (course := surfaces.pop("local_syllabus_lessons", None)) is not None:
+        add_surface("local_syllabus_lessons", course)
     # Return definitions and navigation where space permits. Allocate each
     # kind across the selected points before spending on the next kind.
     for detail_key in _DETAIL_ORDER:
@@ -231,11 +240,7 @@ def fit(result, limit):
                 if not add_claim(memory, claim):
                     break
     for key, surface in surfaces.items():
-        result[key] = surface
-        result["omitted_materials"].remove(key)
-        if not fits():
-            result.pop(key)
-            result["omitted_materials"].append(key)
+        add_surface(key, surface)
     for record in records:
         if record.get("omitted_fields") == []:
             record.pop("omitted_fields")

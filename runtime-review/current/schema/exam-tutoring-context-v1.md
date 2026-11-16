@@ -130,7 +130,9 @@ python3 scripts/runtime_paths_408.py --run exam_tutoring_context_408.py refresh-
 
 `question_exam_introduction` 使用同题考频。`question_visual_template.binding_only` 只携带精确版本和来源状态，供已备 D 图解校验。需要图解时按同一权限用 `--personal-scope full --materials visual` 补读。正式编纂或确需查完整证据时在同题、同机制、同 view 使用 `--personal-scope full --materials core`。`--personal-scope summary` 仍为旧导航视图。便携查询保持原请求、分页和缓存接口。
 
-`known-version` 绑定题/Pxx、机制、view、材料、范围和有效预算。来源漂移会使旧个人内容失效。未知点仍返回 `missing_points`，可以继续使用同次已经核验的其他点。`protected` 和独立 Pxx 的范围门禁先于完整个人对象读取。当前作答决定诊断与判分。
+`known-version` 绑定题/Pxx、机制、view、材料、范围和有效预算。来源漂移会使旧个人内容失效。未知点仍返回 `missing_points`，可以继续使用同次已经核验的其他点。`protected` 和独立 Pxx 的范围门禁先于完整个人对象读取。普通入口对独立小问核对逐问课件的题号、考点、纲目、模板和原图计划版本，再自动读取其已核 KSP。显式小点请求也须命中本问绑定。缺少同版逐问绑定用本问客观范围与当前作答。`question_scope.personal_subpoint_binding` 报告绑定是否可用。
+
+有界 `core` 在个人依据之后优先保留精确课件指针。课件索引记录编制时的来源文件身份和摘要，首次查询只重新哈希发生变化的文件。打开课件或专题时沿原入口核对内容哈希、版本及权限。
 
 本轮审查候选 `bounded-evidence-priority-v2` 将可核证的历史订正连同完整条件、角色、提示依赖及原记录版本作为一个单元。仅有事实的点在 `personal_context.repair_evidence` 返回完整单元或审核／预算状态。整组装不下时，`omitted_fields` 记 `repair_evidence`，同点 `evidence_object` 保留内容寻址出处。已审核个人判断的 `omitted_repair_claim_count` 标记因预算省略的订正，`unreviewed_repair_count` 标记缺审核的订正。适用条件仍由当前题设与原出处核对。生产启用状态以本轮验收回执为准。
 

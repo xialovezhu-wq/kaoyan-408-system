@@ -1,0 +1,162 @@
+{
+  "review_base_sha": "95b50be7ffe38feb8f352874cc453eda44f6fc85",
+  "native_source_version_before": "1359438276f219408ca7a7a4483592cec017c7a4b47c93694542c6947c19d147",
+  "native_source_version": "5ff7b3551eaa1a280bebd8c8d4f0561f9ee6405fe04d3c93372f649a131a793a",
+  "normal_entry_at_publication": {
+    "status": "available",
+    "native_source_version": "5ff7b3551eaa1a280bebd8c8d4f0561f9ee6405fe04d3c93372f649a131a793a",
+    "quality_index_status": "VERIFIED_CURRENT",
+    "readback_bytes": 7749,
+    "personal_facet_count": 1,
+    "bound_claim_count": 3,
+    "profile_read_status": "bounded",
+    "formal_write_count": 0,
+    "sentinels_unchanged": true
+  },
+  "runtime_modules": {
+    "scripts/exam_tutoring_context_408.py": {
+      "sha256": "65520a402cb10d9b10dd0f86047c2afae6d192a234017ceb0f68a43b8e0c637e",
+      "binding": "native_point_memory_builder"
+    },
+    "scripts/exam_year_teaching_408.py": {
+      "sha256": "bc339b20871ed529caffa504bf51fc8af0e8404aaea0ed1e91dc5a2c030b7a0b",
+      "binding": "native_point_memory_builder"
+    },
+    "scripts/knowledge_hot_routes_408.py": {
+      "sha256": "267bbfc0cb2afa0b7722d093a4117cc65ac71212c670204e063fd334ac7f3e4e",
+      "binding": "native_point_memory_builder"
+    },
+    "scripts/local_quality_408.py": {
+      "sha256": "0efb9ec170d578e1abb70fc99272056818bdad1b6598b6263fe7f725ff1b0cba",
+      "binding": "course_source_digests"
+    },
+    "scripts/teaching_memory_408.py": {
+      "sha256": "f5e9b9130934cbd0b3bfda9c3536ef24edc642df884330e1638d621c6bfa7503",
+      "binding": "native_point_memory_builder"
+    }
+  },
+  "installed_skill": {
+    "method": "skills/list(forceReload=true)",
+    "diagnostics": 0,
+    "enabled": true,
+    "source_bytes_match": true,
+    "files": {
+      "kaoyan-408-question-worker/SKILL.md": "8925d85d7142069838aeff8632004d21e9f48c6c07369b38ef8029204ae7c82f",
+      "kaoyan-408-question-worker/references/personal-learning-context.md": "253cd21f736acc19f2a4d6d167c44208602b6a091aff159fe2c94c14cdb56d60"
+    }
+  },
+  "course": {
+    "course_catalog_version": "0828f3f9e0c24f8442e0b0366c0eadaa01c18bee7274b2f8f2ac575963023641",
+    "stable_course_sources": 27,
+    "course_source_hashes_on_unchanged_inputs": 0
+  },
+  "focused_real_readbacks": {
+    "q46_exact_id": {
+      "status": "available",
+      "bytes": 7838,
+      "cli_ms": 207.7,
+      "subpoint_count": 1,
+      "returned": 1,
+      "claim_count": 3,
+      "read_status": [
+        "bounded"
+      ],
+      "same_scope_reuse": false,
+      "course_has_exact_pointer": true,
+      "binding_status": "verified",
+      "native_artifact_bytes": 1141611
+    },
+    "q46_colloquial_mechanism": {
+      "status": "available",
+      "bytes": 7789,
+      "cli_ms": 200.4,
+      "subpoint_count": 1,
+      "returned": 1,
+      "claim_count": 3,
+      "read_status": [
+        "bounded"
+      ],
+      "same_scope_reuse": false,
+      "course_has_exact_pointer": true,
+      "binding_status": "verified",
+      "native_artifact_bytes": null
+    },
+    "q46_sibling_ksp_rejected": {
+      "status": "available",
+      "bytes": 7269,
+      "cli_ms": 198.3,
+      "subpoint_count": 0,
+      "returned": 1,
+      "claim_count": 0,
+      "read_status": [
+        "withheld_scope"
+      ],
+      "same_scope_reuse": false,
+      "course_has_exact_pointer": true,
+      "binding_status": "verified",
+      "native_artifact_bytes": null
+    },
+    "q46_protected": {
+      "status": "available",
+      "bytes": 4333,
+      "cli_ms": 195.3,
+      "subpoint_count": 0,
+      "returned": 0,
+      "claim_count": 0,
+      "read_status": [],
+      "same_scope_reuse": false,
+      "course_has_exact_pointer": false,
+      "binding_status": null,
+      "native_artifact_bytes": 909041
+    },
+    "q30_normal": {
+      "status": "available",
+      "bytes": 8163,
+      "cli_ms": 214.4,
+      "subpoint_count": 0,
+      "returned": 2,
+      "claim_count": 1,
+      "read_status": [
+        "bounded",
+        "bounded"
+      ],
+      "same_scope_reuse": false,
+      "course_has_exact_pointer": true,
+      "binding_status": null,
+      "native_artifact_bytes": null
+    },
+    "q30_same_version": {
+      "status": "unchanged",
+      "bytes": 5066,
+      "cli_ms": 187.1,
+      "subpoint_count": 0,
+      "returned": 0,
+      "claim_count": 0,
+      "read_status": [],
+      "same_scope_reuse": true,
+      "course_has_exact_pointer": true,
+      "binding_status": null,
+      "native_artifact_bytes": null
+    }
+  },
+  "quality_rebind": {
+    "status": "VERIFIED_CURRENT",
+    "source_version": "5ff7b3551eaa1a280bebd8c8d4f0561f9ee6405fe04d3c93372f649a131a793a",
+    "generation_sha256": "16845fd66b039ceef700b9d4bdbc26a5e3466c5d176ecdf0f09fd31d6d99338f",
+    "indexed_objective": 4263,
+    "formal_write_count": 0,
+    "vector_cache_hits": 3926,
+    "new_embedding_inputs": 0,
+    "formal_sentinels_unchanged": true
+  },
+  "verified_prepared_independent_parts": {
+    "exam_year": 2015,
+    "automatically_matched": 23
+  },
+  "focused_tests": {
+    "passed": 38,
+    "preexisting_budget_assertion_failures_reproduced_on_baseline": 5
+  },
+  "formal_write_count": 0,
+  "new_model_call_count": 0
+}

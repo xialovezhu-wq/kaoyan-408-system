@@ -35,13 +35,13 @@ def read_json(path):
 
 
 @lru_cache(maxsize=9)
-def _index_by_stat(path, stamp, size):
+def _index_by_stat(path, stamp, changed_at, size):
     return read_json(path)
 
 
 def _native_index(path):
     stat = path.stat()
-    return _index_by_stat(path, stat.st_mtime_ns, stat.st_size)
+    return _index_by_stat(path, stat.st_mtime_ns, stat.st_ctime_ns, stat.st_size)
 
 
 def _bound_object(root, digest, extension):
@@ -76,6 +76,45 @@ def _read_entry(repo, root, year, thread, identity):
     if (template.get("sha256"), plan.get("sha256")) != (entry["template_sha256"], entry["plan_sha256"]):
         raise ValueError("annual_lesson_source_changed")
     return entry
+
+
+def verified_personal_focus(scope, visual):
+    """Reuse the exact prepared binding without opening the lesson or its answers."""
+    identity = scope["identity"]
+    match = IDENTITY.fullmatch(identity)
+    if not match or not identity.rsplit("-", 1)[-1].startswith("P"):
+        return ()
+    if (visual.get("question_identity") != identity
+            or visual.get("status") in {"missing", "stale"}):
+        return ()
+    year = int(match[1])
+    path = cache_root(year) / "current.json"
+    try:
+        if path.is_symlink() or path.stat().st_size > 512 * 1024:
+            return ()
+        index = _native_index(path)
+        if (index.get("schema"), index.get("exam_year")) != (SCHEMA, year):
+            return ()
+        entry = index["lessons"][identity]
+        for field in ("assessed_points", "syllabus_ids"):
+            if set(entry[field]) != set(scope[field]):
+                return ()
+        if any(not SHA256.fullmatch(str(entry[key]))
+               or entry[key] != visual.get(version) for key, version in
+               (("template_sha256", "template_native_version"),
+                ("plan_sha256", "source_visual_plan_version"))):
+            return ()
+        focus = entry.get("personal_focus", [])
+        if (not isinstance(focus, list) or len(focus) > 16 or
+                any(not re.fullmatch(r"KSP-[0-9a-f]{24}", str(key)) for key in focus)):
+            return ()
+        from question_visual_templates_408 import observed_guards_current
+        guards = visual.get("source_guards")
+        if not guards or not observed_guards_current(guards):
+            return ()
+        return tuple(dict.fromkeys(focus))
+    except (OSError, ValueError, TypeError, AttributeError, KeyError):
+        return ()
 
 
 def use(repo, identity, *, view, level, mechanisms=(), known_version=None, output=None, inline_root=None):

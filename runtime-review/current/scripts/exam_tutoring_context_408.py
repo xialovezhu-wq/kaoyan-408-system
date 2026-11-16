@@ -134,6 +134,7 @@ POINT_MEMORY_MODULES = (
     "interactive_teaching_408.py", "public_scene_408.py", "source_visual_408.py",
     "semantic_teaching_408.py", "teaching_research_408.py", "lesson_alignment_408.py",
     "scoped_question_sources_408.py", "exam_figure_binding_408.py",
+    "exam_year_teaching_408.py",
 )
 PERSONAL_CONTEXT_MAX_BYTES = 1024 * 1024
 PERSONAL_EVIDENCE_MAX_BYTES = 16 * 1024 * 1024
@@ -327,17 +328,29 @@ def _content_write(directory: Path, value: Mapping[str, Any]) -> Tuple[Path, str
     return path, digest
 
 
-def _read_object(path: Path, label: str, *, max_bytes: int) -> Dict[str, Any]:
+def _read_bounded_bytes(path: Path, label: str, max_bytes: int) -> bytes:
     info = _regular_stat(path, label)
     if info.st_size > max_bytes:
         raise ExamTutoringContextError("%s exceeds its bounded size" % label)
+    with path.open("rb") as handle:
+        raw = handle.read(max_bytes + 1)
+    if len(raw) > max_bytes:
+        raise ExamTutoringContextError("%s exceeds its bounded size" % label)
+    return raw
+
+
+def _decode_object(raw: bytes, label: str) -> Dict[str, Any]:
     try:
-        value = json.loads(path.read_bytes().decode("utf-8"))
+        value = json.loads(raw.decode("utf-8"))
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise ExamTutoringContextError("%s is not valid UTF-8 JSON" % label) from exc
     if not isinstance(value, dict):
         raise ExamTutoringContextError("%s must be a JSON object" % label)
     return value
+
+
+def _read_object(path: Path, label: str, *, max_bytes: int) -> Dict[str, Any]:
+    return _decode_object(_read_bounded_bytes(path, label, max_bytes), label)
 
 
 def _read_content_object(
@@ -359,10 +372,10 @@ def _read_content_object(
         raise ExamTutoringContextError("%s reference escapes state root" % label) from exc
     if path.name != expected_sha256 + ".json":
         raise ExamTutoringContextError("%s is not at its content address" % label)
-    value = _read_object(path, label, max_bytes=max_bytes)
-    if _sha256_file(path) != expected_sha256:
+    raw = _read_bounded_bytes(path, label, max_bytes)
+    if _sha256_bytes(raw) != expected_sha256:
         raise ExamTutoringContextError("%s content hash mismatch" % label)
-    return value
+    return _decode_object(raw, label)
 
 
 @contextmanager
@@ -1522,15 +1535,13 @@ def refresh_nightly(
 
 def _load_manifest(state_root: Path) -> Tuple[Dict[str, Any], str]:
     path = state_root / MANIFEST_FILENAME
-    manifest = _read_object(path, "exam tutoring manifest", max_bytes=MAX_MANIFEST_BYTES)
+    raw = _read_bounded_bytes(path, "exam tutoring manifest", MAX_MANIFEST_BYTES)
+    manifest = _decode_object(raw, "exam tutoring manifest")
     if manifest.get("schema") != MANIFEST_SCHEMA:
         raise ExamTutoringContextError("exam tutoring manifest schema mismatch")
-    digest = _sha256_file(path)
+    digest = _sha256_bytes(raw)
     content_path = state_root / "manifests" / (digest + ".json")
-    stored = _read_object(
-        content_path, "content-addressed manifest", max_bytes=MAX_MANIFEST_BYTES
-    )
-    if stored != manifest or _sha256_file(content_path) != digest:
+    if _read_bounded_bytes(content_path, "content-addressed manifest", MAX_MANIFEST_BYTES) != raw:
         raise ExamTutoringContextError("fixed manifest is not content-addressed")
     return manifest, digest
 
@@ -2381,7 +2392,7 @@ def _complete_personal_record(record, entry, read_artifact, *, view, personal_sc
     query_scope = query_scope or {}
     current_ids = (query_scope.get("current_question") or query_scope.get("exam_question")
                    or query_scope.get("formal") or query_scope.get("source") or [])
-    exact_part = query_scope.get("question_part") or any(
+    exact_part = query_scope.get("resolved_independent_question") or query_scope.get("question_part") or any(
         re.search(r"-P[0-9]{2,3}$", str(identity), re.I) for identity in current_ids)
     if exact_part and not value.get("subpoint_id") and value.get("has_personal_history") is not False:
         # Historical point prose has no executable Pxx scope contract. A tag
@@ -2589,6 +2600,7 @@ def _subpoint_teaching_result(manifest, routed, normalized, read_artifact,
     question_visual_current = question_visual_source_state(routed, view)
     version = _sha256_bytes(_canonical_bytes({"source_version": manifest["source_version"], "query": normalized,
         "subpoints": entries, "syllabus_entries": syllabus_entries,
+        "question_scope": routed.get("question_scope"),
         "question_visual_entry": routed.get("question_visual_entry"),
         "question_visual_identity": routed.get("question_visual_identity"),
         "question_visual_reason": routed.get("question_visual_reason"),
@@ -2661,6 +2673,7 @@ def _prepared_teaching_result(repo_root, manifest, routed, normalized, read_arti
         "view": view, "delivery_policy": (teaching_memory.DELIVERY_POLICY if
             normalized.get("personal_scope") == teaching_memory.SCOPE else TEACHING_DELIVERY_POLICY),
         "points": {code: routed["point_entries"].get(code) for code in requested},
+        "question_scope": routed.get("question_scope"),
         "syllabus_entries": syllabus_entries,
         "question_visual_entry": routed.get("question_visual_entry"),
         "question_visual_identity": routed.get("question_visual_identity"),
@@ -2832,6 +2845,8 @@ def _query_context_native(
         return _unavailable_result(
             manifest, ["knowledge_hot_routes_unavailable:%s" % exc],
             max_bytes=max_bytes)
+    if routed.get("independent_question"):
+        normalized["resolved_independent_question"] = True
 
     entries = {
         formal_id: route["profile"]
@@ -3046,9 +3061,12 @@ def query_context(
                                   max_bytes=max_bytes, teaching_view=teaching_view,
                                   known_version=known_version, personal_scope=personal_scope,
                                   materials=materials)
-    from local_quality_408 import attach_quality_context
     from study_visual_http_408 import attach_context
-    attached = attach_quality_context(Path(repo), query, result, teaching_view)
+    attached = result
+    if materials != "personal":
+        from local_quality_408 import attach_quality_context
+        attached = attach_quality_context(Path(repo), query, result, teaching_view,
+                                          compact=personal_scope == teaching_memory.SCOPE and materials == "core")
     attached = attach_context(Path(repo), query, attached)
     if teaching_view is not None and materials == "personal":
         attached = {key: item for key, item in attached.items() if key not in {

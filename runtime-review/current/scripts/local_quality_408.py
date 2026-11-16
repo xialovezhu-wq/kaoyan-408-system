@@ -88,23 +88,37 @@ def source_files(repo):
         paths['reviewed_subpoint_scopes']=supplement
     return paths
 
+def source_stat(path):
+    info = path.stat()
+    return (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+
+
+def source_stats(repo):
+    return {name: list(source_stat(path)) for name, path in source_files(repo).items()}
+
+
 @lru_cache(maxsize=32)
-def file_digest(path, mtime_ns, size):
+def file_digest(path, identity):
     return digest(Path(path).read_bytes())
 
 def sources(repo):
-    result={}
-    for key,path in source_files(repo).items():
-        stat=path.stat()
-        result[key]=file_digest(str(path),stat.st_mtime_ns,stat.st_size)
-    return result
+    return {name: file_digest(str(path), source_stat(path))
+            for name, path in source_files(repo).items()}
 
-def catalog_drift(repo,index):
+def catalog_drift(repo,index, *, use_source_stats=False):
     expected=index.get('source_digests',{})
     if not expected:
         return []
     try:
-        observed=sources(repo)
+        guards=index.get('source_stats') if use_source_stats else None
+        if isinstance(guards,dict) and guards:
+            observed={}
+            for key,path in source_files(repo).items():
+                identity=source_stat(path)
+                observed[key]=(expected[key] if key in expected and guards.get(key)==list(identity)
+                               else file_digest(str(path),identity))
+        else:
+            observed=sources(repo)
     except OSError as exc:
         return ['unavailable:'+str(exc.filename)]
     return [key for key in sorted(expected.keys() | observed.keys()) if expected.get(key)!=observed.get(key)]
@@ -120,10 +134,11 @@ def compile_catalog(repo, years):
     folder.mkdir(parents=True,exist_ok=True)
     with (folder/'.build.lock').open('a+') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX)
+        guards=source_stats(repo)
         fingerprints=sources(repo)
-        return _compile(repo,folder,fingerprints,years)
+        return _compile(repo,folder,fingerprints,guards,years)
 
-def _compile(repo, folder, fingerprints, years):
+def _compile(repo, folder, fingerprints, guards, years):
     outline=repo/'support/syllabus-2027'
     from syllabus_context_408 import load_contexts
     contexts=load_contexts(repo)
@@ -378,9 +393,9 @@ def _compile(repo, folder, fingerprints, years):
                          'main_frequency_level main_count secondary_only_count')
         store('syllabus',sid,entry=node,points=by_outline[sid],
               review=topics['materials'][sid] | {'frequency':frequency})
-    if sources(repo)!=fingerprints:
+    if sources(repo)!=fingerprints or source_stats(repo)!=guards:
         raise ValueError('编制时原生源已更新；已产出的不可变对象保留，current未切换，请按新版本重新核对')
-    index={'schema':'cs408-local-syllabus-lessons-v1','source_digests':fingerprints,'excluded_years':sorted(years),
+    index={'schema':'cs408-local-syllabus-lessons-v1','source_digests':fingerprints,'source_stats':guards,'excluded_years':sorted(years),
            'exam_lesson_objects':lesson_ids,'exam_lesson_audit':exam_audit,
            'topic_review_by_question':topics['by_question'],'topic_review_audit':topics['audit'],
            'topic_case_parameters':case_models,
@@ -538,11 +553,10 @@ def catalog(repo):
     path=repo/ROOT/'current.json'
     if not path.is_file():
         return {},{}
-    metadata=path.stat()
-    return cached_index(str(path),metadata.st_mtime_ns,metadata.st_size)
+    return cached_index(str(path),source_stat(path))
 
 @lru_cache(maxsize=4)
-def cached_index(path,mtime,size):
+def cached_index(path,identity):
     data=Path(path).read_bytes()
     return json.loads(data),digest(data)
 
@@ -689,14 +703,14 @@ def _case_exam(repo,index,identity):
     record=blob(repo/ROOT,index['objects'],identity)
     return record.get('canonical_id') or record.get('exact_template_id')
 
-def attach_quality_context(repo,query,result,view):
+def attach_quality_context(repo,query,result,view, *, compact=False):
     """A lightweight source-versioned pointer in the standard hot teaching response."""
     if query.get('stage')!='post_answer' or view not in {'after_attempt','direct'} or result.get('status') not in {'available','unchanged'}:
         return result
     index,version=catalog(repo)
     if not index:
         return result
-    drift=catalog_drift(repo,index)
+    drift=catalog_drift(repo,index,use_source_stats=compact)
     if drift:
         return result|{'local_syllabus_lessons':{'status':'pending_local_rebuild','changed_sources':drift}}
     # Canonical IDs only. An independent subquestion can open only its own source.
@@ -718,12 +732,15 @@ def attach_quality_context(repo,query,result,view):
     if not found:
         return result
     exact_lesson=current if current in index.get('exam_lesson_objects',{}) else _case_exam(repo,index,current)
-    return result | {'local_syllabus_lessons':{'schema':index['schema'],'catalog_sha256':version,'source_check':'current','identities':found,
+    pointer={'schema':index['schema'],'catalog_sha256':version,'source_check':'current','identities':found,
             'exact_lesson_identity':exact_lesson if exact_lesson in index.get('exam_lesson_objects',{}) else None,
             'topic_review_identity':current if current in index.get('topic_review_by_question',{}) else (
-                current if index.get('topic_review_audit') and current in found else None),
-            'author_cli':'scripts/local_quality_408.py context --id IDENTIFIER --view direct'+(' --current-question '+keys[0] if keys[0] and keys[0] in index['objects'] else ''),
-            'use':'本题主线解决且权限允许后，按精确身份读取本点纲内要求与真实问法；KSP只用本小点，教师材料不得进入未授权学生界面。'}}
+                current if index.get('topic_review_audit') and current in found else None)}
+    if not compact:
+        pointer.update(
+            author_cli='scripts/local_quality_408.py context --id IDENTIFIER --view direct'+(' --current-question '+keys[0] if keys[0] and keys[0] in index['objects'] else ''),
+            use='本题主线解决且权限允许后，按精确身份读取本点纲内要求与真实问法；KSP只用本小点，教师材料不得进入未授权学生界面。')
+    return result | {'local_syllabus_lessons':pointer}
 
 def profile_patch(repo,draft,apply, *, prepare_only=False):
     point=draft['point']
@@ -738,8 +755,7 @@ def profile_patch(repo,draft,apply, *, prepare_only=False):
     def still_valid(ref):
         path=Path(ref.get('path',''))
         try:
-            stat=path.stat()
-            return path.is_file() and file_digest(str(path),stat.st_mtime_ns,stat.st_size)==ref['sha256']
+            return path.is_file() and file_digest(str(path),source_stat(path))==ref['sha256']
         except OSError:
             return False
     update={k:v for k,v in old.items() if k not in ignored}
