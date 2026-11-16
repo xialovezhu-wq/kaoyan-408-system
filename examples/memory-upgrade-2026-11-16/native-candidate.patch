@@ -1,0 +1,934 @@
+diff --git a/codex-skill-sources/README.md b/codex-skill-sources/README.md
+index f0c2a73ffebf260fd3282af6f0984ecad3072c59..476d97bab94ebccbcf8d24acb7d3f92aeaa2f618 100644
+--- a/codex-skill-sources/README.md
++++ b/codex-skill-sources/README.md
+@@ -32,3 +32,3 @@ Validate the changed source/installed resources and relevant isolated behavior t
+ Do not run retired model preparation, background reports or broad live benchmarks as
+-routine Skill validation. Passing static checks does not attest the actual low model
+-or full visible-response latency; those belong to the supported teaching entry.
++routine Skill validation. Check the current user-selected model and
++visible-response latency at the supported teaching entry.
+diff --git a/codex-skill-sources/_shared/kaoyan-408/runtime-contract.md b/codex-skill-sources/_shared/kaoyan-408/runtime-contract.md
+index 6ed16be8c96aa7f95baa4548eedf98b128fea4b6..527119ceb87aaa7938c9543c1c9af735494a739d 100644
+--- a/codex-skill-sources/_shared/kaoyan-408/runtime-contract.md
++++ b/codex-skill-sources/_shared/kaoyan-408/runtime-contract.md
+@@ -202,2 +202,7 @@ their fixed entries. Use current applicable claims, their conditions and prompt
+ dependence to choose which actions to preserve and which condition to check.
++Check that the current stem satisfies the conditions of any relevant repair.
++Keep the repair wording, its conditions, reviewed provenance and prompt
++dependence together. With incomplete or competing evidence, base the teaching
++step on the stem and current attempt. Use the same permitted source reference
++when the missing condition would change the explanation.
+ Check personal_read_receipt. A bounded record binds a verified object and
+diff --git a/codex-skill-sources/_shared/kaoyan-408/scripts/validate_408_skills.py b/codex-skill-sources/_shared/kaoyan-408/scripts/validate_408_skills.py
+index bd42a81a4c75a81456746009e70af7f18090e476..9979805fad33b0a1d5f4c10183c279c7d4789a70 100755
+--- a/codex-skill-sources/_shared/kaoyan-408/scripts/validate_408_skills.py
++++ b/codex-skill-sources/_shared/kaoyan-408/scripts/validate_408_skills.py
+@@ -453,3 +453,5 @@ def main() -> int:
+             "awaiting_sol_formalization",
+-            "gpt-6-astra",
++            "current user-selected",
++            "first substantive teaching text",
++            "Check that the current stem satisfies the conditions",
+             "source_version",
+diff --git a/codex-skill-sources/kaoyan-408-question-worker/SKILL.md b/codex-skill-sources/kaoyan-408-question-worker/SKILL.md
+index d330bfe185479bf73a3be73aead9eb083f811e7e..c87c64fb5c2c079bd64b39bd54dba319e7d11467 100644
+--- a/codex-skill-sources/kaoyan-408-question-worker/SKILL.md
++++ b/codex-skill-sources/kaoyan-408-question-worker/SKILL.md
+@@ -9,3 +9,3 @@ description: 408真题、独立小问与局部纠偏。按精确题号读取同
+ 
+-使用用户当前选择的模型，中文讲解。常规目标是20—30秒内交付本轮可用反馈；目标不等于实测，不删必要推理、证据或权限校验换速度。
++使用用户当前选择的模型，中文讲解。首段可用解释以 10–20 秒为优化目标。脚本读取、首段解释和完整反馈分别计时，保留必要推理、证据与权限校验。
+ 
+@@ -37,3 +37,3 @@ python3 scripts/runtime_paths_408.py --run exam_tutoring_context_408.py resolve
+ 
+-先就本轮首答判定哪一步成立、哪个条件还没用上。再将适用于当前条件的历史判断落实为一个教学动作。独立成立过的窄步骤略讲，提示后完成的步骤指出当时给过的前提，保留尚待独立检查的条件。读到更正时以适用的新证据调节详略。`conflicted_claim_count` 大于零时，具体冲突须核源才可采用。题卡关联、用户自报和助手讲解各按原角色理解。仅在历史确实改变讲法时简带依据。
++先就本轮首答判定哪一步成立、哪个条件还没用上。再将适用于当前条件的历史判断落实为一个教学动作。独立成立过的窄步骤略讲，提示后完成的步骤指出当时给过的前提，保留尚待独立检查的条件。用当前题设比对更正所引条件，并核对出处、角色与提示依赖。若省略、冲突或缺少审核影响本轮判断，先保留不确定性，沿[个人上下文](references/personal-learning-context.md)定点补证。题卡关联、用户自报和助手讲解各按原角色理解。仅在历史确实改变讲法时简带依据。
+ 4. 每题首次答后反馈或直接讲解，必须在正文实际说出考点名称、高频／中频／低频等原始等级、统计年份范围、历年总考次及主考／兼考次数。优先直接使用同次返回的`question_exam_introduction.primary_intro`；按父题去重，等级按同版主考统计，不用总考次自行定级。简短确认、局部纠偏也不省略；只有本题在当前对话已经实际输出过才免重复，查过或预生成不等于已输出。
+diff --git a/codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md b/codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md
+index 40c1c47f26db799099efe4cac21b6cee5d2d599d..4da5a7884d01a6cc83229e75e0774bad791b13b0 100644
+--- a/codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md
++++ b/codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md
+@@ -14,2 +14,4 @@ For a multi-point explanation, check whether the returned claims or bounded summ
+ 
++Apply a correction only when the current stem satisfies its conditions. Keep competing conditions distinct and carry prompt dependence into the explanation. When a repair or its condition is missing, rely on the current stem and attempt. If the gap changes the explanation, use the existing same-scope source reference. A historical recorded repair supports a check of that mechanism, and a prompted response supports a later independent check.
++
+ An independent Pxx with unbound parent personal history returns `withheld_scope`, `unscoped_parent_personal_history`, `complete=false` and `current_question_only`. Select a KSP only when the current public question supports the link.
+diff --git a/schema/exam-tutoring-context-v1.md b/schema/exam-tutoring-context-v1.md
+index 50514184bffade03fcaf8a86b94af933e0d217ad..4a848f123b31c5e5fbfa4bd993c9847a59cb6937 100644
+--- a/schema/exam-tutoring-context-v1.md
++++ b/schema/exam-tutoring-context-v1.md
+@@ -6,3 +6,3 @@
+ 
+-`resolve --concept <规范代码或确切名称> --view protected|after_attempt|direct --max-bytes 4500` 复用现有哈希路由，仅读取命中点的预生成讲题视图。多个点重复 `--concept`，只有真实薄弱点才用 `--weak-concept`；只有题目身份时可传 `--formal-id`。原 `query --input-json` 保留兼容，日常不再临场整理其完整历史字段。
++`resolve --concept <规范代码或确切名称> --view protected|after_attempt|direct --personal-scope teaching --materials core` 复用现有哈希路由并只读取命中对象。多个点重复 `--concept`，只有真实薄弱点才用 `--weak-concept`。题目身份优先使用精确的 `--current-question-id`，正式错题可用 `--formal-id`。`query --input-json` 用于兼容旧查询。
+ 
+@@ -10,5 +10,5 @@
+ 
+-结果为 `knowledge_teaching_context_408_v1`，`records` 可直接用于讲题。`semantic_current`使用已接纳且覆盖当前证据的概况；`evidence_digest_only`使用预先整理的真实事实；`semantic_stale`保留旧成稿，但讲题使用最新事实摘要。缺失、歧义及超预算点显式返回，不静默当作已完整读取。
++结果为 `knowledge_teaching_context_408_v1`。`semantic_current` 使用已接纳且覆盖当前证据的概况，`evidence_digest_only` 仅支持核实记录，`semantic_stale` 回到当前题设与作答。缺失、歧义及超预算点分别报告。
+ 
+-同题带 `--known-version <上次version>`。只有当前正式来源和查询视图均未变化才返回 `unchanged`，不重新读取摘要正文；返回新版本时使用新records。普通Capture不升级正式摘要。正式入库/知识点复盘后的既有 `complete_after_commit → refresh_after_commit` 同时刷新学习路径、讲题视图、哈希路由及source_version，再发布同版快照。路径或摘要缺失/损坏会使后置刷新失败或重建，不能将旧摘要继续标为最新。
++已有同题同范围读回时带 `--known-version <上次version>`。只有来源、视图和读取范围一致才复用已持有结果。正式入库或知识点复盘后的 `complete_after_commit → refresh_after_commit` 刷新本机学习路径、讲题视图、哈希路由与 `source_version`。同版共享副本按显式远程访问或外发请求另行发布。路径或摘要缺失时进入原有派生恢复。
+ 
+@@ -134,2 +134,4 @@ python3 scripts/runtime_paths_408.py --run exam_tutoring_context_408.py refresh-
+ 
++本轮审查候选 `bounded-evidence-priority-v2` 将可核证的历史订正连同完整条件、角色、提示依赖及原记录版本作为一个单元。仅有事实的点在 `personal_context.repair_evidence` 返回完整单元或审核／预算状态。整组装不下时，`omitted_fields` 记 `repair_evidence`，同点 `evidence_object` 保留内容寻址出处。已审核个人判断的 `omitted_repair_claim_count` 标记因预算省略的订正，`unreviewed_repair_count` 标记缺审核的订正。适用条件仍由当前题设与原出处核对。生产启用状态以本轮验收回执为准。
++
+ 命令：
+@@ -239,2 +241,2 @@ python3 scripts/runtime_paths_408.py --run exam_tutoring_context_408.py audit \
+ 
+-使用已配置的 GPT-6 Astra low 教学入口，客户端支持时使用 fast 模式，目标 20–30 秒给出首段实质教学文本。占位进度消息不算教学反馈。Skill 文本不能设置或证明 model、reasoning、fast mode 或 service tier；实际时延只能由运行时测量。查询只调用一次，不为每个知识点逐次请求，不冷构建、不远端模型、不扫描来源；必要推导、答案保护和真实事务验证不得因时延目标省略。
++使用用户在当前会话选定的教学模型与运行档位。首段可用解释以 10–20 秒为优化目标。分别记录本机查询、首段可用解释、完整反馈和正式整理的耗时。普通讲题一次合并读取当前相关点，保留必要推理、答案保护和事务验证。
+diff --git a/schema/personalization-corpus-v1.md b/schema/personalization-corpus-v1.md
+index cdd4aee1c127980b7ddee965ffc2d47010a069e1..f259150ee2520e9fee0d7327ab7fe8956934bee7 100644
+--- a/schema/personalization-corpus-v1.md
++++ b/schema/personalization-corpus-v1.md
+@@ -2,2 +2,4 @@
+ 
++历史兼容合同。下文的构建命令与写入流程用于解读旧回执。现行 corpus 入口为只读兼容。当前摘要构建与日常读取参见 [应试单题教学上下文](exam-tutoring-context-v1.md)。
++
+ 该协议定义日终正式编纂成功结果到个性化回答系统之间的答案安全派生层。
+diff --git a/schema/personalization-index-v1.md b/schema/personalization-index-v1.md
+index 3017a7972f19eef62afb2135d0d85738c5d2f4e8..4fe53d03e0c80f916bb97f7334fabf0c6ca50742 100644
+--- a/schema/personalization-index-v1.md
++++ b/schema/personalization-index-v1.md
+@@ -2,2 +2,4 @@
+ 
++历史兼容合同。下文的重建流程用于解释旧索引和冻结会话。现行 index 入口为只读兼容。当前讲题路由参见 [应试单题教学上下文](exam-tutoring-context-v1.md)。
++
+ 本协议定义 408 日常学习 Harness 的答案安全个性化派生层。它解决三个问题：把四科考点编译为机器目录，把统一复盘账本重放为稀疏个人状态，以及从考点或机制反查正式题目与有效最近作答日期。
+diff --git a/scripts/exam_tutoring_context_408.py b/scripts/exam_tutoring_context_408.py
+index a1327edb9487ba76b362589e6cedb55207fae511..f2adaef1459d074998655b1082281902268bce3b 100644
+--- a/scripts/exam_tutoring_context_408.py
++++ b/scripts/exam_tutoring_context_408.py
+@@ -2316,3 +2316,3 @@ def _redact_changed_teaching_source(record):
+                   "teaching_focus", "teaching_focus_evidence_object", "teaching_focus_status",
+-                  "short_summary", "next_check", "progress", "evidence_object"):
++                  "short_summary", "next_check", "progress", "evidence_object", "repair_evidence"):
+         value.pop(field, None)
+@@ -2438,2 +2438,9 @@ def _complete_personal_record(record, entry, read_artifact, *, view, personal_sc
+                                      "independent_mastery_inferred": False}
++        if (personal_scope == teaching_memory.SCOPE and receipt["status"] == "evidence_only"
++                and value.get("repair_evidence") and source.get("records_object")):
++            # The prebuilt repair is already bound to the same point/key and
++            # checked source version. Keep a stable reference even if it won't fit.
++            value["personal_context"] = {"identity": identity, "status": "evidence_only",
++                "complete": False, "teacher_evidence_only": True,
++                "evidence_object": source["records_object"], "repair_evidence": value["repair_evidence"]}
+         return value, receipt
+@@ -2547,3 +2554,3 @@ def _finish_teaching_materials(result, entries, normalized, read_artifact, *, vi
+         if materials == "visual":
+-            for field in _PERSONAL_FIELDS + ("personal_context", "personal_source", "personal_projection"):
++            for field in _PERSONAL_FIELDS + ("personal_context", "personal_source", "personal_projection", "repair_evidence"):
+                 value.pop(field, None)
+diff --git a/scripts/knowledge_learning_paths_408.py b/scripts/knowledge_learning_paths_408.py
+index badab34be66ad330389fae4aa59aada5c3914917..2316f9aa71bf5093f3cfd2c17cfd843d085f0c61 100644
+--- a/scripts/knowledge_learning_paths_408.py
++++ b/scripts/knowledge_learning_paths_408.py
+@@ -9,4 +9,5 @@ from urllib.parse import urlencode
+ 
+-from knowledge_learning_records_408 import DIRECT_ROLES, _chronology
+-from knowledge_profile_408 import teaching_plan_hot, teaching_focus_hot, profile_teaching_source_state
++from knowledge_learning_records_408 import DIRECT_ROLES, _chronology, _is_repair
++from knowledge_profile_408 import (CLAIMS_SCHEMA, SHA, profile_teaching_source_state,
++                                   teaching_focus_hot, teaching_plan_hot)
+ from visual_teaching_templates_408 import render_template
+@@ -105,8 +106,51 @@ def _excerpt(value: object, max_bytes: int = 600) -> str:
+         return text
++    suffix = "（完整记录见学习路径）"
++    available = max_bytes - len(suffix.encode("utf-8"))
++    if available < 0:
++        return ""
+     result = ""
+     for sentence in re.split(r"(?<=[。！？；\n])", text):
+-        if len((result + sentence).encode("utf-8")) > max_bytes:
++        if len((result + sentence).encode("utf-8")) > available:
+             break
+         result += sentence
+-    return result.strip() + "（完整记录见学习路径）" if result else "原记录较长，见完整学习路径。"
++    return result.strip() + suffix
++
++
++def _recorded_repairs(code, rows):
++    """Project eligible records without deciding that one question's condition replaces another."""
++    candidates = sorted((row for row in rows if _is_repair(row)
++                         and row.get("point_binding") == "explicit_point"
++                         and row.get("knowledge_point", code) == code), key=lambda row: row["record_key"])
++    if not candidates:
++        return None
++    units = []
++    for row in candidates:
++        text = row.get("summary")
++        source_hash = row.get("source_sha256") or ""
++        if (row.get("knowledge_point") != code
++                or row.get("correction_result") not in {"correct", "screened_correct", "independent_correct"}
++                or row.get("conclusion_correct") is False or not text
++                or not SHA.fullmatch(source_hash)):
++            continue
++        kind = row.get("source_kind")
++        if kind == "semantic_formal_intake":
++            revision = row.get("semantic_correction_sha256") or row.get("semantic_annotation_sha256") or ""
++            if row.get("semantic_lifecycle_status") != "active" or not SHA.fullmatch(revision):
++                continue
++            review_status = "formal_reviewed"
++        elif kind == "review_event" and row.get("event_kind") == "repair":
++            revision = source_hash
++            review_status = "graded_repair"
++        else:
++            continue
++        units.append({"role": "historical_repair", "record_key": row["record_key"],
++                      "knowledge_point": code, "content": text, "source_kind": kind,
++                      "source_sha256": source_hash, "revision_sha256": revision,
++                      "review_status": review_status, "observed_date": _date(row),
++                      "prompt_dependency": row.get("prompt_dependency") or "unknown"})
++    evidence = {"status": "historical_evidence" if units else "review_required",
++                "units": units, "withheld_record_count": len(candidates) - len(units)}
++    if len(json.dumps(evidence, ensure_ascii=False, separators=(",", ":")).encode("utf-8")) > 2000:
++        evidence.update(status="omitted_for_budget", units=[], omitted_unit_count=len(units))
++    return evidence
+ 
+@@ -152,3 +196,3 @@ def _timeline(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+         seen.add(identity)
+-        result.append({"date": _date(row), "summary": _excerpt(summary, 420),
++        result.append({"date": _date(row), "summary": summary if _is_repair(row) else _excerpt(summary, 420),
+                        "role": ROLE_NAMES.get(row.get("evidence_role"), "个人学习证据"),
+@@ -193,3 +237,14 @@ def build_path(code: str, label: str, point: Mapping[str, Any],
+     short = str(reviewed["short_summary"]) if current else overview
+-    if not current:
++    if (current and reviewed.get("claims_schema") == CLAIMS_SCHEMA
++            and any(row["lifecycle"] != "current" for row in reviewed.get("claims", []))):
++        short = overview + "\n含已归档或有争议的判断。当前教学只使用核验通过的判断及其条件。"
++    repairs = _recorded_repairs(code, rows) if not current else None
++    if repairs:
++        short += "\n历史订正须按当前题设核对。"
++        for unit in repairs["units"]:
++            dependency = "；提示后" if unit["prompt_dependency"] == "hint_or_prompted" else ""
++            short += f"\n{unit['observed_date'] or '日期未记录'}（历史订正{dependency}）：{unit['content']}"
++        if repairs["withheld_record_count"] or repairs["status"] == "omitted_for_budget":
++            short += "\n部分订正待核对或超出短摘要容量，出处见完整学习路径。"
++    elif not current:
+         independent = sorted((row for row in point_observations
+@@ -213,3 +268,3 @@ def build_path(code: str, label: str, point: Mapping[str, Any],
+             dependency = "；提示后" if item.get("prompt_dependency") == "hint_or_prompted" else ""
+-            snippets.append(f"{_date(item) or '日期未记录'}（{role}{binding}{dependency}）：{_excerpt(item['summary'])}")
++            snippets.append(f"{_date(item) or '日期未记录'}（历史{role}{binding}{dependency}）：{_excerpt(item['summary'])}")
+             if len(snippets) == 3:
+@@ -220,4 +275,4 @@ def build_path(code: str, label: str, point: Mapping[str, Any],
+             short += "\n" + snippet
+-        if reviewed:
+-            short = "原正式语义概况尚未覆盖最新记录；以下为当前事实整理。\n" + short
++    if reviewed and not current:
++        short = "原正式语义概况尚未覆盖最新记录；以下为历史证据整理。\n" + short
+ 
+@@ -355,3 +410,5 @@ def build_path(code: str, label: str, point: Mapping[str, Any],
+             "independent_mastery_inferred": False}
+-    after = {**base, "short_summary": _excerpt(short, 2000),
++    # A reviewed short summary can carry its applicability at the very end.
++    # Sentence excerpts are for history/navigation details, never for this unit.
++    after = {**base, "short_summary": short,
+              "personal_projection": "navigation_summary_requires_full_context_read",
+@@ -367,2 +424,4 @@ def build_path(code: str, label: str, point: Mapping[str, Any],
+              "markdown_link": f"[{code} {label}（学习路径）](http://127.0.0.1:8769/concept/{code})" if page_uri else None}
++    if repairs and not reviewed:
++        after["repair_evidence"] = repairs
+     if syllabus_context:
+diff --git a/scripts/teaching_memory_408.py b/scripts/teaching_memory_408.py
+index 684c6320d816d263702cea79d9e21ebbcc237d28..d4be8d878045cee434c7d6c3daf3091d625c2117 100644
+--- a/scripts/teaching_memory_408.py
++++ b/scripts/teaching_memory_408.py
+@@ -10,3 +10,3 @@ from knowledge_profile_408 import CLAIMS_SCHEMA, teaching_focus_hot
+ SCOPE = "teaching"
+-DELIVERY_POLICY = "bounded-evidence-priority-v1"
++DELIVERY_POLICY = "bounded-evidence-priority-v2"
+ _SHANGHAI = ZoneInfo("Asia/Shanghai")
+@@ -33,2 +33,6 @@ def _event_time(row):
+ 
++def _repair_claim(row):
++    return bool(row.get("supersedes")) or row["evidence_status"] == "prompted_repair"
++
++
+ def selected_context(profile, identity, version):
+@@ -37,10 +41,10 @@ def selected_context(profile, identity, version):
+     claims = profile.get("claims", []) if structured else []
+-    current = sorted((row for row in claims if row["lifecycle"] == "current"),
+-                     key=lambda row: (bool(row.get("supersedes")), _event_time(row)), reverse=True)
+-    prompted = next((row for row in current[1:] if row["evidence_status"] == "prompted_repair"), None)
+-    if prompted is not None and current[0]["evidence_status"] != "prompted_repair":
+-        current.remove(prompted)
+-        current.insert(1, prompted)
++    active = [row for row in claims if row["lifecycle"] == "current"]
++    withheld = {row["claim_id"] for row in active if _repair_claim(row) and
++                not (row.get("source_refs") and all(ref.get("review_state") == "reviewed"
++                                                   for ref in row["source_refs"]))}
++    current = sorted((row for row in active if row["claim_id"] not in withheld),
++                     key=lambda row: (_repair_claim(row), _event_time(row)), reverse=True)
+     conflicts = sum(row["lifecycle"] == "conflicted" for row in claims)
+-    historical = len(claims) - len(current) - conflicts
++    historical = len(claims) - len(active) - conflicts
+     value = {"identity": identity, "status": "current", "complete": False, "profile_version": version,
+@@ -52,2 +56,4 @@ def selected_context(profile, identity, version):
+                             "conflicted_claim_count": conflicts}}
++    if withheld:
++        value["claim_view"]["unreviewed_repair_count"] = len(withheld)
+     if (not structured or current or not claims) and profile.get("next_check"):
+@@ -56,3 +62,3 @@ def selected_context(profile, identity, version):
+     # still quotes them must not bring them back as current teaching advice.
+-    if not (conflicts or historical) and profile.get("short_summary"):
++    if not (conflicts or historical or withheld) and profile.get("short_summary"):
+         value["short_summary"] = profile["short_summary"].split("\n细查小点：", 1)[0]
+@@ -90,8 +96,14 @@ def fit(result, limit):
+         view = memory.get("claim_view")
+-        if view is None:
++        if view is None and "repair_evidence" not in memory:
+             continue
+-        atoms = {key: memory.pop(key) for key in ("short_summary", "teaching_focus", "next_check") if key in memory}
+-        atoms["claims"], view["claims"] = view["claims"], []
+-        view["omitted_claim_count"] = len(atoms["claims"])
++        atoms = {key: memory.pop(key) for key in (
++            "short_summary", "teaching_focus", "next_check", "repair_evidence") if key in memory}
+         memory["omitted_fields"] = [key for key in atoms if key != "claims"]
++        atoms["claims"] = []
++        if view is not None:
++            atoms["claims"], view["claims"] = view["claims"], []
++            view["omitted_claim_count"] = len(atoms["claims"])
++            repair_count = sum(_repair_claim(row) for row in atoms["claims"])
++            if repair_count:
++                view["omitted_repair_claim_count"] = repair_count
+         candidates[memory["identity"]] = atoms
+@@ -162,2 +174,4 @@ def fit(result, limit):
+         view["omitted_claim_count"] -= 1
++        if _repair_claim(claim):
++            view["omitted_repair_claim_count"] -= 1
+         if not fits():
+@@ -165,2 +179,4 @@ def fit(result, limit):
+             view["omitted_claim_count"] += 1
++            if _repair_claim(claim):
++                view["omitted_repair_claim_count"] += 1
+             return False
+@@ -168,17 +184,24 @@ def fit(result, limit):
+ 
+-    # Every retained point gets the chance to keep its current anchor before
+-    # any point gets older material. If that anchor cannot fit, leave the older
+-    # judgments out as well. The caller can read that exact complete object.
++    def repair_missing(memory):
++        view = memory.get("claim_view") or {}
++        return view.get("omitted_repair_claim_count", 0) or view.get("unreviewed_repair_count", 0)
++
++    # Give each point a first current statement before filling in extra
++    # conditions. A repair claim and its conditions always travel together.
+     for memory in memories:
+         atoms = candidates[memory["identity"]]
+-        if atoms["claims"]:
++        if "repair_evidence" in atoms:
++            add_field(memory, "repair_evidence", atoms["repair_evidence"])
++        elif atoms["claims"] and (not repair_missing(memory) or _repair_claim(atoms["claims"][0])):
+             add_claim(memory, atoms["claims"][0])
+     for memory in memories:
+-        atoms = candidates[memory["identity"]]
+-        if (memory["claim_view"]["claims"] and len(atoms["claims"]) > 1
+-                and atoms["claims"][1]["evidence_status"] == "prompted_repair"):
+-            add_claim(memory, atoms["claims"][1])
++        view = memory.get("claim_view") or {}
++        if not view.get("claims"):
++            continue
++        for claim in candidates[memory["identity"]]["claims"][1:]:
++            if not _repair_claim(claim) or not add_claim(memory, claim):
++                break
+     for memory in memories:
+         atoms = candidates[memory["identity"]]
+-        if not atoms["claims"] and "short_summary" in atoms:
++        if not atoms["claims"] and "short_summary" in atoms and not repair_missing(memory):
+             add_field(memory, "short_summary", atoms["short_summary"])
+@@ -187,3 +210,3 @@ def fit(result, limit):
+             atoms = candidates[memory["identity"]]
+-            if (key in atoms and key in memory["omitted_fields"]
++            if (key in atoms and key in memory["omitted_fields"] and not repair_missing(memory)
+                     and (not atoms["claims"] or memory["claim_view"]["claims"])):
+@@ -204,4 +227,4 @@ def fit(result, limit):
+         atoms = candidates[memory["identity"]]
+-        projected = memory["claim_view"]["claims"]
+-        if projected:
++        projected = (memory.get("claim_view") or {}).get("claims")
++        if projected and not repair_missing(memory):
+             for claim in atoms["claims"][len(projected):]:
+@@ -220,3 +243,4 @@ def fit(result, limit):
+         or any(row.get("omitted_fields") for row in records)
+-        or any(memory["omitted_fields"] or memory["claim_view"]["omitted_claim_count"] for memory in memories))
++        or any(memory["omitted_fields"] or (memory.get("claim_view") or {}).get("omitted_claim_count")
++               for memory in memories))
+     fits()
+diff --git a/tests/benchmark_correction_budget_408.py b/tests/benchmark_correction_budget_408.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..afc668dc38390ec1e6089b374ab1cb3b08a0d6f9
+--- /dev/null
++++ b/tests/benchmark_correction_budget_408.py
+@@ -0,0 +1,155 @@
++"""Compare two checkouts against the same generated synthetic resolver input."""
++import argparse
++import hashlib
++import json
++import math
++from pathlib import Path
++import resource
++import statistics
++import subprocess
++import sys
++import time
++
++
++def compact(value):
++    return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
++
++
++def percentile(values, fraction):
++    return sorted(values)[math.ceil(len(values) * fraction) - 1]
++
++
++def query(repo, state, points, budget):
++    from exam_tutoring_context_408 import QUERY_INPUT_SCHEMA, query_context
++    return query_context(repo, {"schema": QUERY_INPUT_SCHEMA, "stage": "post_answer",
++        "knowledge_points": points, "max_profiles": 0, "max_bytes": budget, "read_stats": True},
++        output_root=state, max_bytes=budget, teaching_view="after_attempt", personal_scope="teaching", materials="core")
++
++
++def metrics(value, raw):
++    result = {"status": value["status"], "bytes": len(raw), "returned": value.get("returned"),
++              "truncated": value["truncated"], "write_count": value["write_count"],
++              "reads": value["read_stats"]["artifact_count"], "read_bytes": value["read_stats"]["artifact_bytes"]}
++    result["whole_units"] = sum(len((row.get("personal_context") or {}).get("repair_evidence", {}).get("units", []))
++                                for row in value["records"])
++    return result
++
++
++def worker(root):
++    sys.path[:0] = [str(root / "scripts"), str(root / "tests")]
++    from exam_tutoring_context_408 import DEFAULT_STATE_REL, REVIEW_LEDGER_REL
++    from test_correction_budget_408 import CorrectionBudgetTests, OLD, FIX, CONDITION, OTHER
++    fixture = CorrectionBudgetTests()
++    fixture.setUp()
++    try:
++        fixture.state = fixture.repo / DEFAULT_STATE_REL
++        cases = [("OS99-10", OLD, FIX, "本次题设另有界定条件。" * 20 + CONDITION, ""),
++                 ("CO99-10", "击中后总写下一级。", OTHER, "题设明确这是写回命中。" * 19, ""),
++                 ("CN99-10", "失序分组总被保留。", "超出接收窗口的帧丢弃。", "帧已经落在当前窗口右边界之后。" * 20, "")]
++        fixture.prepare(cases)
++        ledger = fixture.repo / REVIEW_LEDGER_REL
++        before = hashlib.sha256(ledger.read_bytes()).hexdigest()
++        print(compact({"repo": str(fixture.repo), "state": str(fixture.state), "source_sha256": before,
++                       "source_lines": len(ledger.read_bytes().splitlines())}), flush=True)
++        for line in sys.stdin:
++            request = json.loads(line)
++            if request == "close":
++                print(compact({"formal_unchanged": hashlib.sha256(ledger.read_bytes()).hexdigest() == before,
++                               "warm_peak_rss_bytes_including_fixture_setup": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss}), flush=True)
++                return
++            t0 = time.perf_counter_ns()
++            value = query(fixture.repo, fixture.state, **request)
++            raw = (compact(value) + "\n").encode()
++            print(compact(metrics(value, raw) | {"ms": (time.perf_counter_ns()-t0) / 1e6}), flush=True)
++    finally:
++        fixture.tearDown()
++
++
++def interleaved(baseline, candidate, iterations):
++    roots = {"B1": baseline, "B2": candidate}
++    groups = {"single_ordinary": {"points": ["OS03-17"], "budget": 8192},
++              "multi_tight": {"points": ["OS99-10", "CO99-10", "CN99-10"], "budget": 4500},
++              "multi_default": {"points": ["OS99-10", "CO99-10", "CN99-10"], "budget": 8192}}
++    workers = {side: subprocess.Popen([sys.executable, __file__, "worker", str(root)],
++                    stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, bufsize=1)
++               for side, root in roots.items()}
++    try:
++        receipts = {side: json.loads(proc.stdout.readline()) for side, proc in workers.items()}
++        if receipts["B1"]["source_sha256"] != receipts["B2"]["source_sha256"]:
++            raise ValueError("control_fixture_drifted")
++        def invoke(side, mode, request):
++            if mode == "warm":
++                proc = workers[side]
++                proc.stdin.write(compact(request) + "\n")
++                proc.stdin.flush()
++                return json.loads(proc.stdout.readline())
++            command = [sys.executable, str(roots[side] / "scripts/exam_tutoring_context_408.py"),
++                       "resolve", "--repo", receipts[side]["repo"], "--output-root", receipts[side]["state"],
++                       "--view", "after_attempt", "--personal-scope", "teaching", "--materials", "core",
++                       "--max-bytes", str(request["budget"]), "--read-stats"]
++            for point in request["points"]:
++                command.extend(["--concept", point])
++            t0 = time.perf_counter_ns()
++            raw = subprocess.check_output(command, timeout=10)
++            return metrics(json.loads(raw), raw) | {"ms": (time.perf_counter_ns()-t0) / 1e6}
++
++        measurements = {}
++        for mode in ("warm", "cold_cli"):
++            for name, request in groups.items():
++                if mode == "warm":
++                    for side in roots:
++                        invoke(side, mode, request)
++                rows = {side: [] for side in roots}
++                for repetition in range(iterations):
++                    for side in (roots if repetition % 2 == 0 else reversed(roots)):
++                        row = invoke(side, mode, request)
++                        if (row["status"] != "available" or row["returned"] != len(request["points"])
++                                or row["bytes"] > request["budget"] or row["write_count"] != 0):
++                            raise ValueError(name + ":wrong_query_result:" + side)
++                        rows[side].append(row)
++                measures = {side: {"p50_ms": statistics.median([r["ms"] for r in seq]),
++                    "p95_ms": percentile([r["ms"] for r in seq], .95),
++                    "query": {key: item for key, item in seq[0].items() if key != "ms"}} for side, seq in rows.items()}
++                b1, b2 = (measures[side]["p95_ms"] for side in roots)
++                measures["pass"] = (b2 <= max(b1 * 1.05, b1 + 20) and b2 <= 100 if mode == "warm" else b2 <= 250)
++                measurements[mode + "/" + name] = {"summary": measures, "samples": rows}
++        legacy = {}
++        for side, root in roots.items():
++            raw = subprocess.check_output([sys.executable, str(root / "scripts/benchmark_knowledge_tutoring_408.py"),
++                "--repo", receipts[side]["repo"], "--iterations", str(iterations)], timeout=30)
++            legacy[side] = json.loads(raw)
++        end = {}
++        for side, proc in workers.items():
++            proc.stdin.write('"close"\n')
++            proc.stdin.flush()
++            end[side] = json.loads(proc.stdout.readline())
++        return {"trials_per_arm_per_group": iterations, "freeze_sha256": receipts["B1"]["source_sha256"],
++                "formal_events_per_arm": receipts["B1"]["source_lines"], "paired": measurements,
++                "existing_benchmark": legacy, "final": end}
++    finally:
++        for process in workers.values():
++            process.stdin.close()
++            try:
++                process.wait(timeout=10)
++            except subprocess.TimeoutExpired:
++                process.kill()
++                process.wait()
++
++
++if __name__ == "__main__":
++    if sys.argv[1:2] == ["worker"]:
++        worker(Path(sys.argv[2]))
++    else:
++        parser = argparse.ArgumentParser(description=__doc__)
++        parser.add_argument("--baseline", type=Path, required=True)
++        parser.add_argument("--candidate", type=Path, required=True)
++        parser.add_argument("--output", type=Path, required=True)
++        args = parser.parse_args()
++        result = interleaved(args.baseline, args.candidate, 30)
++        args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
++        for label, pair in result["paired"].items():
++            print(label, compact(pair["summary"]))
++        for side, legacy in result["existing_benchmark"].items():
++            print(side, "legacy", legacy["all_queries_ready"], legacy["local_budget_pass"], legacy["function_p95_ms"],
++                  max(row["cli_ms"] for row in legacy["cli_samples"]))
++        print("formal", result["final"])
+diff --git a/tests/fixtures/correction_budget_408_holdout.json b/tests/fixtures/correction_budget_408_holdout.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..3778fe46e752de1e095c6ca8da7db01b62309164
+--- /dev/null
++++ b/tests/fixtures/correction_budget_408_holdout.json
+@@ -0,0 +1,22 @@
++{
++  "version": "cs408-correction-budget-holdout-v2",
++  "repairs": [
++    ["CO98-11", "大端机器的最低字节地址放最低有效字节。", "大端布局把最高有效字节放在最低字节地址。", "比较同一多字节数据在按字节编址的内存中的布局。", "小端布局的最低字节地址存放最低有效字节。"],
++    ["CO98-12", "任意两数相加若最高位有进位就发生补码溢出。", "同号操作数相加而结果变号时发生有符号溢出。", "前提是相同位宽的二进制补码加法。", "无符号加法可按最高位的进位判断结果是否超出位宽。"],
++    ["CO98-13", "给出地址线位数即可直接得到字节容量。", "地址线区分的是可编址单元数。", "实际字节容量还取决于每个可编址单元的字节数。", "按字节编址时，每个可编址单元恰为一字节。"],
++    ["CO98-14", "硬布线控制器通过查微指令存储器产生控制信号。", "硬布线控制器可由组合及时序逻辑生成控制信号。", "此处说的是硬布线实现的控制器。", "微程序控制器从控制存储器取微指令并译出控制信息。"],
++    ["OS98-11", "任意初值的计数信号量都保证临界区互斥。", "计数信号量可限制同时进入的数量。", "初值代表可用资源数，线程按配对的获取和释放操作运行。", "只允许一个线程进入临界区时使用二值互斥机制。"],
++    ["OS98-12", "进程的所有线程必须有不同的虚拟地址空间。", "同进程线程共享地址空间和进程资源。", "本题描述同一进程的线程，各线程仍保留自己的栈和寄存器上下文。", "不同进程通常有独立地址空间，受控共享映射可共享部分内存。"],
++    ["OS98-13", "系统调用返回必定切换到另一进程。", "进入内核执行系统调用会切换处理器权限状态。", "此处判断的是用户态到内核态，进程切换取决于调度。", "调用阻塞后，调度器可切换到另一个就绪进程。"],
++    ["OS98-14", "磁盘索引分配的全部索引块始终占用同样的主存空间。", "多级索引可随文件需要分配额外的索引块。", "以题干描述的按需分配实现为条件。", "直接地址项覆盖的块范围内可省去间接索引访问。"],
++    ["DS98-11", "拓扑排序每轮有候选就能最终输出所有顶点。", "Kahn 算法反复删除当前入度为零的顶点。", "有向图存在环时可能在仍有顶点的情况下候选耗尽。", "有向无环图能完成拓扑排序，多个候选时仍可有多个正确序列。"],
++    ["DS98-12", "AVL 单旋会改变二叉搜索树的中序关键字序列。", "旋转重新组织局部父子关系并保持中序次序。", "前提是按正确的指针重接规则执行，且节点仍满足原比较次序。", "错误地交换无关子树可能破坏二叉搜索树性质。"],
++    ["DS98-13", "带相等边权的图一定有多个最小生成树。", "相等边权只使某些选择可能并列。", "唯一性仍取决于这些选择能否形成等总权值的不同生成树。", "连通无向图的边权两两不同时，其最小生成树唯一。"],
++    ["DS98-14", "散列表无论如何解决冲突都不能存超过桶数的元素。", "拉链法可把多个元素存在同一桶。", "桶内使用链表等外部结构，装填因子可以大于一。", "固定槽位的开放定址需要空槽才能继续插入。"],
++    ["CN98-11", "目的地址匹配的路由条目应按前缀最短选择。", "转发时在匹配目标地址的条目中优先最长前缀。", "采用 CIDR 转发表，前缀长度按同一地址族比较。", "默认路由可用于没有更长匹配的目的地址。"],
++    ["CN98-12", "以太网交换机按目的 MAC 学习源端口。", "交换机根据收到帧的源 MAC 学习其入端口。", "以参与同一二层转发范围的动态学习为条件。", "已知目的地址用于选择转发端口。"],
++    ["CN98-13", "DNS 客户端查到一次后权威记录永不重新查询。", "解析结果可在过期前复用。", "还在有效 TTL 内且满足当前缓存键与策略。", "缓存缺失或失效时解析器可能要继续迭代查询。"],
++    ["CN98-14", "滑动窗口提高吞吐量就意味着降低传播时延。", "发送方可以在收到前一确认前继续发送窗口内的数据。", "前提是剩余窗口允许且链路有可用容量。", "传播时延取决于距离和信号传播速率。"]
++  ],
++  "controls": ["ordinary_without_repair", "unknown_point", "protected", "source_drift", "known_version", "question_part_withheld", "explicit_wrong_repair", "missing_review_provenance"]
++}
+diff --git a/tests/test_correction_budget_408.py b/tests/test_correction_budget_408.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..1ac30f27288a42e676fcb92641829656f0a7f76a
+--- /dev/null
++++ b/tests/test_correction_budget_408.py
+@@ -0,0 +1,270 @@
++"""Synthetic verification of corrections through the native 408 resolver."""
++import hashlib
++import json
++import subprocess
++import sys
++import unittest
++from pathlib import Path
++
++import test_exam_tutoring_context_408 as fixtures
++from exam_tutoring_context_408 import (QUERY_INPUT_SCHEMA, REVIEW_LEDGER_REL, query_context,
++                                       refresh_after_commit)
++from knowledge_learning_paths_408 import _excerpt, build_path
++from knowledge_profile_408 import CLAIMS_SCHEMA, apply_updates, claim_key
++from teaching_memory_408 import fit, selected_context
++
++ROOT = Path(__file__).resolve().parents[1]
++OLD = "把 TLB 未命中直接视作缺页。"
++FIX = "TLB 未命中后需要检查页表。"
++CONDITION = "只有合法访问所需的页面不在内存时才触发缺页。"
++OTHER = "采用写回策略且写命中时，只需要先更新本级缓存。"
++
++
++class CorrectionBudgetTests(unittest.TestCase):
++    setUp = fixtures.ExamTutoringContext408Tests.setUp
++    tearDown = fixtures.ExamTutoringContext408Tests.tearDown
++    refresh = fixtures.ExamTutoringContext408Tests.refresh
++
++    def append_records(self, changes):
++        path = self.repo / REVIEW_LEDGER_REL
++        baseline = json.loads(path.read_text().splitlines()[0])
++        with path.open("a", encoding="utf-8") as ledger:
++            for idx, (point, text, values) in enumerate(changes):
++                date = values.get("observed_date", "2026-08-29")
++                event = {**baseline, "event_id": f"RE-correction-budget-{point}-{idx}",
++                         "knowledge_points": [point], "understanding_summary": text,
++                         "observed_date": date, "event_time": date + "T08:00:00+08:00", **values}
++                ledger.write(json.dumps(event, ensure_ascii=False) + "\n")
++
++    def prepare(self, questions, *, reverse=False, ungraded=(), wrong=()):
++        (self.repo / "知识点标签表.md").write_text("\n".join(f"- {row[0]} 合成机制 {row[0]}"
++                                                      for row in questions) + "\n")
++        changes = []
++        for point, old, repair, condition, alternative in questions:
++            old_event = {"prompt_dependency": "independent", "observed_date": "2026-08-30" if reverse else "2026-08-27"}
++            repair_event = {"event_kind": "repair", "prompt_dependency": "hint_or_prompted",
++                            "correction_result": "correct", "correction_conclusion": "correct"}
++            if point in ungraded:
++                repair_event.update(correction_conclusion=None, correction_result="uncertain")
++            if point in wrong:
++                repair_event["correction_conclusion"] = "wrong"
++            changes += [(point, old + "补充旧答细节以填充旧预算。" * 20, old_event),
++                        (point, repair + condition, repair_event)]
++            if alternative:
++                changes.append((point, alternative, repair_event))
++        self.append_records(reversed(changes) if reverse else changes)
++        self.refresh()
++
++    def resolve(self, *points, budget=8192, view="after_attempt", scope="teaching", known=None,
++                **kwargs):
++        return query_context(self.repo,
++            {"schema": QUERY_INPUT_SCHEMA, "stage": "pre_answer" if view == "protected" else "post_answer",
++             "knowledge_points": list(points), "max_profiles": 0, "read_stats": True,
++             "max_bytes": budget, **kwargs}, output_root=self.state, teaching_view=view,
++            personal_scope=scope, materials="core", max_bytes=budget, known_version=known)
++
++    def check_unit(self, records, point, body):
++        memory = next(record["personal_context"] for record in records if record["knowledge_point"] == point)
++        self.assertEqual("historical_evidence", memory["repair_evidence"]["status"])
++        unit = next(unit for unit in memory["repair_evidence"]["units"] if unit["content"] == body)
++        self.assertEqual("historical_repair", unit["role"])
++        self.assertEqual("graded_repair", unit["review_status"])
++        self.assertEqual("hint_or_prompted", unit["prompt_dependency"])
++        self.assertEqual(point, unit["knowledge_point"])
++        self.assertRegex(unit["source_sha256"], r"^[0-9a-f]{64}$")
++        self.assertEqual(unit["source_sha256"], unit["revision_sha256"])
++        proof = memory["evidence_object"]
++        raw = (self.state / proof["ref"]).read_bytes()
++        self.assertEqual(proof["sha256"], hashlib.sha256(raw).hexdigest())
++        self.assertEqual(body, json.loads(raw)["records"][unit["record_key"]]["summary"])
++
++    def test_multibyte_suffix_counts_toward_budget(self):
++        for limit in (5, 32, 80, 800):
++            with self.subTest(limit=limit):
++                self.assertLessEqual(len(_excerpt("这段很长。" * 100, limit).encode("utf-8")), limit)
++
++    def test_newer_misconception_does_not_displace_graded_historical_repair(self):
++        ledger = self.repo / REVIEW_LEDGER_REL
++        original = ledger.read_bytes()
++        for reverse in (False, True):
++            with self.subTest(reverse=reverse):
++                ledger.write_bytes(original)
++                self.prepare([("OS99-10", OLD, FIX, CONDITION, "")], reverse=reverse)
++                result = self.resolve("OS99-10")
++                self.check_unit(result["records"], "OS99-10", FIX + CONDITION)
++                self.assertNotIn(OLD, json.dumps(result, ensure_ascii=False))
++                path = self.repo / "知识点/学习路径/OS99-10.md"
++                self.assertIn(OLD, path.read_text())
++                self.assertIn(FIX + CONDITION, path.read_text())
++
++    def test_small_budget_omits_whole_repair_with_stable_ref(self):
++        points = ("OS99-10", "CO99-10", "CN99-10")
++        long_condition = "还有一条需要一起保留的边界。" * 18 + CONDITION
++        self.prepare([(point, OLD, FIX, long_condition, "") for point in points])
++        for budget in (4500, 8192):
++            with self.subTest(budget=budget):
++                result = self.resolve(*points, budget=budget)
++                serialized = json.dumps(result, ensure_ascii=False, separators=(",", ":")).encode() + b"\n"
++                self.assertEqual(len(serialized), result["serialized_bytes"])
++                self.assertLessEqual(len(serialized), budget)
++                self.assertEqual("available", result["status"])
++                self.assertEqual(3, len(result["records"]))
++                self.assertNotIn(OLD.encode(), serialized)
++                omissions = 0
++                for row in result["records"]:
++                    memory = row["personal_context"]
++                    self.assertIn("evidence_object", memory)
++                    if "repair_evidence" in memory:
++                        self.check_unit(result["records"], row["knowledge_point"], FIX + long_condition)
++                    else:
++                        omissions += 1
++                        self.assertIn("repair_evidence", memory["omitted_fields"])
++                if budget == 4500:
++                    self.assertGreater(omissions, 0)
++                else:
++                    self.assertEqual(0, omissions)
++
++    def test_real_cli_preserves_scope_and_known_version(self):
++        points = ("OS99-10", "CO99-10")
++        self.prepare([(points[0], OLD, FIX, CONDITION, ""), (points[1], OLD, OTHER, "", "")])
++        command = [sys.executable, str(ROOT / "scripts/exam_tutoring_context_408.py"),
++                   "resolve", "--repo", str(self.repo), "--output-root", str(self.state),
++                   "--concept", points[0], "--concept", points[1], "--personal-scope", "teaching",
++                   "--materials", "core", "--max-bytes", "4500", "--read-stats"]
++        raw = subprocess.check_output([*command, "--view", "after_attempt"])
++        open_view = json.loads(raw)
++        self.assertLessEqual(len(raw), 4500)
++        self.check_unit(open_view["records"], points[0], FIX + CONDITION)
++        same = json.loads(subprocess.check_output([*command, "--view", "after_attempt",
++                                                  "--known-version", open_view["version"]]))
++        self.assertEqual("unchanged", same["status"])
++        self.assertEqual([], same["records"])
++        self.assertLess(same["read_stats"]["artifact_count"], open_view["read_stats"]["artifact_count"])
++        protected = subprocess.check_output([*command, "--view", "protected",
++                                             "--known-version", open_view["version"]])
++        self.assertEqual("withheld", json.loads(protected)["personal_read_receipt"]["status"])
++        for value in (OLD, FIX, CONDITION, "repair_evidence", "evidence_object"):
++            self.assertNotIn(value.encode(), protected)
++
++    def test_ungraded_or_wrong_correction_is_not_a_current_rule(self):
++        points = ("OS99-10", "CO99-10")
++        self.prepare([(point, OLD, FIX, CONDITION, "") for point in points],
++                     ungraded=points[:1], wrong=points[1:])
++        result = self.resolve(*points)
++        self.assertEqual(2, len(result["records"]))
++        for row in result["records"]:
++            evidence = row["personal_context"]["repair_evidence"]
++            self.assertEqual("review_required", evidence["status"])
++            self.assertEqual([], evidence["units"])
++            self.assertGreater(evidence["withheld_record_count"], 0)
++        self.assertNotIn(OLD, json.dumps(result, ensure_ascii=False))
++        self.assertNotIn(FIX, json.dumps(result, ensure_ascii=False))
++
++    def test_only_explicit_binding_can_change_the_point_repair_status(self):
++        self.refresh()
++        record = self.resolve("OS03-17")["records"][0]
++        self.assertNotIn("repair_evidence", record["personal_context"])
++
++    def test_older_reviewed_prompted_claim_precedes_newer_observation_under_budget(self):
++        old = {"claim_id": "old", "lifecycle": "current", "evidence_status": "unverified",
++               "event_at": "2026-10-20", "content": OLD + "错误尝试。" * 90}
++        repair = {"claim_id": "repair", "lifecycle": "current", "evidence_status": "prompted_repair",
++                  "event_at": "2026-10-11", "content": FIX + CONDITION,
++                  "source_refs": [{"review_state": "reviewed"}]}
++        profile = {"claims_schema": CLAIMS_SCHEMA, "short_summary": OLD, "claims": [old, repair]}
++        first = selected_context(profile, "OS99-10", "a" * 64)
++        result = fit({"view": "after_attempt", "records": [{"knowledge_point": "OS99-10",
++                      "personal_context": first}]}, 1024)
++        claims = result["records"][0]["personal_context"]["claim_view"]["claims"]
++        self.assertEqual([FIX + CONDITION], [claim["content"] for claim in claims])
++        self.assertEqual("prompted_repair", claims[0]["evidence_status"])
++        self.assertEqual(1, first["claim_view"]["omitted_claim_count"])
++
++    def test_required_claim_that_cannot_fit_blocks_older_prose_and_prompted_claim_with_pending_review(self):
++        old = {"claim_id": "old", "lifecycle": "current", "evidence_status": "unverified", "content": OLD}
++        repair = {"claim_id": "repair", "lifecycle": "current", "evidence_status": "prompted_repair",
++                  "content": FIX + "较长条件。" * 90 + CONDITION, "source_refs": [{"review_state": "reviewed"}]}
++        profile = {"claims_schema": CLAIMS_SCHEMA, "short_summary": OLD, "claims": [old, repair]}
++        for review in ("reviewed", "pending_capture_teaching_only"):
++            with self.subTest(review=review):
++                repair["source_refs"][0]["review_state"] = review
++                memory = selected_context(profile, "OS99-10", "a" * 64)
++                result = fit({"view": "after_attempt", "records": [{"knowledge_point": "OS99-10",
++                              "personal_context": memory}]}, 1024)
++                self.assertEqual([], memory["claim_view"]["claims"])
++                count_key = "omitted_repair_claim_count" if review == "reviewed" else "unreviewed_repair_count"
++                self.assertEqual(1, memory["claim_view"][count_key])
++                for text in (OLD, FIX, CONDITION):
++                    self.assertNotIn(text, json.dumps(result, ensure_ascii=False))
++                self.assertEqual("a" * 64, memory["profile_version"])
++
++    def test_formal_revision_and_retraction_reuse_original_identity(self):
++        code = "OS99-10"
++        record = {"record_key": "synthetic-revision", "knowledge_point": code, "source_sha256": "a" * 64,
++                  "evidence_role": "repair", "event_kind": "repair", "point_binding": "explicit_point",
++                  "source_kind": "semantic_formal_intake", "semantic_lifecycle_status": "active",
++                  "semantic_annotation_sha256": "b" * 64, "semantic_correction_sha256": "c" * 64,
++                  "correction_result": "correct", "prompt_dependency": "hint_or_prompted",
++                  "summary": FIX + CONDITION}
++        def path():
++            return build_path(code, "合成机制", {"record_keys": [record["record_key"]]},
++                              {record["record_key"]: record}, [], None, False)
++        original = path()["views"]["after_attempt"]["repair_evidence"]["units"][0]
++        self.assertEqual("formal_reviewed", original["review_status"])
++        self.assertEqual(record["record_key"], original["record_key"])
++        self.assertEqual("c" * 64, original["revision_sha256"])
++        record["semantic_lifecycle_status"] = "retracted"
++        retracted = path()
++        self.assertIn(FIX + CONDITION, retracted["markdown"])
++        self.assertEqual([], retracted["views"]["after_attempt"]["repair_evidence"]["units"])
++
++    def test_authored_supersession_through_real_resolver_and_source_guard(self):
++        point = "OS99-10"
++        self.prepare([(point, OLD, FIX, CONDITION, "")])
++        ledger = self.repo / REVIEW_LEDGER_REL
++        formal = ledger.read_bytes()
++        source = self.repo / "synthetic-conversation.json"
++        turns = [{"ordinal": 1, "role": "user", "kind": "answer", "text": OLD},
++                 {"ordinal": 2, "role": "assistant", "kind": "explanation", "text": "查明题设的驻留条件。"},
++                 {"ordinal": 3, "role": "user", "kind": "answer", "text": FIX + CONDITION}]
++        source.write_text(json.dumps({"schema_version": "cs408-full-conversation-v1",
++            "complete_order_preserved": True, "truncated": False, "turn_count": len(turns), "turns": turns},
++            ensure_ascii=False))
++        digest = hashlib.sha256(source.read_bytes()).hexdigest()
++
++        def claim(anchor, body, evidence_status, referenced_turns):
++            return {"scope": point, "anchor": anchor, "claim_id": claim_key(point, anchor), "kind": "observation",
++                    "basis": "observed_attempt", "evidence_status": evidence_status, "lifecycle": "current",
++                    "content": body, "source_refs": [{"id": "synthetic", "path": str(source), "sha256": digest,
++                        "review_state": "reviewed", "turns": [
++                            {"ordinal": t["ordinal"], "role": t["role"], "quote": t["text"]} for t in referenced_turns]}]}
++
++        old = claim("old", OLD, "unverified", turns[:1])
++        update = {"concept_key": point, "expected_previous_version": None, "overview": "合成正式概况。",
++                  "short_summary": OLD, "next_check": "先分辨题面中的驻留标志。", "timeline": [],
++                  "progress": [], "source_refs": [{"path": str(source), "sha256": digest}],
++                  "claims_schema": CLAIMS_SCHEMA, "claims": [old]}
++        arguments = {"evidence_bindings": {str(source): digest}, "expected_points": {point}}
++        first = apply_updates(self.repo, [update], operation_id="synthetic-correction-base", **arguments)
++        update["expected_previous_version"] = first["profiles"][point]["sha256"]
++        old.update(lifecycle="superseded", change_reason="同条件下原答案有误。")
++        repair = claim("repair", FIX + CONDITION, "prompted_repair", turns[1:])
++        repair.update(supersedes=[old["claim_id"]])
++        update["claims"].append(repair)
++        apply_updates(self.repo, [update], operation_id="synthetic-correction-revised", **arguments)
++        refresh_after_commit(self.repo, "2026-08-30", output_root=self.state)
++        packet = self.resolve(point)
++        content = packet["records"][0]["personal_context"]
++        self.assertEqual(1, content["claim_view"]["historical_claim_count"])
++        self.assertEqual(FIX + CONDITION, content["claim_view"]["claims"][0]["content"])
++        self.assertEqual("prompted_repair", content["claim_view"]["claims"][0]["evidence_status"])
++        self.assertNotIn(OLD, json.dumps(packet, ensure_ascii=False))
++        source.write_text("synthetic drift")
++        changed = self.resolve(point, known=packet["version"])
++        self.assertNotEqual("unchanged", changed["status"])
++        self.assertNotIn(FIX, json.dumps(changed, ensure_ascii=False))
++        self.assertEqual(formal, ledger.read_bytes())
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/tests/test_correction_budget_holdout_408.py b/tests/test_correction_budget_holdout_408.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..d3c51ac1edf54708b8361bb3fe0e2dd34f344104
+--- /dev/null
++++ b/tests/test_correction_budget_holdout_408.py
+@@ -0,0 +1,94 @@
++"""Offline full-query holdout. Runtime code never sees this rubric."""
++import json
++import unittest
++from pathlib import Path
++
++import test_correction_budget_408 as dev
++from exam_tutoring_context_408 import REVIEW_LEDGER_REL
++
++
++CORPUS = Path(__file__).parent / "fixtures/correction_budget_408_holdout.json"
++
++
++class HeldOutCorrectionBudgetTests(unittest.TestCase):
++    setUp = dev.CorrectionBudgetTests.setUp
++    tearDown = dev.CorrectionBudgetTests.tearDown
++    refresh = dev.CorrectionBudgetTests.refresh
++    append_records = dev.CorrectionBudgetTests.append_records
++    prepare = dev.CorrectionBudgetTests.prepare
++    check_unit = dev.CorrectionBudgetTests.check_unit
++    resolve = dev.CorrectionBudgetTests.resolve
++
++    @classmethod
++    def setUpClass(cls):
++        cls.corpus = json.loads(CORPUS.read_bytes())
++
++    def test_heldout_condition_changes_in_all_four_disciplines(self):
++        cases = self.corpus["repairs"]
++        ledger = self.repo / REVIEW_LEDGER_REL
++        initial = ledger.read_bytes()
++        for start in range(0, len(cases), 2):
++            pair = cases[start:start + 2]
++            ledger.write_bytes(initial)
++            self.prepare(pair, reverse=bool(start % 4))
++            formal = ledger.read_bytes()
++            points = [row[0] for row in pair]
++            packet = self.resolve(*points)
++            self.assertEqual("available", packet["status"])
++            self.assertEqual(0, packet["write_count"])
++            self.assertLessEqual(packet["serialized_bytes"], 8192)
++            text = json.dumps(packet, ensure_ascii=False)
++            for point, old, repair, condition, alternative in pair:
++                with self.subTest(point=point):
++                    self.check_unit(packet["records"], point, repair + condition)
++                    self.check_unit(packet["records"], point, alternative)
++                    self.assertNotIn(old, text)
++            self.assertEqual(formal, ledger.read_bytes())
++
++    def test_heldout_controls(self):
++        old, correction, scope = "索引记录总是存一份完整数据。", "索引可保存定位信息。", "此题使用间接引用而非聚簇索引叶节点。"
++        point, unreviewed, wrong, ordinary = "OS97-31", "OS97-32", "OS97-33", "DS98-31"
++        self.prepare([(code, old, correction, scope, "") for code in (point, unreviewed, wrong)],
++                     ungraded=(unreviewed,), wrong=(wrong,))
++        taxonomy = self.repo / "知识点标签表.md"
++        taxonomy.write_text(taxonomy.read_text() + f"- {ordinary} 合成普通查询\n")
++        self.append_records([(ordinary, "单链表可以通过后继指针继续遍历。", {})])
++        self.refresh()
++        available = self.resolve(point)
++        for control in self.corpus["controls"]:
++            with self.subTest(control=control):
++                if control == "ordinary_without_repair":
++                    record = self.resolve(ordinary)["records"][0]
++                    self.assertNotIn("repair_evidence", record["personal_context"])
++                elif control == "unknown_point":
++                    self.assertIn("CN97-31", self.resolve(point, "CN97-31")["missing_points"])
++                elif control == "protected":
++                    raw = json.dumps(self.resolve(point, view="protected"), ensure_ascii=False)
++                    for hidden in (old, correction, scope, "repair_evidence", "evidence_object"):
++                        self.assertNotIn(hidden, raw)
++                elif control == "source_drift":
++                    ledger = self.repo / REVIEW_LEDGER_REL
++                    before = ledger.read_bytes()
++                    try:
++                        self.append_records([("OS03-17", "新一条有版本的合成记录。", {})])
++                        self.assertEqual("unavailable", self.resolve(point, known=available["version"])["status"])
++                    finally:
++                        ledger.write_bytes(before)
++                    self.refresh()
++                    available = self.resolve(point)
++                elif control == "known_version":
++                    self.assertEqual("unchanged", self.resolve(point, known=available["version"])["status"])
++                elif control == "question_part_withheld":
++                    scoped = self.resolve(point, formal_id="OS_2020_001", current_question_part="P01")
++                    record = next(row for row in scoped["records"] if row["knowledge_point"] == point)
++                    self.assertEqual("withheld_scope", record["personal_context"]["status"])
++                    self.assertNotIn(correction, json.dumps(scoped, ensure_ascii=False))
++                else:
++                    identity = wrong if control == "explicit_wrong_repair" else unreviewed
++                    e = self.resolve(identity)["records"][0]["personal_context"]["repair_evidence"]
++                    self.assertEqual("review_required", e["status"])
++                    self.assertEqual([], e["units"])
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/tests/test_knowledge_learning_paths_408.py b/tests/test_knowledge_learning_paths_408.py
+index 2da2467035333cdbe9836d75464307b6146cde76..81d222e27c63b73fe4a77bb08ee64e40e82e07a3 100644
+--- a/tests/test_knowledge_learning_paths_408.py
++++ b/tests/test_knowledge_learning_paths_408.py
+@@ -174,3 +174,3 @@ class KnowledgeLearningPathTests(unittest.TestCase):
+         self.assertNotEqual(first["source_version"], current["source_version"])
+-        self.assertIn("本次新记录", current["records"][0]["short_summary"])
++        self.assertIn("历史订正", current["records"][0]["short_summary"])
+         page = Path(current["records"][0]["page_path"]).read_text()

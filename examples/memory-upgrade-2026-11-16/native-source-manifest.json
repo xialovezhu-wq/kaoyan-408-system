@@ -1,0 +1,22 @@
+{
+  "baseline_sha": "a126d2056d0acda2086e0c8e9331c3734e4997f2",
+  "tested_sha": "65cb4b320be15374669bf3ce97e9bae17e49b790",
+  "files": {
+    "scripts/knowledge_learning_paths_408.py": "2dba7d16a3481677c4ab5c1b1f7e512da3d37ddfb512403fbdb33950abe244e7",
+    "scripts/teaching_memory_408.py": "1e751d0ca73dcf791f733cd8f230761e312a451abaa5be47a4dfa22767915898",
+    "scripts/exam_tutoring_context_408.py": "1548b3782356a5a4642349e8d387514bedbacde17784bd340b5fcbffcbcfdf33",
+    "tests/test_knowledge_learning_paths_408.py": "633792dbd88b82c6e94ad53afee94624aa3151e07095e90e19623768be635414",
+    "schema/exam-tutoring-context-v1.md": "9cfd406b4cfa34b3e6e41c7843dddfc8f3693c38331c3202a53eabb09cf8b8d8",
+    "schema/personalization-corpus-v1.md": "20ae41f5198e94100b71d91de342061ea07b95c5a96d71887b58092d93c21c99",
+    "schema/personalization-index-v1.md": "4eb2c6e69cbc23e8564b08cb99fd8c3ab92c65184e1063717311b07270e46cbd",
+    "codex-skill-sources/README.md": "15a636afc9749e2c9c36d9275b4026af98e0d0bf5d8be64db7b31295260858f6",
+    "codex-skill-sources/_shared/kaoyan-408/runtime-contract.md": "1e7c54046da4f118cc480da3779ea6a8202fd282643a052e3f399172d3c901f9",
+    "codex-skill-sources/_shared/kaoyan-408/scripts/validate_408_skills.py": "01b02ba0bc242566de440dc4513c0ad6b2d29609345b167a1e38a3ebb7e06cbc",
+    "codex-skill-sources/kaoyan-408-question-worker/SKILL.md": "cfac99b30d71794995ebe713978a4ed3592e86500b05b7f10e630fa3626d8ec3",
+    "codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md": "45a58091f10d64f324aa39c984b36fd35d87463b15f5fbc72aeff0734759a22b",
+    "tests/test_correction_budget_408.py": "760abde2386af8883de0f116b24bb420b094e5498ab6b79546365199cf3b06c7",
+    "tests/test_correction_budget_holdout_408.py": "8cad13dd27f7308cbdf32b5d0392a1ac1195abefbf9507380933f3df453687dc",
+    "tests/fixtures/correction_budget_408_holdout.json": "4bb29be390f742192a78be784e054aeaed8af55d5e391c2459106d63d9f6ce6e",
+    "tests/benchmark_correction_budget_408.py": "b7e99b1afacdff0390f3838d015c8b5ff634470ca9c5ae89874bc886e38743eb"
+  }
+}
