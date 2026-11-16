@@ -1,0 +1,141 @@
+{
+  "task_id": "MEMORY-DELTA-20261116",
+  "baseline_sha": "209b2e76ee7df50f72c38bfe77c3329fea2a5e3b",
+  "tested_sha": "763be1f9d0da74d88beac5d03366fa61246fdd3a",
+  "tested_sha_scope": "This review commit maps to the live bytes via the source manifest. Native commands ran in the pre-existing local checkout.",
+  "native_refresh": {
+    "formal_write_count": 0,
+    "model_call_count": 0,
+    "receipt_sha256": "52d7e9b12ff93793b32078ecaca633954684a3bbf36ed8a6d8475236b184c24a",
+    "source_version": "1359438276f219408ca7a7a4483592cec017c7a4b47c93694542c6947c19d147",
+    "status": "refreshed",
+    "formal_sentinels_unchanged": true,
+    "writer_guard_sha256_in_native_manifest": "d2e458570af0d6bfc5125b35160b042aabb33e03397bfb3c93f3295343f9fb81",
+    "source_version_before": "9a83a70fe28220c87e83596f498fdede818a54257ed305dba489c6f146aedfbf",
+    "native_manifest_sha256": "de8d78907035b4c469a222f63d67615ec52375b3d296d6f3f1e053fc99ad4dca"
+  },
+  "quality_rebind": {
+    "status": "VERIFIED_CURRENT",
+    "source_version": "1359438276f219408ca7a7a4483592cec017c7a4b47c93694542c6947c19d147",
+    "generation_sha256": "fe0a65e89071edd79ad64d131e6d56a8403b697b6c6e68e6c26620d406623962",
+    "indexed_objective": 4263,
+    "formal_write_count": 0,
+    "vector_key_counts": {
+      "distinct_inputs": 3926,
+      "cache_hits": 3926,
+      "restored_from_receipt": 0,
+      "new_embedding_inputs": 0
+    },
+    "formal_sentinels_unchanged": true
+  },
+  "checks": {
+    "C408-01": {
+      "status": "available",
+      "view": "after_attempt",
+      "source_version": "1359438276f219408ca7a7a4483592cec017c7a4b47c93694542c6947c19d147",
+      "view_version": "a3127335ceb3490b21210c2f84156f91cfe23b059cc5aaece8cbcc7e5ea4684b",
+      "bytes": 8153,
+      "byte_budget": 8192,
+      "formal_write_count": 0,
+      "artifact_count": 12,
+      "concept_count": 2,
+      "bounded_record_count": 2,
+      "checked_personal_object_references": 2,
+      "current_claim_count": 1,
+      "omitted_claim_count": 0,
+      "omitted_repair_claim_count": 0,
+      "unreviewed_repair_count": 0,
+      "returned_repair_evidence_units": 0,
+      "personal_receipt_state": "read",
+      "personal_receipt_complete": false,
+      "nonessential_fields_omitted": true,
+      "repair_budget_triggered_in_this_sample": false,
+      "source_module_hashes_bound_by_native_manifest": {
+        "conversation_package_408.py": "6eccee56e99f275b65bbd4a567cda333ede89c62a2b0c1bc2af15faebd1835e7",
+        "exam_figure_binding_408.py": "7f882135c90b3cee66db20304ab16ac5b14b0c486fb75f7c65d18a0f16f6fd48",
+        "exam_point_links_408.py": "47b77d08aabdacb850597f2b9434c0e629fb56d86d17784e94248dbc49d69c8c",
+        "exam_tutoring_context_408.py": "1548b3782356a5a4642349e8d387514bedbacde17784bd340b5fcbffcbcfdf33",
+        "interactive_teaching_408.py": "649e4acf0d2405f6977785a3bc0b971006a762d6a7ec525d6e416a5f97e23d60",
+        "knowledge_history_sources_408.py": "9966db242030862412dad857161d7c387fb993036e813623b865d5687adda914",
+        "knowledge_hot_routes_408.py": "d2ccbe5bd7dd09c52561d7f13ccea0dcddda981775565cc533605bf2b6b5f6e4",
+        "knowledge_learning_paths_408.py": "2dba7d16a3481677c4ab5c1b1f7e512da3d37ddfb512403fbdb33950abe244e7",
+        "knowledge_learning_records_408.py": "f5c22520444364137a0fd402f2328a312a0654f399cb5f7f399f7f6087a6cde5",
+        "knowledge_profile_408.py": "d2e458570af0d6bfc5125b35160b042aabb33e03397bfb3c93f3295343f9fb81",
+        "knowledge_tutoring_query_408.py": "0db4b4d2494555009801e89538421c5888d25bf6a474891518facd4b8697fe40",
+        "lesson_alignment_408.py": "1dac927783a40e5d9722369e07d624a5f61d8e5e3680836c70416dbf64932420",
+        "memory_access_408.py": "cf0d6765d4ca77b9ebdbb550826d75f1051135661682b5ae0a141f5d8abf2c5e",
+        "memory_discovery_408.py": "07dd90a39250ee0c4bca2fd118d9cd69d7288cdac8173be0d99ff4ff9df03249",
+        "memory_episode_source_408.py": "4f624caac5de0e631f3f21181ffdf323b8be0510ede243bb1b5d0a4e2acf1368",
+        "memory_evidence_search_408.py": "a3cd8e70f4fd44cfbadf85ba6d2c04b03d1c2e0d442f42e3979e92522f997b3a",
+        "memory_retrieval_408.py": "19cf58bd7d885be48daa776d5791e87edb7f79a49b4969cdce12d86432266fc2",
+        "memory_semantic_precision_408.mjs": "de27320b3b6dba5632f4e10d7af39aaf7eb1fed64e1e6e7505b3b01a23827abf",
+        "memory_semantic_precision_408.py": "9079e29f1b718dc47102d8a4ffbac63e09eb6c334a7ecf247b78df02a1b8ab20",
+        "public_scene_408.py": "f21b75f1540480ce8d4f49dff93eea3c5f56df844bdaa3ab083b092fcb29aaef",
+        "question_visual_links_408.py": "65295ae5c7c5407fc54c9d241693c2cad63d0752e27fe63d9ae1490e40130b27",
+        "question_visual_templates_408.py": "25faa4fed36eccb76de9e8ece80e616b614c61990be15802b02c012c1dd95c61",
+        "runtime_paths_408.py": "bce35c121bf52cbdb02c869da2e49d748ebb2fcdd12e782541768020d21b30cb",
+        "scoped_question_sources_408.py": "3e777941f41bc3cbdbba8dc9d1c259ccb9cc0034085b7f6e5abb52b716246146",
+        "seal_knowledge_observations_408.py": "9f00cfb604685dd4d99024656434d19f84b0cf7a0153695d7eac688d14c9cee7",
+        "semantic_teaching_408.py": "611d426ad0b80958dd5e402d10ac30cc8991271c55f33570097420f8ddb44b16",
+        "source_visual_408.py": "20278a911008395df1a8041139355f798e5c53d9cb4eac4ba05ae84795968654",
+        "syllabus_context_408.py": "ca31c1136c8a3cde20a3f5ca88f87dab282715bca99dc70588a73d968db54b67",
+        "teaching_memory_408.py": "1e751d0ca73dcf791f733cd8f230761e312a451abaa5be47a4dfa22767915898",
+        "teaching_research_408.py": "92c2ff6a786962cdae037313f7b4159a6ef215470407748f7ebd7a38acad596c",
+        "visual_teaching_templates_408.py": "6eb089bbfbdbb89bdae4107f09e8a6f3e3379171eeb7df2e3ef0aa0344a9d577"
+      },
+      "sensitive_payload_published": false
+    },
+    "C408-02": {
+      "status": "available",
+      "view": "protected",
+      "source_version": "1359438276f219408ca7a7a4483592cec017c7a4b47c93694542c6947c19d147",
+      "view_version": "56b67b009cb1298f1005dd30990f23a9b47017ecd59b321c3a406ee1a4f830b7",
+      "bytes": 1825,
+      "byte_budget": 8192,
+      "formal_write_count": 0,
+      "artifact_count": 10,
+      "concept_count": 2,
+      "after_attempt_known_version_reused": false,
+      "private_answer_or_personal_fields_absent": true,
+      "formal_sentinel_count": 5,
+      "formal_sentinels_unchanged": true,
+      "readback_elapsed_ms": 190.9
+    },
+    "C408-03": {
+      "fixture": "Existing synthetic claims fixture with a reviewed learner attempt and an unverified inference carrying supersedes.",
+      "before": {
+        "validator": "accepted",
+        "observed_claim_current_in_teaching_view": false,
+        "unverified_replacement_in_teaching_view": true
+      },
+      "after": {
+        "validator": "rejected",
+        "error": "claim_observed_supersession_requires_confirmed_evidence",
+        "unresolved_conflict_with_observation_retained": "accepted",
+        "formal_write_count": 0
+      },
+      "regression": "12 claim tests and one existing native resolver test for an evidence-backed correction, its conditions, prompt dependence and source drift passed."
+    }
+  },
+  "R-C2": {
+    "decision": "KEEP_EXISTING",
+    "why": "The normal sample had no adjudication-relevant repair omission. B2 retains existing omission and review statuses, checked object references, and authorized exact-scope follow-up. No new teaching feedback was generated.",
+    "source_references": [
+      "scripts/teaching_memory_408.py",
+      "scripts/exam_tutoring_context_408.py",
+      "codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md"
+    ]
+  },
+  "skill_discovery": {
+    "method": "skills/list(forceReload=true)",
+    "discovery_errors": 0,
+    "enabled_entries": 10,
+    "source_and_installed_equal": true,
+    "updated_authoring_reference_sha256": "7a5f58d323e5b60e67c90079f23ceb5daeeeb67c3789483b4809239db695ea71"
+  },
+  "formal_write_count": 0,
+  "shared_change_request": "NONE",
+  "model_call_count": 0,
+  "tested_tree_sha": "56ca11cddb32cd13623c0e01b8277c6b634dab99",
+  "checked_local_tree_equals_published_tree": true
+}
