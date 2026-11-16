@@ -1,0 +1,57 @@
+C｜408晚间独立问答复盘备课
+版本：focused-qa-v1（2026-10-07 高频优先对齐）
+
+目标与分工
+
+我会提供知识库增强入库完成后导出的408_evening_input.zip。请结合Study Library同版正式知识库与完整学习证据，准备少量、上下文独立、计算从简的问答，供本地Codex或Claude逐题复盘。网页负责备题，不在交包前开始提问；本地每次只问一道，等待真实回答后反馈。沿用当前会话选择的模型，不指定或切换模型。
+本文件仅用于用户明确要求的外部问答备课。用户要睡前资料或阅读总结时，按kaoyan-408-evening-review/SKILL.md交付独立知识卡，不使用本问答模板。本版在已选择问答的范围内替换旧5–7题加备用题要求；来源、版本、真实证据和完整范围核验继续保留。项目C是我对408晚间项目的命名，输出使用408 evening合同，不使用数学次日五题C合同。
+
+输入与版本
+
+先读取manifest.json、handoff.json、contracts/evening-review-408-v1.md及START_WEB.txt，核验文件清单，固定handoff.study_date、全部Capture ID、source_commit/snapshot_id及manifest.handoff_sha256。日期用实际学习日，不用运行日、封存日或入库日；合并当天所有批次，不以最后一包代替全天。正确题、错误题、提示后完成、未解决和点级补充都纳入内部范围核对。
+实际调用Study Library的library(subject="408",source_commit=固定版本)，确认版本一致并检查freshness。工具前缀以实际列表为准；未加载先尝试平台工具发现。本地snapshot不是GitHub commit，不改用GitHub/raw链接，不替换为新版本。工具仍不可用就保留已有内容与具体缺口，不编造成功；Session terminated等真实错误单独记录，恢复后只重试失败读调用一次。
+
+读取真实证据
+
+完整读取本次输入中的原话、原图、增强后的逐题成稿和相关正式个人摘要。raw/保留原包；raw/capture_index.json中的路径相对raw/解析，旧增强启动词只是原始记录。
+对候选复盘点调用query(subject="408",domain="personal_context",ids=[实际规范知识点],contains="{\"view\":\"direct\",\"allow_historical\":false}",source_commit=固定版本,max_bytes=65536)。learning_profile.profile_object.ref若为objects/...，相对library.entrypoints.personalization所在目录解析，再fetch相关完整overview/timeline。query返回的syllabus_context.exam_frequency与frequency-priority.json同版一致后才用于频次选择；context_object.ref相对personalization所在目录解析，必要时fetch该完整频次上下文。已有小点摘要就聚焦对应机制，不展开无关整点历史。缺失或semantic_stale不能当当前掌握结论。
+必要时query的question_refs/history_packages取得精确来源，fetch实际返回的published_path；fetch按next_start_byte、普通query按next_offset、personal_context按next_cursor续读。只读相关完整证据，不全库漫游。日期命中可能是due_date，须核对study_date/observed_date/event_time，不能据此扩大当天范围。附件优先用包内原图，MCP原图用view_image；不猜路径、题号或本人经历。
+
+高频优先与14天门禁（2026-10-07）
+
+新输入带handoff.frequency_priority_policy=high_frequency_first_v1及frequency-priority.json。按固定版本personal_context.syllabus_context.exam_frequency核验真实等级、主考/总考次与context_object来源；高频为本地主考至少5题且跨至少4年，低频为主考1至2题，中频、仅涉及、未知与未见考查保留原标签。父点统计不能冒充小点独立频次。
+只在当天真实内容里，先安排有实际断点或未验证边界的高频候选；它们全部已安排，或当天清楚证据足以说明无需单问，才能补中频、低频。不能因时长/题数不够而暂缓高频却问低频，不从全库补非当天高频，不为凑数检查已有充分独立正确证据的高频点。无合法高频候选时才补下一层，并记录具体依据。
+14天约束精确题面，最近展示也算接触，满14天才可复做；不因高频、D0或换题号突破它。晚间D0仍检查当天知识点，采用标明“复盘自编场景”的完整新机制问答，不能照搬当天原题、近14天已做题或仅换截图/排版/别名。scenario是机制练习，不冒称统考真题；原Capture只作当日学习证据，source_capture_ids不是复做身份。
+
+新输入的plan.json除原字段外增加私有selection_audit对象，题目questions及coverage字段不变。不另交manifest或HTML。selection_audit只含frequency_priority_policy、points、question_sources：
+- frequency_priority_policy必须为high_frequency_first_v1。
+- points精确覆盖handoff.knowledge_points，每点一行，只含concept_key、disposition、question_ids、source_capture_ids、reason。disposition为scheduled/no_question/deferred；scheduled绑定该点全部问题，其他两类题号为空。source_capture_ids非空且只引用当天真实证据，reason具体说明真实断点、已有清楚证据或暂缓原因。no_question须有本人实际原话/独立作答支持，不能仅据频次、已读讲解或工具失败判断已会。
+- question_sources精确覆盖全部问题，每题一行且只含question_id、kind、true_item_id；kind固定new_mechanism_scenario、true_item_id为null。不得将精确旧题包装成新场景。
+本地拒绝缺失/重复核验、题号不一致、声明原题重出，以及较高频点仍deferred却选较低层题的回包。结构校验不证明理由真实；网页必须实际对照原话与同版MCP核验，理由不成立则保留PARTIAL，不假装高频用尽。核验与教师材料不在交付回复或学生题面泄露答案。
+
+少量问答的生成规则
+
+1. 通常3–5个主问题，最多5个；重点少就少出，不凑数。思考、回答、反馈和收尾总计约10–15分钟，900秒是上限而非最低要求。默认没有reserve，不将多项独立任务塞进一道题。没有需优先检查的真实断点时直说，不造题或伪造READY空包。
+2. 每题独立可答。给全对象、条件、初态、参数、单位、必要图表/访问序列和当前目标；删掉所有其他题仍可作答。不用“原题、上一题、刚才的图”代替输入，不要求回翻材料。依赖前问时直接给出已核实的必要结果，标为已知输入；本题所求仍保护，不把另一道待答题的答案当作前置。
+3. 尽量不算。优先检查机制、条件、方向、边界、单位、所有权或一步状态变化。若本人没有计算错误，给出无需检查的中间结果，只检查判断与关系；只有真实原话或草稿证实某一步算错时，才抽出那一步重算一次。不重新做完整真题或长串计算。
+4. 按真实首答、错误推理、提示后修复、仅认可解释和未验证边界选重点；尚未说清或反复混淆优先，提示后说清简短检查，证据充分的独立正确项可不单问。相同机制多个断点合并，但一题只承担一个核心检查目标。微型机制场景可自编并明确标注，不能冒称统考真题或本人经历。
+5. evening_review_seed只是候选，正式记录和原话优先；旧历史只帮助理解当日断点，不增加非当天旧题。知识范围服从输入所绑定的2027考纲信息，不编造频次或个人错因，不把所有点一概称为“不会”。
+6. 全部Capture逐项写入coverage：准备入题、合并、因体量暂缓、有证据无需单问。暂缓项保留具体原因，不能冒充独立掌握；范围核对齐全不等于这15分钟已经逐点检查齐全。
+
+本地问答方式
+
+student_prompt只放完整题设和一个问题，不含答案、历史错选或纠错结论；开场、标题和摘要也不能泄题。教师答案与提示放私有teacher，不在交付回复展示。树、图、位字段或状态关系需要图时给最小必要题设图；解法图在回答或请求讲解后展示，不为视觉另做大网页。
+一次只问一道并等待。答清楚就简短反馈并下一题；有歧义才针对第一断点追加一个独立可答的追问，不固定每题复述或做变式。卡住先给最小提示；连续两次仍无进展或我要求讲解时直接讲清当前题，并区分提示后完成和独立作答。追问与讲解计入预算；到时或我要求停止时按实际完成范围收尾。未问、未答、听过解释不记成独立掌握。
+
+交付合同
+
+交付408_evening_review.zip，根目录plan.json，可附简短EXECUTION_REPORT.md。不输出HTML、脚本、额外manifest或数学B/D/campaign身份。新plan使用schema="cs408-evening-plan-v1"、review_policy="focused-qa-v1"、subject="408"、status="READY"、study_date=handoff原日期、source_commit=固定版本、handoff_sha256=manifest原值、duration_seconds=900、wrapup_seconds=30至180的整数，以及questions、coverage数组；带高频策略的新输入另含上述selection_audit。duration_seconds是上限，实际预算允许少于600秒，不虚增耗时凑数。
+questions为1–5项且slot全部为core。每项只含question_id（E408-01格式且唯一）、concept_key（输入中的规范点）、mechanism、slot、budget_seconds（30至300整数，包含回答和反馈）、source_capture_ids、student_prompt、teacher。全部问题预算加wrapup不超过900秒。
+teacher只含expected_answer、essential_points、common_misconceptions、hints、followup_prompt。expected_answer写准确答案、必要条件与依据；essential_points为非空字符串数组；common_misconceptions仅列真实证据支持的混淆，没有就空数组；hints至少一条简短可选提示。无需追问时followup_prompt用空字符串，需要时才写一个针对性检查，不能默认执行。
+coverage精确列出全部Capture且每个仅一行，每行只含capture_id、disposition、question_ids、reason。disposition用asked、grouped、deferred、no_question；asked/grouped只表示备课中安排检查，必须绑定对应问题，绝不是已经作答。deferred/no_question的question_ids为空，分别说明体量取舍或已有清楚证据。问题source_capture_ids与coverage的question_ids必须双向一致。
+生成后实际核对JSON、全部Capture去向、真实绑定、题数与预算、题面独立性、计算是否确有证据及答案隔离。结构校验不能冒充语义验证。不需要另行试讲、模型评分或要求我作答验收。
+
+异常与记录边界
+
+证据不完整或工具失败时先保存已有问题及来源，标PARTIAL/BLOCKED并在EXECUTION_REPORT.md列具体缺口，只补失败部分；不能把失败当作我不会，也不能将半包写成完整READY。本地只对READY且校验通过的问答预处理，生成分离的学生题面、教师材料和START_STUDY。
+备题、下载、预处理或打开不代表已学习。本项目不生成我的作答、Capture、评分、FSRS、错误次数、掌握度或正式写入指令；真实问答后的保存/正式更新按本地证据流程及授权另行处理。最终给下载链接、主问题数量和预计问答时长，不在交付回复贴答案。

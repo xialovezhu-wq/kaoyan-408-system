@@ -1,0 +1,6 @@
+interface:
+  display_name: "408 晚间复盘与知识卡"
+  short_description: "全天交互复盘和睡前知识卡，包含定义、结论、条件、图解与备注"
+  default_prompt: "使用 $kaoyan-408-evening-review 将今天的408学习做成可离线阅读的互动 HTML，覆盖定义、带条件的二级结论与机制图。"
+policy:
+  allow_implicit_invocation: true

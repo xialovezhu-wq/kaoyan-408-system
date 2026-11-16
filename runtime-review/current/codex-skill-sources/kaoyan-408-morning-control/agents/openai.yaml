@@ -1,0 +1,6 @@
+interface:
+  display_name: "408 本地晨间与专项备题"
+  short_description: "年度卷错点逐项按接触日期选代表，最多30、可少不凑；本地备课并验收"
+  default_prompt: "使用 $kaoyan-408-morning-control 按已知年度整卷的真实薄弱点搜全库，逐点按已满14天、未知、全近期最早日期三层选至多30题。只排明确保留年的题和泄题依赖；当前会话完成本地备课。常规D及旧队列恢复原合同。"
+policy:
+  allow_implicit_invocation: true

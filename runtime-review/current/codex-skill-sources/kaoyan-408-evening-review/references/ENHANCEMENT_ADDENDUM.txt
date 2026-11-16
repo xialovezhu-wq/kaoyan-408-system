@@ -1,0 +1,7 @@
+在原有408增强包之外，为晚间约15分钟复盘增加一份evening_review_seed.json，并列入原manifest.files（真实大小、SHA-256，role=evening_review_seed）。原有增强业务与字段保持原合同。
+
+seed的结构为：schema="cs408-evening-seed-v1"，subject="408"，study_date=本包原学习日期，source_commit=增强输入固定版本，capture_ids=本片精确Capture集合，focus_candidates=[{concept_key:现有规范叶子码, mechanism:具体条件/对象/单位/边界/时序, source_capture_ids:[真实ID], learner_evidence:首答与提示后变化的真实依据, evidence_refs:[{capture_id:真实ID,turn:原conversation中从1开始的回合}], suggested_check:一项晚间主动回忆检查}]。
+
+只总结本片已经分析过的真实学习，不重新裁决、不猜最终正式ID、不假装已完成本地入库或新快照发布。独立正确、提示后修复、只认可解释、未解决必须分开；没有需优先复盘的点可给空候选。完整语义完成与失败项仍按原执行报告如实交付。
+
+这只是下一步备课的内部候选线索。等本地完成全部当天增强入库后，本地汇总全天资料，核对增强后的正式摘要和版本；按用户当前请求生成独立睡前知识卡，或在明确要求问答时编排约15分钟问答。知识卡只给核心结论、必要条件、机制图解和备注，不展示这些学习表现概括；本项目不提前开始问答、不写复盘表现、不改FSRS。

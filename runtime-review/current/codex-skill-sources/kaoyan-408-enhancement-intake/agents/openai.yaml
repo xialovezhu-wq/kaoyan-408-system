@@ -1,0 +1,6 @@
+interface:
+  display_name: "408 本地正式增强入库"
+  short_description: "从本机原始证据提交正式题卡、个人概况与逐题教案，核对入库回执"
+  default_prompt: "使用 $kaoyan-408-enhancement-intake 在本机处理已授权的 408 正式批次，验回双 API、原生写入和同版发布。"
+policy:
+  allow_implicit_invocation: true

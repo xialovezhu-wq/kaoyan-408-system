@@ -1,0 +1,6 @@
+interface:
+  display_name: "408 单题学习"
+  short_description: "按实际断点讲解408真题，结合考纲、考频和个人证据主动出图"
+  default_prompt: "使用 $kaoyan-408-question-worker 讲解当前题。按最新有效个人证据与本轮实际断点安排详略，讲清因果并给出贴合题目的可点击图。"
+policy:
+  allow_implicit_invocation: true

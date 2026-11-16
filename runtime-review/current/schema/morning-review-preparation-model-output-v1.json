@@ -1,0 +1,278 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Morning review preparation model output v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "payload": {
+      "anyOf": [
+        {"$ref": "#/$defs/author_draft"},
+        {"$ref": "#/$defs/needs_source"},
+        {"$ref": "#/$defs/verifier_result"}
+      ]
+    }
+  },
+  "required": ["payload"],
+  "$defs": {
+    "string_array": {
+      "type": "array",
+      "items": {"type": "string"},
+      "maxItems": 8
+    },
+    "options": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "A": {"type": "string"},
+        "B": {"type": "string"},
+        "C": {"type": "string"},
+        "D": {"type": "string"}
+      },
+      "required": ["A", "B", "C", "D"]
+    },
+    "surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stem": {"type": "string"},
+        "options": {"$ref": "#/$defs/options"},
+        "response_instruction": {"type": "string"},
+        "question_asset": {
+          "anyOf": [
+            {"type": "null"},
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "vault": {"type": "string", "const": "kaoyan-408-details"},
+                "relative_path": {"type": "string"},
+                "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                "size_bytes": {"type": "integer", "minimum": 1}
+              },
+              "required": ["vault", "relative_path", "sha256", "size_bytes"]
+            }
+          ]
+        }
+      },
+      "required": ["stem", "options", "response_instruction", "question_asset"]
+    },
+    "first_break_by_choice": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "A": {"type": "string"},
+        "B": {"type": "string"},
+        "C": {"type": "string"},
+        "D": {"type": "string"}
+      },
+      "required": ["A", "B", "C", "D"]
+    },
+    "feedback_by_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "independent_correct": {"type": "string"},
+        "fragile_correct": {"type": "string"},
+        "partial": {"type": "string"},
+        "wrong": {"type": "string"},
+        "blank": {"type": "string"}
+      },
+      "required": [
+        "independent_correct",
+        "fragile_correct",
+        "partial",
+        "wrong",
+        "blank"
+      ]
+    },
+    "evaluator": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "correct_option": {"type": "string", "enum": ["A", "B", "C", "D"]},
+        "decisive_reason": {"type": "string"},
+        "accepted_reasoning_points": {"$ref": "#/$defs/string_array"},
+        "first_break_by_choice": {"$ref": "#/$defs/first_break_by_choice"},
+        "feedback_by_result": {"$ref": "#/$defs/feedback_by_result"},
+        "prepared_boundary_checks": {"$ref": "#/$defs/string_array"}
+      },
+      "required": [
+        "correct_option",
+        "decisive_reason",
+        "accepted_reasoning_points",
+        "first_break_by_choice",
+        "feedback_by_result",
+        "prepared_boundary_checks"
+      ]
+    },
+    "branch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "surface": {"$ref": "#/$defs/surface"},
+        "evaluator": {"$ref": "#/$defs/evaluator"}
+      },
+      "required": ["surface", "evaluator"]
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "subject": {
+          "type": ["string", "null"],
+          "enum": ["DS", "CO", "OS", "CN", null]
+        },
+        "point_ids": {"$ref": "#/$defs/string_array"},
+        "mechanism_ids": {"$ref": "#/$defs/string_array"},
+        "mechanism_primitive_ids": {"$ref": "#/$defs/string_array"},
+        "formal_node_ids": {"$ref": "#/$defs/string_array"},
+        "module_ids": {"$ref": "#/$defs/string_array"},
+        "safe_topic_terms": {"$ref": "#/$defs/string_array"},
+        "error_pattern_ids": {"$ref": "#/$defs/string_array"},
+        "method_ids": {"$ref": "#/$defs/string_array"}
+      },
+      "required": [
+        "subject",
+        "point_ids",
+        "mechanism_ids",
+        "mechanism_primitive_ids",
+        "formal_node_ids",
+        "module_ids",
+        "safe_topic_terms",
+        "error_pattern_ids",
+        "method_ids"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source_ref": {"type": "string"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "role": {"type": "string"}
+      },
+      "required": ["source_ref", "sha256", "role"]
+    },
+    "author_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "item_id": {"type": "string"},
+        "source_id": {"type": "string"},
+        "item_kind": {
+          "type": "string",
+          "enum": ["formal_due", "baseline_calibration", "derived_d0", "original_question"]
+        },
+        "target": {"$ref": "#/$defs/target"},
+        "surface": {"$ref": "#/$defs/surface"},
+        "evaluator": {"$ref": "#/$defs/evaluator"},
+        "guided": {"$ref": "#/$defs/branch"},
+        "repair": {"$ref": "#/$defs/branch"},
+        "evidence": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/evidence"},
+          "minItems": 1,
+          "maxItems": 8
+        }
+      },
+      "required": [
+        "item_id",
+        "source_id",
+        "item_kind",
+        "target",
+        "surface",
+        "evaluator",
+        "guided",
+        "repair",
+        "evidence"
+      ]
+    },
+    "author_draft": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {"type": "string", "const": "morning_review_prepared_pack_draft_v1"},
+        "author_actor_id": {"type": "string"},
+        "author_execution_id": {"type": "string"},
+        "queue_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "items": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/author_item"},
+          "minItems": 1,
+          "maxItems": 32
+        }
+      },
+      "required": [
+        "schema",
+        "author_actor_id",
+        "author_execution_id",
+        "queue_sha256",
+        "items"
+      ]
+    },
+    "needs_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {"type": "string", "const": "needs_source"},
+        "missing_item_ids": {
+          "type": "array",
+          "items": {"type": "string"},
+          "minItems": 1,
+          "maxItems": 32
+        }
+      },
+      "required": ["status", "missing_item_ids"]
+    },
+    "verification_checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "standalone_surface": {"type": "boolean"},
+        "exactly_four_options": {"type": "boolean"},
+        "mutually_exclusive_options": {"type": "boolean"},
+        "unique_best_answer": {"type": "boolean"},
+        "source_grounded": {"type": "boolean"},
+        "same_target": {"type": "boolean"},
+        "answer_isolated": {"type": "boolean"},
+        "rubric_sufficient": {"type": "boolean"},
+        "feedback_safe": {"type": "boolean"}
+      },
+      "required": [
+        "standalone_surface",
+        "exactly_four_options",
+        "mutually_exclusive_options",
+        "unique_best_answer",
+        "source_grounded",
+        "same_target",
+        "answer_isolated",
+        "rubric_sufficient",
+        "feedback_safe"
+      ]
+    },
+    "verifier_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "item_id": {"type": "string"},
+        "checks": {"$ref": "#/$defs/verification_checks"}
+      },
+      "required": ["item_id", "checks"]
+    },
+    "verifier_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "verifier_actor_id": {"type": "string"},
+        "verifier_execution_id": {"type": "string"},
+        "items": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/verifier_item"},
+          "minItems": 1,
+          "maxItems": 32
+        }
+      },
+      "required": ["verifier_actor_id", "verifier_execution_id", "items"]
+    }
+  }
+}

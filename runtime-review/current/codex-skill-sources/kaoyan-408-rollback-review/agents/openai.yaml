@@ -1,0 +1,6 @@
+interface:
+  display_name: "旧版 408 GPT 回滚处理"
+  short_description: "旧版：仅用于外部 GPT/Tutor 总结回流"
+  default_prompt: "使用 $kaoyan-408-rollback-review 审查这份旧版外部 GPT 或 Tutor 总结并给出安全去向。"
+policy:
+  allow_implicit_invocation: false

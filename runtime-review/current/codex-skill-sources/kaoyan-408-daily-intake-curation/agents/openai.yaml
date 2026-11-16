@@ -1,0 +1,6 @@
+interface:
+  display_name: "408 本地日终编纂"
+  short_description: "正式入库并验回讲题摘要，交付错点真题专项和当天交互复盘网页"
+  default_prompt: "使用 $kaoyan-408-daily-intake-curation 将今天快速入库的题全部正式入库，验回错题讲解摘要与图解，交付预处理真题和全天 HTML 复盘。"
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>408 学习复盘 · __DAY__</title>
+  <style>
+    :root { color-scheme: light; --paper: #f5f7f5; --ink: #162c29; --muted: #465a55; --line: #ccd9d2; --accent: #12654f;
+      --foreground: var(--ink); --background: white; --border: var(--line); --viz-series-1: var(--accent); }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.65 system-ui, sans-serif; }
+    .review { width: min(1140px, 100% - 2rem); margin: 2rem auto 4rem; }
+    .review-header { border-block-end: 2px solid var(--accent); margin-block-end: 1.5rem; padding-block-end: 1rem; }
+    .review-header h1 { margin: 0; font-size: clamp(1.75rem, 4vw, 2.6rem); line-height: 1.2; }
+    .review-header p { color: var(--muted); margin: .45rem 0; }
+    .review-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; align-items: start; }
+    .review-directory, .review-cards > article { background: white; border: 1px solid var(--line); border-radius: 12px; padding: clamp(.9rem, 3vw, 1.5rem); }
+    .review-directory { font-size: .95rem; }
+    .review-directory summary { cursor: pointer; font-weight: 700; }
+    .review-directory h2 { font-size: .86rem; color: var(--muted); margin: 1rem 0 .2rem; }
+    .review-directory a { display: block; color: var(--accent); border-inline-start: 2px solid transparent; padding: .18rem .5rem; overflow-wrap: anywhere; }
+    .review-directory a[aria-current="location"] { border-color: var(--accent); background: #edf6f1; font-weight: 700; }
+    .review-cards > article { min-width: 0; margin-block-end: 1rem; overflow-wrap: anywhere; }
+    .review-cards > article[hidden] { display: none; }
+    .card-text h2 { margin: 0 0 .85rem; font-size: clamp(1.25rem, 3vw, 1.8rem); line-height: 1.25; }
+    .card-text h3 { font-size: .97rem; color: var(--accent); margin: .85rem 0 .2rem; }
+    .card-text p, .card-text dl, .card-text ul { margin-block: 0 .7rem; }
+    .card-text dt { font-weight: 650; }
+    .card-text dd { margin: .1rem 0 .7rem; border-inline-start: 2px solid var(--line); padding-inline-start: .65rem; color: var(--muted); }
+    .review button { font: inherit; cursor: pointer; }
+    .cs408-scene { border-block-start: 1px solid var(--line); margin-block-start: 1rem; }
+    .cs408-scene button { background: #f2f7f3; color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: .25rem .6rem; max-width: 100%; overflow-wrap: anywhere; }
+    .cs408-scene .viz-controls { display: flex; align-items: center; flex-wrap: wrap; gap: .65rem; }
+    .cs408-scene .text-small { font-size: .87rem; color: var(--muted); }
+    .tools { margin-block-start: 1rem; border-block-start: 1px solid var(--line); padding-block-start: .65rem; }
+    .tools button, #download-notes { border: 1px solid var(--accent); background: white; color: var(--accent); border-radius: 6px; padding: .22rem .7rem; }
+    .tools label { display: block; margin-block-start: .55rem; }
+    .tools textarea { display: block; box-sizing: border-box; width: 100%; resize: vertical; font: inherit; border: 1px solid var(--line); border-radius: 6px; padding: .45rem; }
+    .review :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    @media (min-width: 790px) {
+      .review-layout { grid-template-columns: minmax(11rem, 15rem) minmax(0, 1fr); }
+      .review-directory { position: sticky; top: 1rem; max-height: calc(100vh - 4rem); overflow: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main class="review">
+    <header class="review-header">
+      <h1>408 学习复盘</h1>
+      <p><time datetime="__DAY__">__DAY__</time></p>
+      <button id="download-notes" type="button" hidden>导出备注</button>
+      <p id="review-status" role="status"></p>
+    </header>
+    <div class="review-layout">
+      <nav class="review-directory" aria-label="考点目录"><details open><summary>考点目录</summary>__DIRECTORY__</details></nav>
+      <div class="review-cards">__CARDS__</div>
+    </div>
+  </main>
+  <script>
+    (() => {
+      const sections = [...document.querySelectorAll('.review-cards > article')];
+      const links = [...document.querySelectorAll('.review-directory a')];
+      const status = document.querySelector('#review-status');
+      const exportButton = document.querySelector('#download-notes');
+      const key = 'cs408-reading:' + location.pathname;
+      let notes = {};
+      let canSave = true;
+      try {
+        const stored = JSON.parse(localStorage.getItem(key) || '{}');
+        if (stored && typeof stored === 'object') notes = stored;
+      } catch { canSave = false; }
+      function syncCards(moveFocus) {
+        const active = sections.find(section => '#' + section.id === location.hash) || sections[0];
+        if (!active) return;
+        for (const section of sections) section.hidden = section !== active;
+        for (const link of links) {
+          if (link.hash === '#' + active.id) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        }
+        if (moveFocus) {
+          active.focus({preventScroll: true});
+          active.scrollIntoView({block: 'start'});
+        }
+      }
+      for (const card of sections) {
+        const input = card.querySelector('[data-note]');
+        input.value = typeof notes[card.id] === 'string' ? notes[card.id] : '';
+        input.addEventListener('input', () => {
+          notes[card.id] = input.value;
+          if (canSave) {
+            try { localStorage.setItem(key, JSON.stringify(notes)); }
+            catch { canSave = false; }
+          }
+          status.textContent = canSave ? '备注保存在当前浏览器。' : '当前浏览器无法保存备注，可导出本次备注。';
+        });
+        card.querySelector('[data-copy]').addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(card.querySelector('.card-text').innerText);
+            status.textContent = '已复制本卡。';
+          } catch {
+            status.textContent = '剪贴板不可用，可选中卡片文字后复制。';
+          }
+        });
+      }
+      exportButton.hidden = sections.length === 0;
+      exportButton.addEventListener('click', () => {
+        const text = sections.filter(card => typeof notes[card.id] === 'string' && notes[card.id].trim())
+          .map(card => card.querySelector('h2').textContent + '\n' + notes[card.id]).join('\n\n');
+        if (!text) { status.textContent = '当前没有备注。'; return; }
+        const url = URL.createObjectURL(new Blob([text + '\n'], {type: 'text/plain;charset=utf-8'}));
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = '408-' + document.querySelector('time').dateTime + '-备注.txt';
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      });
+      for (const link of links) link.addEventListener('click', () => {
+        if (link.hash === location.hash) syncCards(true);
+      });
+      window.addEventListener('hashchange', () => syncCards(true));
+      syncCards(Boolean(location.hash));
+    })();
+  </script>
+</body>
+</html>

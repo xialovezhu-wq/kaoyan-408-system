@@ -1,0 +1,6 @@
+interface:
+  display_name: "408 历史事务恢复"
+  short_description: "只恢复已存在的旧 JOB、WAL 或 receipt 事务"
+  default_prompt: "使用 $kaoyan-408-intake-coordinator 检查或恢复我点名的历史 408 事务。"
+policy:
+  allow_implicit_invocation: true

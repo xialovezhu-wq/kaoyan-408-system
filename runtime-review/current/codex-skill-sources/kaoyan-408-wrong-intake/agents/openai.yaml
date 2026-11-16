@@ -1,0 +1,6 @@
+interface:
+  display_name: "408 错题快速保存"
+  short_description: "核验408快存回执后按刚结束题展开考场记忆、知识点记忆和可点击专题"
+  default_prompt: "使用 $kaoyan-408-wrong-intake 快速保存本题。验回后按本轮真实作答和同版本题备课材料选焦点，按题设画位宽、字段及具体报文数值，生成精简可点击考点树。"
+policy:
+  allow_implicit_invocation: true

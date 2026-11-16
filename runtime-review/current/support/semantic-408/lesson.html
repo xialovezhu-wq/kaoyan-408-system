@@ -1,0 +1,176 @@
+<div id="__ROOT_ID__" class="semantic-lesson">
+  <div class="lesson-heading"><h3 data-title></h3><p data-lead></p></div>
+  <section class="lesson-linear" data-linear aria-label="顺序文字讲解"></section>
+  <p class="text-small">图解辅助核对：选择与上文对应的步骤，或点击图中对象查看细节。</p>
+  <nav class="viz-controls" data-stages aria-label="讲解路径"></nav>
+  <div class="viz-controls" data-activity-control hidden><label class="form-label">选择要观察的活动<select class="form-select" data-activity-select aria-label="选择活动"></select></label></div>
+  <div data-canvas></div>
+  <div data-aoe-time hidden>
+    <div class="time-heading"><span data-time-caption></span><span class="tabular-nums" data-time-status></span></div>
+    <div class="time-plot" data-time-plot></div>
+    <label class="form-label" data-slider-label></label>
+    <input class="form-range" data-start type="range" step="1" aria-label="移动活动开始时刻">
+  </div>
+  <section class="lesson-voice" data-voice aria-live="polite"><p data-voice-main></p><p class="text-small" data-voice-takeaway></p></section>
+  <p class="text-small lesson-scope" data-scope></p>
+</div>
+<style>
+#__ROOT_ID__ { color:var(--foreground); --mark:var(--viz-series-1); --mark-soft:color-mix(in srgb,var(--viz-series-1) 11%,transparent); }
+#__ROOT_ID__ [hidden] { display:none!important; }
+#__ROOT_ID__ .lesson-heading { max-width:60ch; margin:0 0 16px; }
+#__ROOT_ID__ .lesson-heading h3 { margin:0 0 8px; }
+#__ROOT_ID__ .lesson-heading p { margin:0; }
+#__ROOT_ID__ .linear-step { margin:20px 0; padding-left:14px; border-left:2px solid var(--border); max-width:68ch; }
+#__ROOT_ID__ .linear-step p { white-space:pre-wrap; margin:6px 0; line-height:1.7; }
+#__ROOT_ID__ .linear-step[data-active="true"] { border-left-color:var(--viz-series-1); }
+#__ROOT_ID__ [data-stages] { margin:16px 0; }
+#__ROOT_ID__ .mechanism-panel { margin:18px 0 24px; }
+#__ROOT_ID__ .panel-title { margin:0 0 8px; color:var(--muted-foreground); }
+#__ROOT_ID__ .mechanism-plot, #__ROOT_ID__ .time-plot { position:relative; width:100%; }
+#__ROOT_ID__ .mechanism-svg { display:block; width:100%; overflow:visible; }
+#__ROOT_ID__ .mechanism-svg text { fill:var(--foreground); font-size:var(--font-size-base); font-weight:400; }
+#__ROOT_ID__ .mechanism-svg .small-text { font-size:calc(var(--font-size-base) * .86); }
+#__ROOT_ID__ .mechanism-svg .muted-label { fill:var(--foreground); }
+#__ROOT_ID__ .mechanism-svg .node-body { fill:var(--background); stroke:var(--border); stroke-width:1.5; }
+#__ROOT_ID__ .mechanism-svg .node-body.focus { fill:var(--mark-soft); stroke:var(--mark); stroke-width:2; }
+#__ROOT_ID__ .mechanism-svg .node-body.selected { fill:var(--mark-soft); stroke:var(--mark); stroke-width:2.5; }
+#__ROOT_ID__ .mechanism-svg .link-path { fill:none; stroke:var(--muted-foreground); stroke-width:1.3; }
+#__ROOT_ID__ .mechanism-svg .link-path.focus { stroke:var(--mark); stroke-width:2.5; }
+#__ROOT_ID__ .mechanism-svg .link-path.control { stroke-dasharray:5 4; }
+#__ROOT_ID__ .mechanism-svg .label-ground { fill:var(--background); }
+#__ROOT_ID__ .diagram-hit { position:absolute; margin:0; padding:0; border:0; border-radius:6px; background:transparent; color:inherit; }
+#__ROOT_ID__ .diagram-hit:focus-visible { outline:2px solid var(--ring); outline-offset:3px; }
+#__ROOT_ID__ .diagram-hit:hover { background:color-mix(in srgb,var(--viz-series-1) 5%,transparent); }
+#__ROOT_ID__ .lesson-voice { padding:16px 0 8px; border-top:1px solid var(--border); }
+#__ROOT_ID__ .lesson-voice p { margin:0 0 8px; max-width:65ch; }
+#__ROOT_ID__ .lesson-voice [data-voice-takeaway] { color:var(--muted-foreground); }
+#__ROOT_ID__ .lesson-scope { margin:8px 0 0; color:var(--muted-foreground); }
+#__ROOT_ID__ .time-heading { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin:16px 0 0; }
+#__ROOT_ID__ [data-start] { width:100%; margin:8px 0 12px; }
+#__ROOT_ID__ .late-text { color:var(--destructive); }
+@media (prefers-reduced-motion:no-preference) { #__ROOT_ID__ .node-body, #__ROOT_ID__ .link-path { transition:fill .15s,stroke .15s; } }
+</style>
+<script type="application/json" id="__ROOT_ID__-data">__LESSON_DATA__</script>
+<script>
+(() => {
+  const root=document.getElementById('__ROOT_ID__');
+  const data=JSON.parse(document.getElementById('__ROOT_ID__-data').textContent);
+  const canvas=root.querySelector('[data-canvas]'), nav=root.querySelector('[data-stages]');
+  const ns='http://www.w3.org/2000/svg';
+  let stage=Math.max(0,data.stages.findIndex(s=>s.id===data.initial_stage)), selected=null;
+  let activity=data.aoe?.activities.reduce((best,a)=>a.slack>best.slack?a:best,data.aoe.activities[0])?.activity;
+  let start=data.aoe?.activities.find(a=>a.activity===activity)?.earliest_start || 0, chosenEvent=null;
+  const plots=[], byNode=new Map(data.panels.flatMap(p=>p.nodes.map(n=>[n.id,n])));
+  const allLinks=data.panels.flatMap(p=>p.links||[]);
+  root.querySelector('[data-title]').textContent=data.aoe?'活动余量：这件事可以晚多久再开始？':data.title;
+  root.querySelector('[data-lead]').textContent=data.aoe?'先只看一条活动：它要等谁、需要做多久、最迟什么时候结束。沿时间轴向后移动它，观察是否会拖慢整个工程。':data.lead;
+  root.querySelector('[data-scope]').textContent=data.aoe?'每一步只展开相关支路；事件时刻和工期仍按整张依赖网计算。':data.scope_note || '';
+  const linearNodes=[];
+  for(const step of data.linear_steps || []) {
+    const section=document.createElement('section');section.className='linear-step';section.dataset.stage=step.stage_id;
+    const title=document.createElement('h4');title.textContent=step.title;section.append(title);
+    const body=document.createElement('p');body.textContent=step.text;section.append(body);
+    if(step.return_to_reasoning){const back=document.createElement('p');back.textContent=step.return_to_reasoning;section.append(back);}
+    root.querySelector('[data-linear]').append(section);linearNodes.push(section);
+  }
+  function svgEl(tag,attrs={},parent){const e=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,String(v));if(parent)parent.append(e);return e;}
+  function text(svg,x,y,value,cls='',anchor='middle'){const e=svgEl('text',{x,y,'text-anchor':anchor,class:cls},svg);e.textContent=value;return e;}
+  function wrapped(svg,x,y,value,width,maxLines=2,cls=''){
+    const chars=Array.from(String(value||'')), lines=[''];let length=0;
+    const cap=Math.max(3,Math.floor(width/7));
+    for(const ch of chars){const amount=/[\x00-\xff]/.test(ch)?1:2;if(ch==='\n'||length+amount>cap){lines.push('');length=0;}if(ch!=='\n'){lines[lines.length-1]+=ch;length+=amount;}}
+    const shown=lines.slice(0,maxLines);if(lines.length>maxLines)shown[maxLines-1]=shown[maxLines-1].slice(0,-1)+'…';
+    const node=svgEl('text',{x,y:y-(shown.length-1)*9,'text-anchor':'middle',class:cls},svg);
+    shown.forEach((line,i)=>{const span=svgEl('tspan',{x,dy:i?18:0},node);span.textContent=line;});return node;
+  }
+  function hit(plot,x,y,w,h,label,pressed,click){
+    const b=document.createElement('button');b.type='button';b.className='diagram-hit cursor-interaction';b.setAttribute('aria-label',label);b.setAttribute('aria-pressed',String(pressed));
+    b.style.left=(x-w/2)+'px';b.style.top=(y-h/2)+'px';b.style.width=w+'px';b.style.height=h+'px';b.addEventListener('click',click);plot.append(b);return b;
+  }
+  function arrowDefs(svg,prefix){const defs=svgEl('defs',{},svg);for(const [id,color] of [['arrow','var(--muted-foreground)'],['arrow-focus','var(--viz-series-1)']]){const m=svgEl('marker',{id:prefix+'-'+id,'viewBox':'0 0 10 10',refX:8,refY:5,markerWidth:5,markerHeight:5,orient:'auto-start-reverse'},defs);svgEl('path',{d:'M 0 0 L 10 5 L 0 10 z',fill:color},m);}}
+  function applyVoice(explanation){root.querySelector('[data-voice-main]').textContent=[explanation?.observe,explanation?.reason].filter(Boolean).join(' ');root.querySelector('[data-voice-takeaway]').textContent=explanation?.takeaway||'';}
+  function save(){if(window.openai?.setWidgetState)Promise.resolve(window.openai.setWidgetState({modelContent:{identity:data.identity,stage:data.aoe?['objects','earliest','latest','delay'][stage]:data.stages[stage]?.id,selected,activity,start,chosenEvent,interaction_is_not_learning_evidence:true},privateContent:{key:root.id,stage,selected,activity,start,chosenEvent}})).catch(()=>{});}
+  function makePlot(title,height){const section=document.createElement('section');section.className='mechanism-panel';if(title){const label=document.createElement('p');label.className='panel-title text-small';label.textContent=title;section.append(label);}const plot=document.createElement('div');plot.className='mechanism-plot';plot.style.height=height+'px';section.append(plot);canvas.append(section);return plot;}
+  function drawPanel(panel,plot){
+    plot.replaceChildren();const w=plot.clientWidth,unit=panel.height-48,yMin=Math.min(...panel.nodes.map(n=>n.y-n.h/2)),yMax=Math.max(...panel.nodes.map(n=>n.y+n.h/2+(n.value||data.stages.some(s=>Boolean(s.values?.[n.id]))?0.08:0)));const h=Math.max(110,Math.min(panel.height,Math.ceil((yMax-yMin)*unit+76)));plot.style.height=h+'px';const svg=svgEl('svg',{viewBox:`0 0 ${w} ${h}`,width:w,height:h,class:'mechanism-svg',role:'img','aria-label':panel.title},plot);const markerPrefix=root.id+'-'+panel.id;arrowDefs(svg,markerPrefix);
+    const positions=new Map(panel.nodes.map(n=>[n.id,{x:24+n.x*(w-48),y:40+(n.y-yMin)*unit,w:Math.max(32,n.w*(w-48)),h:Math.max(32,n.h*unit)}]));
+    const labelBoxes=[];const current=data.stages[stage];const focused=new Set(current?.focus_nodes||[]), highlighted=new Set(current?.focus_links||[]);
+    if(selected){focused.clear();focused.add(selected);for(const link of allLinks)if(link.from===selected||link.to===selected){focused.add(link.from);focused.add(link.to);highlighted.add(link.id);}}
+    for(const link of panel.links||[]){const a=positions.get(link.from),b=positions.get(link.to);if(!a||!b)continue;
+      const dx=b.x-a.x,dy=b.y-a.y,ratio=Math.abs(dx)>Math.abs(dy)?'x':'y';
+      const x1=a.x+(ratio==='x'?Math.sign(dx)*a.w/2:0),y1=a.y+(ratio==='y'?Math.sign(dy)*a.h/2:0),x2=b.x-(ratio==='x'?Math.sign(dx)*b.w/2:0),y2=b.y-(ratio==='y'?Math.sign(dy)*b.h/2:0);
+      // Node focus identifies objects, not a traversed path. Only declared stage
+      // links and the selected object's actual incident links highlight an edge.
+      const focus=highlighted.has(link.id);
+      const path=svgEl('path',{d:`M ${x1} ${y1} L ${x2} ${y2}`,class:'link-path '+(link.kind==='control'?'control ':'')+(focus?'focus':'')},svg);
+      if(link.direction!=='none')path.setAttribute('marker-end',`url(#${markerPrefix}-${focus?'arrow-focus':'arrow'})`);
+      if(link.direction==='both')path.setAttribute('marker-start',`url(#${markerPrefix}-${focus?'arrow-focus':'arrow'})`);
+      if(link.label&&(focus||link.label.length<=6)){const mx=(x1+x2)/2,my=(y1+y2)/2;const t=text(svg,mx,my-9,link.label,'small-text');const candidates=[[mx,my-9],...(Math.abs(dy)<20?[[mx,Math.min(a.y-a.h/2,b.y-b.h/2)-12]]:[]),[mx+35,my-9],[mx-35,my-9],[mx,my+20],[mx+55,my+12],[mx-55,my+12]];let chosen=null;for(const [x,y]of candidates){t.setAttribute('x',x);t.setAttribute('y',y);const box=t.getBBox();const overlaps=other=>box.x<other.x+other.width+4&&box.x+box.width+4>other.x&&box.y<other.y+other.height+3&&box.y+box.height+3>other.y;const occupied=panel.nodes.map(n=>{const q=positions.get(n.id);return {x:q.x-q.w/2,y:q.y-q.h/2,width:q.w,height:q.h+((current?.values?.[n.id]??n.value)?38:0)};});if(box.x>=0&&box.x+box.width<=w&&box.y>=0&&box.y+box.height<=h&&!occupied.some(overlaps)&&!labelBoxes.some(overlaps)){chosen=box;break;}}if(chosen){labelBoxes.push(chosen);const bg=svgEl('rect',{x:chosen.x-3,y:chosen.y-1,width:chosen.width+6,height:chosen.height+2,class:'label-ground',rx:2});svg.insertBefore(bg,t);}else t.remove();}
+    }
+    for(const node of panel.nodes){const p=positions.get(node.id),cls='node-body '+(selected===node.id?'selected':focused.has(node.id)?'focus':'');
+      if(node.shape==='circle')svgEl('circle',{cx:p.x,cy:p.y,r:Math.min(p.w,p.h)/2,class:cls},svg);
+      else if(node.shape==='diamond')svgEl('polygon',{points:`${p.x},${p.y-p.h/2} ${p.x+p.w/2},${p.y} ${p.x},${p.y+p.h/2} ${p.x-p.w/2},${p.y}`,class:cls},svg);
+      else svgEl('rect',{x:p.x-p.w/2,y:p.y-p.h/2,width:p.w,height:p.h,rx:node.shape==='field'?2:node.shape==='buffer'?3:9,class:cls},svg);
+      const value=current?.values?.[node.id]??node.value;
+      wrapped(svg,p.x,p.y+5,node.label,p.w-12,2);
+      if(value)wrapped(svg,p.x,p.y+p.h/2+17,value,p.w+10,2,'small-text muted-label');
+      const b=hit(plot,p.x,p.y,Math.max(p.w,38),Math.max(p.h,38),'查看：'+node.label,selected===node.id,()=>{selected=selected===node.id?null:node.id;update();save();});b.dataset.node=node.id;
+    }
+  }
+  function aoeTimes(){const values={};for(const v of data.aoe.topological_order){values[v]=0;for(const e of data.aoe.input_edges.filter(e=>e.head===v)){const begin=e.activity===activity?Math.max(values[e.tail],start):values[e.tail];values[v]=Math.max(values[v],begin+e.duration);}}return values;}
+  function currentActivity(){return data.aoe.activities.find(a=>a.activity===activity);}
+  function drawAoe(plot){
+    plot.replaceChildren();const w=plot.clientWidth,h=310,svg=svgEl('svg',{viewBox:`0 0 ${w} ${h}`,width:w,height:h,class:'mechanism-svg',role:'img','aria-label':'事件依赖图；点击事件或活动查看其约束'},plot);const markerPrefix=root.id+'-aoe';arrowDefs(svg,markerPrefix);
+    const active=currentActivity();const visibleEdges=data.aoe.input_edges.filter(e=>e.activity===activity||(stage===1&&e.head===active.tail_event)||(stage===2&&e.tail===active.head_event)||(chosenEvent&&(e.head===chosenEvent||e.tail===chosenEvent)));const visibleEvents=new Set(visibleEdges.flatMap(e=>[e.tail,e.head]));const order=data.aoe.topological_order.filter(v=>visibleEvents.has(v));const rank={};for(const v of order)rank[v]=Math.max(0,...visibleEdges.filter(e=>e.head===v).map(e=>rank[e.tail]+1));
+    const max=Math.max(...Object.values(rank)),groups=new Map();for(const v of order){if(!groups.has(rank[v]))groups.set(rank[v],[]);groups.get(rank[v]).push(v);}
+    const pos={};for(const [r,ids]of groups){ids.forEach((v,i)=>{let y=ids.length===1?155:ids.length===2?92+i*128:45+i*220/(ids.length-1);if(ids.length===1&&r>0&&r<max){const near=visibleEdges.filter(e=>e.head===v&&rank[e.tail]===r-1).map(e=>pos[e.tail]?.y).filter(v=>v!==undefined);if(near.length)y=near.reduce((a,b)=>a+b,0)/near.length;}pos[v]={x:60+r/Math.max(1,max)*(w-120),y};});}
+    // Keep equal-rank branches separated while allowing long dependencies to
+    // curve away from the selected activity. No scan geometry is copied.
+    if(visibleEvents.size<=2){plot.style.height='180px';svg.setAttribute('viewBox',`0 0 ${w} 180`);svg.setAttribute('height','180');for(const p of Object.values(pos))p.y=90;}else plot.style.height='310px';const times=aoeTimes(),a=currentActivity(),eventMap=new Map(data.aoe.events.map(e=>[e.event,e]));
+    const relevant=new Set([a.tail_event,a.head_event]);if(chosenEvent)relevant.add(chosenEvent);
+    for(const e of visibleEdges){const s=pos[e.tail],t=pos[e.head],dx=t.x-s.x,dy=t.y-s.y,len=Math.hypot(dx,dy),r=24;
+      const x1=s.x+r*dx/len,y1=s.y+r*dy/len,x2=t.x-r*dx/len,y2=t.y-r*dy/len;
+      const skip=rank[e.head]-rank[e.tail];let bend=skip>1?(e.activity===activity?0:(e.tail===data.aoe.topological_order[0]?-62:-42)):0;
+      if(skip>2&&e.activity!==activity)bend=-88;if(data.identity==='EXAM408-2025-Q42'){const routing={b:-100,d:-58,c:85,m:-15,k:-40};if(Object.hasOwn(routing,e.activity))bend=routing[e.activity];}
+      const cx=(x1+x2)/2,cy=(y1+y2)/2+bend,focus=e.activity===activity||(chosenEvent&&(e.tail===chosenEvent||e.head===chosenEvent));
+      svgEl('path',{d:`M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`,class:'link-path '+(focus?'focus':''),'marker-end':`url(#${markerPrefix}-${focus?'arrow-focus':'arrow'})`},svg);
+      const lx=.25*x1+.5*cx+.25*x2,ly=.25*y1+.5*cy+.25*y2-7;
+      const label=w<500&&!focus?e.activity:`${e.activity} · ${e.duration}`;const tx=text(svg,lx,ly,label,'small-text');const bb=tx.getBBox();const bg=svgEl('rect',{x:bb.x-4,y:bb.y-2,width:bb.width+8,height:bb.height+4,rx:3,class:'label-ground'});svg.insertBefore(bg,tx);
+      const b=hit(plot,lx,ly-5,Math.max(42,bb.width+12),32,'选择活动 '+e.activity,e.activity===activity,()=>{activity=e.activity;start=currentActivity().earliest_start;chosenEvent=null;update();save();});b.dataset.activity=e.activity;
+    }
+    for(const event of data.aoe.events.filter(e=>visibleEvents.has(e.event))){const p=pos[event.event];svgEl('circle',{cx:p.x,cy:p.y,r:24,class:'node-body '+(event.event===chosenEvent?'selected':relevant.has(event.event)?'focus':'')},svg);text(svg,p.x,p.y+5,'事件'+event.event,'small-text');if(stage>0)text(svg,p.x,p.y+42,(stage===2?'最迟 '+event.latest:stage===3?'当前 '+times[event.event]:'最早 '+times[event.event]),'small-text muted-label');
+      const b=hit(plot,p.x,p.y,50,50,'查看事件 '+event.event,event.event===chosenEvent,()=>{chosenEvent=chosenEvent===event.event?null:event.event;update();save();});b.dataset.event=event.event;
+    }
+  }
+  function drawTime(){
+    const a=currentActivity(),times=aoeTimes(),finish=Math.max(...Object.values(times)),deadline=data.aoe.project_duration;
+    const plot=root.querySelector('[data-time-plot]');plot.replaceChildren();const w=plot.clientWidth,h=116,max=Math.max(deadline+3,a.latest_start+a.duration+3),x=n=>24+n/max*(w-48);
+    const svg=svgEl('svg',{viewBox:`0 0 ${w} ${h}`,width:w,height:h,class:'mechanism-svg',role:'img','aria-label':'活动开始时刻、持续时间及允许推迟的范围'},plot);
+    svgEl('rect',{x:x(0),y:48,width:x(max)-x(0),height:12,rx:6,fill:'var(--muted)'},svg);
+    if(a.latest_start>a.earliest_start){svgEl('rect',{x:x(a.earliest_start),y:45,width:x(a.latest_start)-x(a.earliest_start),height:18,rx:4,fill:'color-mix(in srgb,var(--viz-series-1) 16%,transparent)'},svg);text(svg,(x(a.earliest_start)+x(a.latest_start))/2,30,'允许选择的开始区间','small-text muted-label');}
+    const late=finish>deadline;svgEl('rect',{x:x(start),y:42,width:Math.max(5,x(start+a.duration)-x(start)),height:24,rx:4,fill:late?'var(--destructive)':'var(--viz-series-1)'},svg);
+    svgEl('line',{x1:x(deadline),y1:18,x2:x(deadline),y2:82,stroke:'var(--muted-foreground)','stroke-dasharray':'3 4'},svg);text(svg,x(deadline),12,'原工期 '+deadline,'small-text',x(deadline)>w-80?'end':'middle');
+    const ticks=w<500?4:7;for(let i=0;i<=ticks;i++){const value=Math.round(max*i/ticks);text(svg,x(value),98,String(value),'small-text muted-label');}
+    text(svg,x(start),82,String(start),'small-text');text(svg,x(start+a.duration),82,String(start+a.duration),'small-text');
+    root.querySelector('[data-time-caption]').textContent=`活动 ${activity}：做 ${a.duration} 个时间单位`;
+    const status=root.querySelector('[data-time-status]');status.textContent=late?`现在完工 ${finish}，已延期`:`现在完工 ${finish}，工期未变`;status.classList.toggle('late-text',late);
+    const slider=root.querySelector('[data-start]');slider.min=a.earliest_start;slider.max=a.latest_start+2;slider.value=start;root.querySelector('[data-slider-label]').textContent=`把活动 ${activity} 的开始时刻移到：${start}`;
+  }
+  function aoeVoice(){const a=currentActivity(),times=aoeTimes(),finish=Math.max(...Object.values(times)),end=start+a.duration,deadline=data.aoe.project_duration;
+    if(chosenEvent){const e=data.aoe.events.find(x=>x.event===chosenEvent),ins=data.aoe.input_edges.filter(x=>x.head===chosenEvent);return {observe:`事件 ${chosenEvent} 表示它前面的条件已经全部满足。它只有发生时刻，自身不占一段工作时间。`,reason:ins.length?`它要等 ${ins.map(x=>x.activity).join('、')} 都做完，当前最早在 ${times[chosenEvent]} 发生。只要其中一项还没完成，这个事件就不能发生。`:'这是起点事件；题设从这里启动工程。',takeaway:`为了保持原工期，它最迟应在 ${e.latest} 发生。事件时刻和活动持续时间要分开看。`};}
+    if(stage===0)return {observe:`先看活动 ${activity}：它从事件 ${a.tail_event} 出发，做 ${a.duration} 个时间单位，结束后到达事件 ${a.head_event}。`,reason:`圆圈代表事件，旁边的数才是发生时刻；箭头表示耗时的活动。我们要找的是“它能晚多久再开始”，不是把工作本身变长。`,takeaway:'点击另一条活动，可以换一个具体对象看同一个概念。'};
+    if(stage===1){const ins=data.aoe.input_edges.filter(x=>x.head===a.tail_event);return {observe:`活动 ${activity} 最早从 ${a.earliest_start} 开始，因为它必须等事件 ${a.tail_event} 发生。`,reason:ins.length?`事件 ${a.tail_event} 要等 ${ins.map(x=>x.activity).join('、')} 都完成。即使有一条支路先到了，另一条还没到，活动 ${activity} 也不能抢先开工。`:'它的起点就是工程起点，不再等待前面的活动。',takeaway:'最早开始时刻由前面的依赖决定。'};}
+    if(stage===2)return {observe:`事件 ${a.head_event} 最迟要在 ${data.aoe.events.find(x=>x.event===a.head_event).latest} 发生，后面的工程才赶得上原工期。`,reason:`事件 ${a.tail_event} 发生，只表示活动 ${activity} 的启动条件已经准备好，并不要求它立刻开工。它自己要做 ${a.duration} 个时间单位，所以最晚可在 ${a.latest_start} 开始；从 ${a.earliest_start} 等到 ${a.latest_start}，就是允许等待的 ${a.slack}。`,takeaway:`这 ${a.slack} 是允许推迟的时间；活动的工作量仍是 ${a.duration}。`};
+    return {observe:`现在让活动 ${activity} 从 ${start} 开始，到 ${end} 完成。`,reason:finish<=deadline?`整个工程仍能在 ${deadline} 完成，所以这次等待没有拖慢工程。${a.slack?'把开始时刻移到 '+a.latest_start+'，就是保持原工期的最后界限。':'它本来没有余量；继续向后移动，就会拖慢工程。'}`:`工程现在要到 ${finish} 才能完成。活动已经越过允许的最迟开始时刻，延迟沿着依赖传到了后面。`,takeaway:`时间余量回答的是“允许多等多久”，并没有改变这项活动本身要做多久。`};
+  }
+  const stageButtons=[];
+  const stageLabels=data.aoe?['认清对象','最早何时开始','最晚能等到哪','移动看影响']:data.stages.map(s=>s.label);
+  stageLabels.forEach((label,i)=>{const b=document.createElement('button');b.type='button';b.className='btn';b.textContent=label;b.addEventListener('click',()=>{stage=i;selected=null;chosenEvent=null;if(data.aoe&&i<3)start=currentActivity().earliest_start;update();save();});nav.append(b);stageButtons.push(b);});
+  if(data.aoe){const chooser=root.querySelector('[data-activity-select]');for(const a of data.aoe.activities){const o=document.createElement('option');o.value=a.activity;o.textContent='活动 '+a.activity+'（持续 '+a.duration+'）';chooser.append(o);}chooser.value=activity;chooser.addEventListener('change',e=>{activity=e.target.value;start=currentActivity().earliest_start;chosenEvent=null;update();save();});root.querySelector('[data-activity-control]').hidden=false;plots.push({plot:makePlot('',310),panel:null});root.querySelector('[data-aoe-time]').hidden=false;stage=0;root.querySelector('[data-start]').addEventListener('input',e=>{start=Number(e.target.value);stage=3;chosenEvent=null;update();});root.querySelector('[data-start]').addEventListener('change',save);}
+  else for(const panel of data.panels)plots.push({plot:makePlot(data.panels.length>1?panel.title:'',panel.height),panel});
+  function update(){linearNodes.forEach(n=>n.dataset.active=String(n.dataset.stage===data.stages[stage]?.id));const active=document.activeElement;const focusKey=active&&root.contains(active)?['node','activity','event'].find(k=>active.dataset[k]):null;const focusValue=focusKey?active.dataset[focusKey]:null;stageButtons.forEach((b,i)=>b.setAttribute('aria-pressed',String(i===stage)));if(data.aoe){root.querySelector('[data-activity-select]').value=activity;drawAoe(plots[0].plot);drawTime();applyVoice(aoeVoice());}else{const current=data.stages[stage];const focused=new Set(selected?[selected]:[...(current?.focus_nodes||[]),...Object.keys(current?.values||{})]);const links=new Set(current?.focus_links||[]);const active=plots.filter(p=>p.panel.nodes.some(n=>focused.has(n.id))||(!selected&&p.panel.links.some(e=>links.has(e.id))));for(const p of plots){p.plot.parentElement.hidden=active.length>0&&!active.includes(p);if(!p.plot.parentElement.hidden)drawPanel(p.panel,p.plot);}applyVoice(selected?byNode.get(selected).explanation:current?.explanation);}if(focusKey){const target=[...root.querySelectorAll('[data-'+focusKey+']')].find(b=>b.dataset[focusKey]===focusValue);target?.focus({preventScroll:true});}}
+  function restore(state){const value=state?.privateContent;if(value?.key!==root.id)return;stage=Number.isInteger(value.stage)?Math.max(0,Math.min(value.stage,stageLabels.length-1)):stage;selected=byNode.has(value.selected)?value.selected:null;if(data.aoe&&data.aoe.activities.some(a=>a.activity===value.activity)){activity=value.activity;const a=currentActivity();start=Number.isFinite(value.start)?Math.max(a.earliest_start,Math.min(a.latest_start+2,value.start)):a.earliest_start;chosenEvent=data.aoe.events.some(e=>e.event===value.chosenEvent)?value.chosenEvent:null;}update();}
+  update();restore(window.openai?.widgetState);window.addEventListener('openai:set_globals',e=>restore(e.detail?.globals?.widgetState));
+  let lastWidth=0;new ResizeObserver(entries=>{const width=entries[0].contentRect.width;if(Math.abs(width-lastWidth)>1){lastWidth=width;update();}}).observe(canvas);
+})();
+</script>
