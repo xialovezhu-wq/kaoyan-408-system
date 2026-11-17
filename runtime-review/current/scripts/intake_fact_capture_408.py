@@ -3109,6 +3109,10 @@ def _append_episode_supplement(
                "campaign-supplement:" if campaign else "standalone-supplement:") + digest
         existing = next((e for e in events if e.get("idempotency_key") == key), None)
         if existing is None:
+            # A frozen request can outlive formal consumption. Check the live
+            # state under the ledger lock and still allow replay of an existing event.
+            if d_correction and capture["quality_status"] != AWAITING_WEB_ENHANCEMENT_STATUS:
+                raise CaptureError("D_correction_requires_unconsumed_capture")
             event = {"schema": EVENT_SCHEMA, "event_type": "capture_supplemented",
                      "event_id": "CE-" + digest[:20], "idempotency_key": key,
                      "created_at": _now_utc(), "supplement_sha256": digest, **material}
