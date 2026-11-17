@@ -1,0 +1,82 @@
+{
+  "task_id": "MEMORY-INTEGRITY-20261117-408-V2",
+  "subject": "408",
+  "review_base": "8e07a230f92ea78e7029385de675ac241b47dcb0",
+  "native_code_head": "bd26908dbfe1d77d080a7dabb99c3b4029f3dccb",
+  "native_patch_sha256": "9adbc7b92e9f34cc8f3b226fa8d1d212de6e47642fea1c91977fe8c145d43d48",
+  "wrapper_sha256": "bce35c121bf52cbdb02c869da2e49d748ebb2fcdd12e782541768020d21b30cb",
+  "files": [
+    {
+      "runtime_path": "codex-skill-sources/kaoyan-408-daily-intake-curation/references/daily-closeout.md",
+      "review_path": "runtime-review/current/codex-skill-sources/kaoyan-408-daily-intake-curation/references/daily-closeout.md",
+      "local_before_sha256": "93e4940918105d4675b66fa0cab3892afd6d6e612b7c1b1e185da2eb9f85fc20",
+      "local_installed_sha256": "4c03e9e8724931e8ba1a40d44dd616d0aa15b6a3fbacf844968ff88124707561",
+      "review_before_sha256": "d051f0dca6ed10be6c18904b023c79dfb9a09f335fa011a37e469d95ec6f0964",
+      "review_sha256": "fe5e78bb1ce63d977e25590ed46b09299d462165d7759fe5a7e8f1fce1ef96c7",
+      "export": "v2_hunks_over_review_baseline"
+    },
+    {
+      "runtime_path": "codex-skill-sources/kaoyan-408-question-worker/SKILL.md",
+      "review_path": "runtime-review/current/codex-skill-sources/kaoyan-408-question-worker/SKILL.md",
+      "local_before_sha256": "0fb2bb139c6217b81f915d31bda26275aa250a46d7cb5bd9fe76f532146b9b90",
+      "local_installed_sha256": "f132f6edee88da852805ad04c0e7300e704d72de93526ac8c9d3b205f7566eed",
+      "review_before_sha256": "8925d85d7142069838aeff8632004d21e9f48c6c07369b38ef8029204ae7c82f",
+      "review_sha256": "d0d76b944e32404e4d2cc5a6f1a6c585e105fd3940b395635f25ee9dc64e9109",
+      "export": "v2_hunks_over_review_baseline"
+    },
+    {
+      "runtime_path": "codex-skill-sources/kaoyan-408-question-worker/references/dialogue-to-visual.md",
+      "review_path": "runtime-review/current/codex-skill-sources/kaoyan-408-question-worker/references/dialogue-to-visual.md",
+      "local_before_sha256": "265b4e37d07c92691f6e32b5e6931807aa46b8b3e46aa7631180b7763df8db3b",
+      "local_installed_sha256": "9aaf4729b77ea2d7d989d3ef9bc921e95d832ebfd5b0af87090665eafdec4896",
+      "review_before_sha256": "664d85ad9a4fcd0c23a7838bacfd72562edaec1f1995537180060b1a0539ee00",
+      "review_sha256": "6a991e7aa3e3dbc4d6b7667583d5845afc2fe197206ed8dd3f4436524b173313",
+      "export": "v2_hunks_over_review_baseline"
+    },
+    {
+      "runtime_path": "codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md",
+      "review_path": "runtime-review/current/codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md",
+      "local_before_sha256": "253cd21f736acc19f2a4d6d167c44208602b6a091aff159fe2c94c14cdb56d60",
+      "local_installed_sha256": "ffa607e67e885b34181dfddf88ef74ce9ed94c4c64b83fcbe0e5b2fc0db3776c",
+      "review_before_sha256": "253cd21f736acc19f2a4d6d167c44208602b6a091aff159fe2c94c14cdb56d60",
+      "review_sha256": "ffa607e67e885b34181dfddf88ef74ce9ed94c4c64b83fcbe0e5b2fc0db3776c",
+      "export": "same_bytes_as_native"
+    },
+    {
+      "runtime_path": "schema/408-knowledge-profile-v1.md",
+      "review_path": "runtime-review/current/schema/408-knowledge-profile-v1.md",
+      "local_before_sha256": "ed7cf1d2519b035b88550f89240466156f547498fd3b56c4816bd9ba9b7372ac",
+      "local_installed_sha256": "da732d28d238d9f6a6aec025bad4e456ea023b89f61ad94e0e96f3d987f99ef7",
+      "review_before_sha256": "ed7cf1d2519b035b88550f89240466156f547498fd3b56c4816bd9ba9b7372ac",
+      "review_sha256": "da732d28d238d9f6a6aec025bad4e456ea023b89f61ad94e0e96f3d987f99ef7",
+      "export": "same_bytes_as_native"
+    },
+    {
+      "runtime_path": "scripts/teaching_memory_408.py",
+      "review_path": "runtime-review/current/scripts/teaching_memory_408.py",
+      "local_before_sha256": "f5e9b9130934cbd0b3bfda9c3536ef24edc642df884330e1638d621c6bfa7503",
+      "local_installed_sha256": "14845f17a129a37862ba8f365b4f1c445b6d4f2b0356f2f2da377b4bd2a84c6e",
+      "review_before_sha256": "f5e9b9130934cbd0b3bfda9c3536ef24edc642df884330e1638d621c6bfa7503",
+      "review_sha256": "14845f17a129a37862ba8f365b4f1c445b6d4f2b0356f2f2da377b4bd2a84c6e",
+      "export": "same_bytes_as_native"
+    },
+    {
+      "runtime_path": "tests/test_complete_personal_context_408.py",
+      "review_path": "runtime-review/current/tests/test_complete_personal_context_408.py",
+      "local_before_sha256": "4f0d5b9429119fe7b5684c381eba34edb677dc1b922fbbc4a7f5607128d0b42c",
+      "local_installed_sha256": "8a1e35772b1f3b064e59476d09f35114bc0c3646360fa502af6ac9433fcc0a9d",
+      "review_before_sha256": "4f0d5b9429119fe7b5684c381eba34edb677dc1b922fbbc4a7f5607128d0b42c",
+      "review_sha256": "8a1e35772b1f3b064e59476d09f35114bc0c3646360fa502af6ac9433fcc0a9d",
+      "export": "same_bytes_as_native"
+    },
+    {
+      "runtime_path": "tests/test_study_commit_followup_408.py",
+      "review_path": "runtime-review/current/tests/test_study_commit_followup_408.py",
+      "local_before_sha256": "16eb43add469193b4308d0a18f11e153ba55222219eff0429339c47e0542f067",
+      "local_installed_sha256": "532779dd126f2a104c20d5c52db72e67bd8b2b277105229f1eef9dc493af2ac8",
+      "review_before_sha256": null,
+      "review_sha256": "532779dd126f2a104c20d5c52db72e67bd8b2b277105229f1eef9dc493af2ac8",
+      "export": "same_bytes_as_native"
+    }
+  ]
+}

@@ -26,6 +26,8 @@ python3 scripts/runtime_paths_408.py --run exam_tutoring_context_408.py resolve 
 
 已知独立小问时先传精确 Pxx。入口自动取现行课件已核的本问 KSP。需要收窄才同次传已核 KSP 或登记的机制别名。父考点、考纲条目和教学边界用于定位本问条件。沿[个人上下文](references/personal-learning-context.md)解读 `personal_read_receipt`、缺项状态和同范围补读。
 
+浮点字段是当前断点、且本问答后已获准作具体对照时，沿[浮点字段手动对照](references/dialogue-to-visual.md#浮点字段手动对照)。先自己按题设拆字段。
+
 一次精确 `resolve` 同时取得本题和个人概况；旧 `query` 的有限字节结果用于兼容，不能用它判断完整概况是否存在。若精确路由命中而概况过期或仅有事实，保留同次返回的其它有效摘要。当前已授权读取、能守本题/Pxx/年份范围且旧证据会改变讲法时，用同版 `memory history` 或 `trace` 定点核对真实角色、日期、提示依赖和更正。概况过期、尚未编写、命中歧义和出于保护而隐藏分别说明。仅在机制身份未定或仍有具体证据缺口时做一次范围内本机候选补查；精确入口不等待 OpenAI 向量重算或整库刷新。
 
 确需校验个人记忆版本时，本机用原结果的 `version` 传 `--known-version`，便携快照用 `context_version`。`unchanged` 复用聊天实际持有的同题/Pxx、机制、view、materials、读取范围和预算的结果。新断点或正式更新后只读受影响的范围。

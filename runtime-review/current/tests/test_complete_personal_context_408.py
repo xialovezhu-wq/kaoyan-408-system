@@ -262,9 +262,52 @@ class CompletePersonalContextTests(unittest.TestCase):
         self.assertNotIn("claim_view", json.dumps(hidden))
         unavailable = self.resolve(query={"current_question_id": "EXAM408-2020-Q41-P01"}, **opts)
         self.assertEqual("withheld_scope", unavailable["personal_read_receipt"]["records"][0]["status"])
+
+        same_day = claim("prompted-other-condition", "prompted_repair",
+                         "仅在提示给出页框号且页面驻留时拼接偏移，访问非法时不可套用。",
+                         prompted, new["event_at"])
+        undated = [
+            claim("undated-scope", "independent_demonstrated", "仅独立说明了驻留这一前提。", later, None),
+            claim("undated-boundary", "explicit_gap", "越权访问情境仍需另证。", early, None),
+        ]
+        frozen = [*t2["claims"], same_day, *undated]
+        expected = {row["claim_id"]: row for row in frozen}
+        observed = []
+        for turn, order in enumerate((frozen, list(reversed(frozen)), frozen[2:] + frozen[:2]), 1):
+            previous = profiles.load_profiles(self.repo)["profiles"][code]["version"]
+            update = {**t2, "expected_previous_version": previous, "claims": order}
+            committed = profiles.apply_updates(self.repo, [update], f"SYNTH-408-ORDER-{turn}",
+                                                evidence_bindings=bindings)
+            current = profiles.load_profile_version(self.repo, code, committed["profiles"][code]["sha256"])
+            self.assertEqual(set(expected), {row["claim_id"] for row in current["claims"]})
+            for row in current["claims"]:
+                original = expected[row["claim_id"]]
+                for key in ("scope", "event_at", "lifecycle", "supersedes"):
+                    self.assertEqual(original.get(key) or None, row.get(key) or None)
+                self.assertEqual([ref["sha256"] for ref in original["source_refs"]],
+                                 [ref["sha256"] for ref in row["source_refs"]])
+            self.refresh()
+            bounded = self.resolve(**opts)
+            self.assertLessEqual(bounded["serialized_bytes"], opts["max_bytes"])
+            selected = bounded["records"][0]["personal_context"]
+            self.assertEqual(code, selected["identity"])
+            self.assertNotIn("short_summary", selected)
+            claims = selected["claim_view"]
+            self.assertGreater(claims["omitted_claim_count"], 0)
+            selected_ids = {row["claim_id"] for row in claims["claims"]}
+            self.assertTrue(selected_ids & {new["claim_id"], same_day["claim_id"]})
+            for row in claims["claims"]:
+                original = expected[row["claim_id"]]
+                for key in ("basis", "evidence_status", "content"):
+                    self.assertEqual(original[key], row[key])
+            observed.append(claims)
+        self.assertEqual(observed[0], observed[1])
+        self.assertEqual(observed[0], observed[2])
+        self.assertEqual(ledger_sha, hashlib.sha256(ledger.read_bytes()).hexdigest())
+
         Path(later["path"]).write_text("已变化")
-        invalidated = self.resolve(known_version=result["version"], **opts)
-        self.assertNotEqual(result["version"], invalidated["version"])
+        invalidated = self.resolve(known_version=bounded["version"], **opts)
+        self.assertNotEqual(bounded["version"], invalidated["version"])
         self.assertEqual("semantic_stale", invalidated["records"][0]["status"])
         stale = self.resolve(**opts, query={"knowledge_points": [code, "CO99-99"]})
         self.assertEqual("semantic_stale", stale["records"][0]["status"])

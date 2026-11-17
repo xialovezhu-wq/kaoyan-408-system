@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 from knowledge_profile_408 import CLAIMS_SCHEMA, teaching_focus_hot
 
 SCOPE = "teaching"
-DELIVERY_POLICY = "bounded-evidence-priority-v2"
+DELIVERY_POLICY = "bounded-evidence-priority-v3"
 _SHANGHAI = ZoneInfo("Asia/Shanghai")
 _EPOCH = dt.datetime.min.replace(tzinfo=dt.timezone.utc)
 _CLAIM_FIELDS = ("claim_id", "kind", "basis", "evidence_status", "content", "event_at",
@@ -43,8 +43,9 @@ def selected_context(profile, identity, version):
     withheld = {row["claim_id"] for row in active if _repair_claim(row) and
                 not (row.get("source_refs") and all(ref.get("review_state") == "reviewed"
                                                    for ref in row["source_refs"]))}
+    # The final key stabilizes display within a tie and carries no temporal meaning.
     current = sorted((row for row in active if row["claim_id"] not in withheld),
-                     key=lambda row: (_repair_claim(row), _event_time(row)), reverse=True)
+                     key=lambda row: (_repair_claim(row), _event_time(row), row["claim_id"]), reverse=True)
     conflicts = sum(row["lifecycle"] == "conflicted" for row in claims)
     historical = len(claims) - len(active) - conflicts
     value = {"identity": identity, "status": "current", "complete": False, "profile_version": version,

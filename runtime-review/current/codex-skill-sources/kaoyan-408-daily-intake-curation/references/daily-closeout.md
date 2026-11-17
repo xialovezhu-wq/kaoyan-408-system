@@ -23,4 +23,8 @@
 
 ## 读回与续办
 
+取原 prepared 的 `enhancement_intake_408.py status`。用 `formal_completion_status`、`item_statuses` 和 `batch_close_status` 核实正式提交，保留 `COMPLETE_WITH_NEEDS_USER` 与已提交待质量校验的区别。分开报告 `followup.local_tutoring`、个人概况读回、`publication_readback`／`followup.publication`、`archive_status`、`morning_input_status` 及有关 `last_error`。默认发布未请求，已有的本机结果按各自状态交付。
+
+`study_commit_followup_408.py` 退出 0 只验 `local_tutoring`。例如正式提交已核实且本地已刷新，发布为 `PENDING/publication_request_needs_recovery` 时，状态要写明「正式提交成功 · 本地派生已刷新 · 发布待恢复」。有外发授权时，用 `python3 scripts/runtime_paths_408.py --run study_commit_followup_408.py --repo . --event-id <原业务事件ID> --publish` 续办，复核对应 `publication_event_id` 的发布回执。只恢复缺失的派生、原发布或交付层，正式入库、判分和其他学习交易沿原已提交回执。撤回后的 `_finish_correction` 同样沿原更正 ID 恢复派生和授权发布。
+
 以原日期、范围与本机来源版本在经核验的 T9 当日工作区保留一个接续记录，指向已验证的原 prepared 回执、题集和 HTML，说明仍缺哪一步。完成时重查当天 backlog，单列新增或未能终结的确切 Capture，沿原事务补缺。题集或 HTML 遇到缺项时保留已通过的正式结果与成品，继续补该项。最终回复简述当天入库及讲题读回状态，附可开练题集和复盘网页；确实未能完成的环节列具体原因和现成入口。

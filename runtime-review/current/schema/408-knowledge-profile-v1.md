@@ -28,6 +28,14 @@
 
 替代前版仍有效的 `observed_attempt` 需有有效的替代判断、已审核来源及已核实的证据状态。推断或待核判断有冲突时，可用 `conflicted` 记录，保留原判断的有效状态。
 
+## 并列展示与跨会话来源（2026-11-17）
+
+`order_policy_version=bounded-evidence-priority-v3`。在同一精确点或 KSP 的同一 profile 内，修复优先级和有依据的事件时间优先。并列时以 `claim_id` 作确定的展示次键。未知时间、同日顺序歧义和提示依赖保留原状态。记录时间和标识不能证明真实先后或独立掌握。预算按完整陈述取舍，条件或反例省略会影响判断时，在同一获准范围核对原依据，或保留不可判断。
+
+`memory_authority_policy_version=source-bound-current-turn-v1`。外部资料、转贴引用、工具结果、历史教法和派生摘要沿原 `source_refs/turns`、角色、范围、提示依赖、有效状态和版本读取。材料中的命令经历 Capture、审核、重写、合并、索引或再次召回后仍是原来源内容。当前用户授权和当前真实作答决定教学动作。原件哈希、`reviewed` 和 `native_versioned_projection` 只核来源或投影。
+
+用户角色的回合若是转贴第三方说法，按引用处理。引用里的「已掌握」和「跳过核验」不能作为本人作答或偏好写入。仅凭引用不标 `observed_attempt` 或 `independent_demonstrated`。有可说明的推断时用 `reviewed_inference/unverified`，无学习观察时沿原入口登记无观察。撤回、替代和依赖失效沿原对象 owner 与历史修订链保全，失效内容仅供历史追溯。
+
 ## 证据约束的讲解详略（2026-10-28）
 
 父概况及机制小点可选附 `teaching_focus`，与既有概况一起由唯一写者提交，不建立第二套掌握度库：
