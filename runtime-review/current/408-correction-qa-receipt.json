@@ -1,0 +1,654 @@
+{
+  "schema": "cs408-correction-isolation-qa-v1",
+  "purpose": "sanitized_derived_qa_receipt",
+  "subject": "408",
+  "verification_date_timezone": "2026-11-17 Asia/Shanghai",
+  "observed_at": "2026-11-17T15:12:38.959775+08:00",
+  "overall": "PASS_TASK_ACCEPTANCE",
+  "status": {
+    "passed": [
+      "A lifecycle and history",
+      "unrelated B/C and sources",
+      "D scoped evidence dependency",
+      "exact wrapper readback and sibling isolation",
+      "D Capture append and replay",
+      "live files read-only"
+    ],
+    "historical_baseline_failures_outside_task": [
+      "test_intake_fact_capture_408.IntakeFactCaptureTests.test_resolved_needs_user_retries_same_set_and_carries_prior_success",
+      "test_intake_fact_capture_408.IntakeFactCaptureTests.test_same_result_or_close_with_new_key_is_semantic_noop"
+    ],
+    "pending": [
+      "ChatGPT web readback",
+      "learner outcome observation"
+    ],
+    "learning_effect": "pending_observation"
+  },
+  "review_baseline": {
+    "repository": "xialovezhu-wq/kaoyan-408-system",
+    "remote_ref": "refs/heads/memory/20261116-cs408",
+    "observed_sha": "94a8f0c155b4baa99063d8a3bc202e365a870032",
+    "runtime_manifest": "runtime-review/current/runtime-source-manifest.json",
+    "runtime_manifest_sha256": "d221d319d11c3970e3e8655a1118e862c81b5c6b34d6f391debe26c03ff5584d",
+    "manifest_native_source_version": "5ff7b3551eaa1a280bebd8c8d4f0561f9ee6405fe04d3c93372f649a131a793a"
+  },
+  "native_runtime": {
+    "checkout_token": "<408_PROJECT>",
+    "root_mapping": "runtime_paths_408.py repo points to the real subject checkout; scripts are loaded directly",
+    "branch": "codex/recent-408-study-20260715",
+    "head_before": "bd26908dbfe1d77d080a7dabb99c3b4029f3dccb",
+    "head_after": "bd26908dbfe1d77d080a7dabb99c3b4029f3dccb",
+    "upstream_ahead_behind": [
+      "9",
+      "0"
+    ],
+    "worktree_before": {
+      " M": 656,
+      "A ": 4,
+      "??": 320052
+    },
+    "worktree_after": {
+      " M": 656,
+      "A ": 4,
+      "??": 320052
+    },
+    "worktree_status_listing_sha256": "18e8c7f1ff60c43b630aa7f85875e1cadd4bc122de8500c531e0b39f8ac71636",
+    "preexisting_scoped_files": {
+      "codex-skill-sources/kaoyan-408-question-worker/SKILL.md": {
+        "local_sha256": "0fb2bb139c6217b81f915d31bda26275aa250a46d7cb5bd9fe76f532146b9b90",
+        "review_runtime_sha256": "8925d85d7142069838aeff8632004d21e9f48c6c07369b38ef8029204ae7c82f",
+        "git_status": "worktree_modified"
+      },
+      "codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md": {
+        "local_sha256": "253cd21f736acc19f2a4d6d167c44208602b6a091aff159fe2c94c14cdb56d60",
+        "review_runtime_sha256": "253cd21f736acc19f2a4d6d167c44208602b6a091aff159fe2c94c14cdb56d60",
+        "git_status": "??"
+      },
+      "scripts/d_episode_correction_408.py": {
+        "local_sha256": "1ad041e56e51ee7e658e4d5a765c406391633e394346ac069914b3e5af314b41",
+        "review_runtime_sha256": "1ad041e56e51ee7e658e4d5a765c406391633e394346ac069914b3e5af314b41",
+        "git_status": "??"
+      },
+      "scripts/exam_tutoring_context_408.py": {
+        "local_sha256": "65520a402cb10d9b10dd0f86047c2afae6d192a234017ceb0f68a43b8e0c637e",
+        "review_runtime_sha256": "65520a402cb10d9b10dd0f86047c2afae6d192a234017ceb0f68a43b8e0c637e",
+        "git_status": "??"
+      },
+      "scripts/intake_fact_capture_408.py": {
+        "local_sha256": "65151fcbd68386ade7dfbe9aa299aed098941a9561af4e8b553dac416ec8c4ec",
+        "review_runtime_sha256": "65151fcbd68386ade7dfbe9aa299aed098941a9561af4e8b553dac416ec8c4ec",
+        "git_status": "worktree_modified"
+      },
+      "scripts/knowledge_profile_408.py": {
+        "local_sha256": "d2e458570af0d6bfc5125b35160b042aabb33e03397bfb3c93f3295343f9fb81",
+        "review_runtime_sha256": "d2e458570af0d6bfc5125b35160b042aabb33e03397bfb3c93f3295343f9fb81",
+        "git_status": "??"
+      },
+      "scripts/runtime_paths_408.py": {
+        "local_sha256": "bce35c121bf52cbdb02c869da2e49d748ebb2fcdd12e782541768020d21b30cb",
+        "review_runtime_sha256": "bce35c121bf52cbdb02c869da2e49d748ebb2fcdd12e782541768020d21b30cb",
+        "git_status": "??"
+      },
+      "tests/test_complete_personal_context_408.py": {
+        "local_sha256": "4f0d5b9429119fe7b5684c381eba34edb677dc1b922fbbc4a7f5607128d0b42c",
+        "review_runtime_sha256": "4f0d5b9429119fe7b5684c381eba34edb677dc1b922fbbc4a7f5607128d0b42c",
+        "git_status": "??"
+      },
+      "tests/test_d_episode_correction_408.py": {
+        "local_sha256": "0ba9580218a31ebff4eaccfe6aaf0cbad205b945ef0ce2eded67fef4ae561da0",
+        "review_runtime_sha256": null,
+        "git_status": "??"
+      },
+      "tests/test_exam_tutoring_context_408.py": {
+        "local_sha256": "a75f7835b9223e215271ff7ccf7159fc551464a75169bf9096d3887bdc1b20ed",
+        "review_runtime_sha256": "a75f7835b9223e215271ff7ccf7159fc551464a75169bf9096d3887bdc1b20ed",
+        "git_status": "??"
+      },
+      "tests/test_intake_fact_capture_408.py": {
+        "local_sha256": "d6bb44b67a38aa528383ce550dac207d2796f4dc6b3f928ef5d37714a04cd15c",
+        "review_runtime_sha256": null,
+        "git_status": "worktree_modified"
+      },
+      "tests/test_knowledge_claims_408.py": {
+        "local_sha256": "2c6f0b4c13d744b401acf65f603ab178025817e12f4504823733d0a8aea837fd",
+        "review_runtime_sha256": "2c6f0b4c13d744b401acf65f603ab178025817e12f4504823733d0a8aea837fd",
+        "git_status": "??"
+      }
+    },
+    "changed_files": [
+      "scripts/intake_fact_capture_408.py",
+      "tests/test_d_episode_correction_408.py"
+    ],
+    "test_file_sha256": "8828d71bd4f19206d4c2b0bb0d6cf8f3369d11b1126661a529757626f6df9cea",
+    "installed_skill": {
+      "kaoyan-408-question-worker/SKILL.md": {
+        "sha256": "0fb2bb139c6217b81f915d31bda26275aa250a46d7cb5bd9fe76f532146b9b90",
+        "source_bytes_match": true
+      },
+      "kaoyan-408-question-worker/references/personal-learning-context.md": {
+        "sha256": "253cd21f736acc19f2a4d6d167c44208602b6a091aff159fe2c94c14cdb56d60",
+        "source_bytes_match": true
+      }
+    },
+    "skill_changes": 0,
+    "actual_load": {
+      "runtime_paths_408": {
+        "path": "scripts/runtime_paths_408.py",
+        "sha256": "bce35c121bf52cbdb02c869da2e49d748ebb2fcdd12e782541768020d21b30cb"
+      },
+      "exam_tutoring_context_408": {
+        "path": "scripts/exam_tutoring_context_408.py",
+        "sha256": "65520a402cb10d9b10dd0f86047c2afae6d192a234017ceb0f68a43b8e0c637e"
+      },
+      "knowledge_profile_408": {
+        "path": "scripts/knowledge_profile_408.py",
+        "sha256": "d2e458570af0d6bfc5125b35160b042aabb33e03397bfb3c93f3295343f9fb81"
+      },
+      "d_supplement_learning_408": {
+        "path": "scripts/d_supplement_learning_408.py",
+        "sha256": "d617fed524f6d76fe00d3a90212dbf798d8dae2b1374b57b0693d36ea873e3dd"
+      },
+      "d_episode_correction_408": {
+        "path": "scripts/d_episode_correction_408.py",
+        "sha256": "1ad041e56e51ee7e658e4d5a765c406391633e394346ac069914b3e5af314b41"
+      },
+      "intake_fact_capture_408": {
+        "path": "scripts/intake_fact_capture_408.py",
+        "sha256": "fe46e127d8cd523a3fb945a6cb08f3cc2fce4d7a26df2b530061c18b2b78a53f"
+      }
+    },
+    "interpreter": "/usr/local/bin/python3",
+    "python": "3.14.2",
+    "help_verified": [
+      "exam_tutoring_context_408.py resolve",
+      "exam_tutoring_context_408.py memory",
+      "d_supplement_learning_408.py --help"
+    ],
+    "resolve_entry": "python3 scripts/runtime_paths_408.py --run exam_tutoring_context_408.py resolve --repo . --current-question-id <exact-ID-or-Pxx> --view <authorized-view> --personal-scope teaching --materials core",
+    "D_entry": "python3 scripts/runtime_paths_408.py --run d_supplement_learning_408.py --operation correct-outcome --input-json <native-request>",
+    "installation_status": "ACTIVE_DIRECT_LOAD_FILE_HASH_VERIFIED",
+    "separate_install_copy_required": false
+  },
+  "local_review_commit": {
+    "branch": "codex/408-correction-isolation-20261117",
+    "sha": "b72ec60987ebf5f9d03d591546a5df06664524dd",
+    "parent": "94a8f0c155b4baa99063d8a3bc202e365a870032",
+    "runtime_patch_files": [
+      "runtime-review/current/scripts/intake_fact_capture_408.py",
+      "runtime-review/current/tests/test_d_episode_correction_408.py"
+    ],
+    "matches_native_edited_files": true,
+    "checkout": "../scratch/local-review relative to this receipt",
+    "reason": "Commit isolated against the reviewed runtime bytes while preserving the native dirty branch and its staged changes."
+  },
+  "qa": {
+    "existing_test_mapping": [
+      {
+        "tests": "test_knowledge_claims_408",
+        "covers": "per-claim provenance, status, lifecycle, source binding, replay"
+      },
+      {
+        "tests": "test_complete_personal_context_408",
+        "covers": "supersession, operation collision, derived refresh, budget, protected and Pxx"
+      },
+      {
+        "tests": "test_exam_tutoring_context_408",
+        "covers": "native resolve, version checks, readback and answer protection"
+      },
+      {
+        "tests": "test_knowledge_subpoints_408",
+        "covers": "exact previous version, narrow facets"
+      },
+      {
+        "tests": "test_cross_point_profile_408",
+        "covers": "native cross-point evidence dependency invalidation"
+      },
+      {
+        "tests": "test_d_episode_correction_408",
+        "covers": "A/B Capture preservation and before/after append recovery"
+      }
+    ],
+    "baseline_suites": {
+      "tests": 69,
+      "verdict": "OK",
+      "log_sha256": "e7305338825e7073e01a066dfffade78ae5a7cff4887e9a17693c4992850cbb3",
+      "command": "TMPDIR=\"<verified T9 scratch>\" PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=\"tests:scripts\" /usr/local/bin/python3 -m unittest -v test_knowledge_claims_408 test_complete_personal_context_408 test_exam_tutoring_context_408 test_knowledge_subpoints_408 test_cross_point_profile_408 test_d_episode_correction_408"
+    },
+    "targeted_suites": {
+      "tests": 135,
+      "verdict": "OK",
+      "log_sha256": "4358c0d4e8aa011926a906f6151396ef2fffb76308b85c3651f4759e169935c1",
+      "command": "TMPDIR=\"<verified T9 scratch>\" PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=\"tests:scripts\" /usr/local/bin/python3 -m unittest -v test_knowledge_claims_408 test_complete_personal_context_408 test_exam_tutoring_context_408 test_knowledge_subpoints_408 test_cross_point_profile_408 test_d_episode_correction_408 test_d_episode_evidence_408 test_d_supplement_learning_408"
+    },
+    "expanded_suites": {
+      "tests": 192,
+      "verdict": "FAILED (errors=2)",
+      "log_sha256": "39dc8de32bc2fb66e81910934fd50a694ad385ceb41f64244ad792c1152f471f",
+      "command": "TMPDIR=\"<verified T9 scratch>\" PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=\"tests:scripts\" /usr/local/bin/python3 -m unittest -v test_knowledge_claims_408 test_complete_personal_context_408 test_exam_tutoring_context_408 test_knowledge_subpoints_408 test_cross_point_profile_408 test_d_episode_correction_408 test_d_episode_evidence_408 test_d_supplement_learning_408 test_intake_fact_capture_408",
+      "errors_reproduced_on_unmodified_runtime": [
+        "test_intake_fact_capture_408.IntakeFactCaptureTests.test_resolved_needs_user_retries_same_set_and_carries_prior_success",
+        "test_intake_fact_capture_408.IntakeFactCaptureTests.test_same_result_or_close_with_new_key_is_semantic_noop"
+      ],
+      "prior_failure_replay": {
+        "tests": 2,
+        "verdict": "FAILED (errors=2)",
+        "log_sha256": "28adb84884a057e7a7626309aa16f42c5a8ff1256495d150859dd7eab0d24de9"
+      },
+      "error_scope": "daily batch mark_result semantic idempotency and carried result; separate from correct_outcome"
+    },
+    "capture_lock_regression": {
+      "before": {
+        "tests": 2,
+        "verdict": "FAILED (failures=1)",
+        "log_sha256": "776ad447721bffb2a9bf3fe6eebb5f63abd5d9a100af651ab4a85d5599e3074c",
+        "command": "TMPDIR=\"<verified T9 scratch>\" PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=\"tests:scripts\" /usr/local/bin/python3 -m unittest -v test_d_episode_correction_408.CorrectionTests.test_capture_consumed_after_freeze_cannot_be_reopened_by_correction test_d_episode_correction_408.CorrectionTests.test_durable_correction_retry_after_consumption_does_not_append"
+      },
+      "after": {
+        "tests": 5,
+        "verdict": "OK",
+        "log_sha256": "a5764170cfb888ec6c9bbd2aa9135aab73d345e686edf8a1d3e314c352aa856e",
+        "command": "TMPDIR=\"<verified T9 scratch>\" PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=\"tests:scripts\" /usr/local/bin/python3 -m unittest -v test_d_episode_correction_408"
+      },
+      "reproduction": "Freeze request; stop after candidate package; mark the synthetic Capture already_current; close the batch; resume correction.",
+      "old_behavior": "new supplement accepted after consumption",
+      "now": "D_correction_requires_unconsumed_capture",
+      "retry_when_event_already_durable": "accepted with zero extra learning events, even after consumption"
+    },
+    "additional_rejections": {
+      "missing_B": "profile_claims_cannot_disappear",
+      "same_operation_changed_input": "profile_operation_content_conflict",
+      "stale_previous_version": "profile_version_conflict",
+      "new_D_supplement_after_consumption": "D_correction_requires_unconsumed_capture"
+    },
+    "fixture_replay": {
+      "status": "PASS",
+      "command": "TMPDIR=\"<verified T9 scratch>\" PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=\"tests:scripts\" /usr/local/bin/python3 \"<delivery>/check_correction_isolation_408.py\"",
+      "cwd": "real 408 source checkout",
+      "data": "synthetic only; normal wrapper runs subprocess with isolated repo, state, details and CODEX_HOME",
+      "scope_binding": "pre-write fixture scope commitment plus native writer expected_points and expected_previous_version",
+      "before_after_hashes_are_run_local": "recorded_at and synthetic absolute paths participate in native hashes"
+    },
+    "native_projection_audit": {
+      "status": "pass",
+      "full_recompute": true
+    },
+    "differences": {
+      "profile": {
+        "synthetic_ids": {
+          "A": "KCL-03e4a4979e112f824bc79eed",
+          "B": "KCL-e5a999f9dcb2cd6ec388ef91",
+          "C": "KCL-e08828402e54f256b94c0a21",
+          "D": "KCL-d00bc8457ef4d3d33e33f8e7"
+        },
+        "intended_changes": {
+          "correct": [
+            "KCL-03e4a4979e112f824bc79eed",
+            "KCL-d00bc8457ef4d3d33e33f8e7"
+          ],
+          "withdraw": [
+            "KCL-03e4a4979e112f824bc79eed"
+          ]
+        },
+        "scope_commitment": "f3c06c8bba3465e79669b574c8bfe0cc6f7982aeee85f2ea68aa2a64d75339cb",
+        "observed_changes": {
+          "correct": [
+            "KCL-03e4a4979e112f824bc79eed",
+            "KCL-d00bc8457ef4d3d33e33f8e7"
+          ],
+          "withdraw": [
+            "KCL-03e4a4979e112f824bc79eed"
+          ]
+        },
+        "rejections": {
+          "omit_B": "profile_claims_cannot_disappear"
+        },
+        "rows": {
+          "A": [
+            {
+              "lifecycle": "current",
+              "basis": "observed_attempt",
+              "evidence_status": "explicit_gap",
+              "claim_sha256": "b6ee792866e7e1d0779b533a9e01327df67f0c4ffe1a86b80a3c94cf3ef20767"
+            },
+            {
+              "lifecycle": "current",
+              "basis": "observed_attempt",
+              "evidence_status": "independent_demonstrated",
+              "claim_sha256": "34a34c4e7f05f0a9e03ac7fd061d11b47383bb043557b1b1dcce0e88806782a6"
+            },
+            {
+              "lifecycle": "retracted",
+              "basis": "observed_attempt",
+              "evidence_status": "independent_demonstrated",
+              "claim_sha256": "6e16dc66523ec5bc400fb848ee5df68e91e888a4ef99070ae7a020a23312194f"
+            }
+          ],
+          "B": [
+            {
+              "lifecycle": "current",
+              "basis": "observed_attempt",
+              "evidence_status": "prompted_repair",
+              "claim_sha256": "0fbb66c19a0a01789716fb10ee17555364ba38155186835fc037221e2768a3ab"
+            },
+            {
+              "lifecycle": "current",
+              "basis": "observed_attempt",
+              "evidence_status": "prompted_repair",
+              "claim_sha256": "0fbb66c19a0a01789716fb10ee17555364ba38155186835fc037221e2768a3ab"
+            },
+            {
+              "lifecycle": "current",
+              "basis": "observed_attempt",
+              "evidence_status": "prompted_repair",
+              "claim_sha256": "0fbb66c19a0a01789716fb10ee17555364ba38155186835fc037221e2768a3ab"
+            }
+          ],
+          "D": [
+            {
+              "lifecycle": "current",
+              "basis": "reviewed_inference",
+              "evidence_status": "unverified",
+              "claim_sha256": "6887d040a9ae077834e0fb0ad10223deff7f70740920cd229c93fd46b3a2ca90"
+            },
+            {
+              "lifecycle": "retracted",
+              "basis": "reviewed_inference",
+              "evidence_status": "unverified",
+              "claim_sha256": "18787115bb5a883fb39804050c55b06eff78e8357e7f03ff254b1069b30e5636"
+            },
+            {
+              "lifecycle": "retracted",
+              "basis": "reviewed_inference",
+              "evidence_status": "unverified",
+              "claim_sha256": "18787115bb5a883fb39804050c55b06eff78e8357e7f03ff254b1069b30e5636"
+            }
+          ]
+        },
+        "unrelated_B": [
+          {
+            "phase": "initial",
+            "record_sha256": "526110afa45547b6b610f5ae3fd58d3e5e8e01ce1685fb59d34b421b185b74ff",
+            "claim_sha256": "0fbb66c19a0a01789716fb10ee17555364ba38155186835fc037221e2768a3ab",
+            "recorded_at": "2026-11-17T07:07:43.266929+00:00",
+            "exact_part_read": "complete",
+            "protected_read": "withheld",
+            "sibling_read": "isolated",
+            "source_binding_sha256": "2b58adc72f559b34c1e0e5bc0f3a6083019b984466b06a97541a3498670fda9c",
+            "bounded_max_bytes": 5200,
+            "bounded_omitted_claim_count": 3
+          },
+          {
+            "phase": "correct",
+            "record_sha256": "526110afa45547b6b610f5ae3fd58d3e5e8e01ce1685fb59d34b421b185b74ff",
+            "claim_sha256": "0fbb66c19a0a01789716fb10ee17555364ba38155186835fc037221e2768a3ab",
+            "recorded_at": "2026-11-17T07:07:43.266929+00:00",
+            "exact_part_read": "complete",
+            "protected_read": "withheld",
+            "sibling_read": "isolated",
+            "source_binding_sha256": "2b58adc72f559b34c1e0e5bc0f3a6083019b984466b06a97541a3498670fda9c",
+            "bounded_max_bytes": 5200,
+            "bounded_omitted_claim_count": 2
+          },
+          {
+            "phase": "withdraw",
+            "record_sha256": "526110afa45547b6b610f5ae3fd58d3e5e8e01ce1685fb59d34b421b185b74ff",
+            "claim_sha256": "0fbb66c19a0a01789716fb10ee17555364ba38155186835fc037221e2768a3ab",
+            "recorded_at": "2026-11-17T07:07:43.266929+00:00",
+            "exact_part_read": "complete",
+            "protected_read": "withheld",
+            "sibling_read": "isolated",
+            "source_binding_sha256": "2b58adc72f559b34c1e0e5bc0f3a6083019b984466b06a97541a3498670fda9c",
+            "bounded_max_bytes": 5200,
+            "bounded_omitted_claim_count": 1
+          }
+        ],
+        "unrelated_C": {
+          "before_version": "c66672dec18205c6ce50186a356839f320992881bfbe2086e4735faf5b2eea5b",
+          "after_version": "c66672dec18205c6ce50186a356839f320992881bfbe2086e4735faf5b2eea5b",
+          "object_digest": "c66672dec18205c6ce50186a356839f320992881bfbe2086e4735faf5b2eea5b",
+          "evidence_status": "independent_demonstrated"
+        },
+        "D_dependency": {
+          "type": "explicit_review_from_shared_exact_synthetic_source_turn",
+          "native_automatic_claim_dependency": false,
+          "source_sha256": "1ea7c7f8112e60ac932ef0321ab7109b8b5315d9e8e8df53871d860534be188f"
+        },
+        "verified_sources": [
+          {
+            "id": "SYNTH-A-ORIGINAL",
+            "sha256": "1ea7c7f8112e60ac932ef0321ab7109b8b5315d9e8e8df53871d860534be188f",
+            "review_state": "reviewed",
+            "roles": [
+              "user"
+            ],
+            "byte_match": true
+          },
+          {
+            "id": "SYNTH-A-CORRECTION",
+            "sha256": "7ba1cbce386a652852f3ed2024e82b7d58dfff9852fca8ca4863cdfb05b1bc36",
+            "review_state": "reviewed",
+            "roles": [
+              "user"
+            ],
+            "byte_match": true
+          },
+          {
+            "id": "SYNTH-B",
+            "sha256": "7d21eb476b0cc30526a78d2b4ee01c8f90f1840c99503b07a5d745e0cdb8f8a3",
+            "review_state": "reviewed",
+            "roles": [
+              "assistant",
+              "user"
+            ],
+            "byte_match": true
+          },
+          {
+            "id": "SYNTH-C",
+            "sha256": "ce7a83036ef165b7451d3b9e2803264181609886492418fb785c7615e3a356d5",
+            "review_state": "reviewed",
+            "roles": [
+              "user"
+            ],
+            "byte_match": true
+          }
+        ],
+        "protection_and_source_class_unchanged": true,
+        "unexpected_deleted": 0,
+        "unexpected_semantic_changes": 0,
+        "committed_versions": [
+          "1aa3d61b9d9a5a4c666b31ab1c281207dd442a6c0a16d3eab30953cf88fd5e26",
+          "ad049be4962f9bedc6c00ebc415d50a23362785f212d8bc2a1d0db42850afce2",
+          "7fd279068c69b93e287e8ad2803655c00e8a2792121bee9f1df86b8dbae28632"
+        ],
+        "native_writer_receipts": [
+          {
+            "status": "applied",
+            "generation": "11bf77c69b277d298dde35da6a1cabe2cba458a11c8167a9142136a0df6dbc2a",
+            "request_sha256": "0beeef6c4efe5c6be9bbd9592e31b5651674a320a6b96c2df917a484b1c11ed1"
+          },
+          {
+            "status": "applied",
+            "generation": "03fab974967426c59cf2d5eb973cb3f63132e21b46bc0d96de0eb5c83de20224",
+            "request_sha256": "62c02f7f52a52e1dd01148ca107d55d223c4d20257023e9298a949a27230d5f8"
+          },
+          {
+            "status": "applied",
+            "generation": "7bc8b1716563d0df8101f7f939ede59d068c3ad51dab5fd73e8094c779cfd417",
+            "request_sha256": "a8d64d76fafade332bcd2927ea4f5972d999acccafedd9defeef9815f639edd2"
+          }
+        ],
+        "derived_refresh_receipts": [
+          {
+            "status": "refreshed",
+            "receipt_sha256": "0661986a6026ea44dfd01e86d815cd8089f6b2c0f680fba24c9af653c56c76eb",
+            "source_version": "ec1e18c0ceb8b234d8ae65b5958381e1801413787337674dae93083e5b1e9da2"
+          },
+          {
+            "status": "refreshed",
+            "receipt_sha256": "2e06b9eebd063900ea6fffbb77f5b92c5a4d304467a3ac7c93354c799452c9c2",
+            "source_version": "44a5c1bd19e25ef2b877444f602edab9795a2e93b79dc9165f571be31edcf963"
+          },
+          {
+            "status": "refreshed",
+            "receipt_sha256": "ddbd3bd50ccb26e013ccb15d994222c1bca08d1b5fdb61ee7650de26d251ed1e",
+            "source_version": "f8e37054c682d052c456aed1acdb454898342391cd843acec19f13005d65ecc6"
+          }
+        ],
+        "native_refresh_audit": {
+          "status": "pass",
+          "full_recompute": true
+        },
+        "fixture_question": {
+          "parent": "EXAM408-2020-Q45",
+          "part": "EXAM408-2020-Q45-P01",
+          "sibling": "EXAM408-2020-Q45-P02"
+        },
+        "learning_review_ledger_unchanged": true,
+        "model_call_count": 0
+      },
+      "capture": {
+        "synthetic_target_ids": [
+          "CAP-20261117-2dbcd2704a02"
+        ],
+        "observed_changes": [
+          "CAP-20261117-2dbcd2704a02"
+        ],
+        "unrelated_B": {
+          "id": "CAP-20261117-b3d3b2563e94",
+          "before_record_sha256": "d2f5c6a72cdf5cee5e1a4064c65a13445438ffb2d8caab30664006b74d042bb8",
+          "after_record_sha256": "d2f5c6a72cdf5cee5e1a4064c65a13445438ffb2d8caab30664006b74d042bb8",
+          "original_sealed_source_sha256": "45b7ea6ae2fbce7d9d5bbc95e4df967cf58643bbd4f3bc5d8f614938197aa5e6",
+          "source_class": "canonical_original"
+        },
+        "original_A_sha256": "e9c5731f0c949bf1e948e9e172fcb941c0bbfa083a866d2cd2647c5c397fb9ac",
+        "corrected_A_sha256": "8f210d3435d9f3db4e0845b9698f5ce9eee948083469911db381b55bf4c051fc",
+        "A_class": "verified_variant",
+        "A_original_attachments_verified": 3,
+        "A_parent_binding_verified": true,
+        "A_original_transcript_prefix_verified": true,
+        "A_before_labels": {
+          "terminal_state": "prompted_correct",
+          "prompt_dependency": "minimal"
+        },
+        "A_after_labels": {
+          "terminal_state": "correct",
+          "prompt_dependency": "none"
+        },
+        "ledger_before_sha256": "de457f446b34b060bfb267de5a98ec7238957c970742d043daa96ce1ef80e39b",
+        "ledger_after_sha256": "442efbcff55721bdd567dcd67271fded08e2f2282deb7f6b8d52aa29e3123611",
+        "original_ledger_byte_prefix": true,
+        "fixture_correction_events_added": 1,
+        "retry_events_added": 0,
+        "unexpected_deleted": 0,
+        "unexpected_semantic_changes": 0,
+        "navigation_writes": 0,
+        "formal_writes": 0,
+        "fsrs_writes": 0,
+        "personal_summary_writes": 0
+      }
+    },
+    "production_wrapper": {
+      "scope": "read-only protected smoke check",
+      "results": [
+        {
+          "status": "available",
+          "view": "protected",
+          "source_version": "4583d1a57c579c76bf75b95033b9a66513f898bb0ce69c28f3eaff6126aae02e",
+          "question_visual_template": {
+            "status": "protected"
+          },
+          "identity_kind": "parent",
+          "personal_read_status": "withheld",
+          "no_claim_payload": true,
+          "exit_code": 0
+        },
+        {
+          "status": "unknown_concept",
+          "view": "protected",
+          "source_version": "4583d1a57c579c76bf75b95033b9a66513f898bb0ce69c28f3eaff6126aae02e",
+          "question_visual_template": {
+            "status": "protected"
+          },
+          "identity_kind": "part",
+          "personal_read_status": "withheld",
+          "no_claim_payload": true,
+          "exit_code": 0
+        }
+      ],
+      "scope_note": "The protected Pxx returned unknown_concept with exit 0 and withheld personal payload. Authorized positive Pxx readback was verified in the isolated fixture."
+    }
+  },
+  "study_library_snapshot": {
+    "subject": "408",
+    "source_commit": "2dba97c220bd238f16b0fd3be9bdb9025b169906",
+    "local_version": "fdc38d837caebb7c7508438000db1b7a1a4c8363d5d107ec0fd19535f708c7b7",
+    "source_role": "local_immutable_study_snapshot",
+    "publication_target": "local",
+    "freshness": "current",
+    "freshness_reason": "versions_match",
+    "coverage_status": "PARTIAL",
+    "counts": {
+      "formal_nodes": 640,
+      "review_events": 2411,
+      "history_packages": 1453
+    },
+    "source_gap_count": 83,
+    "source_coverage_sha256": "b5c1bbd72ad959e18ce4d8b86425b9ccc39990d694d91eeddb5023cd2544cc81",
+    "live_read_only_byte_matches": {
+      ".private/knowledge-profiles-v1/current.json": true,
+      "节点总表.md": true,
+      "wiki/study_vaults/408-full/state/review-loop/events.jsonl": true,
+      "wiki/study_vaults/408-full/state/intake-curation/events.jsonl": true,
+      "wiki/study_vaults/408-full/state/exam-tutoring-context-v1/manifest.json": true
+    },
+    "new_publication": "NOT_EXECUTED",
+    "before_after_snapshot_identity_match": true
+  },
+  "visibility": {
+    "github_push": "NOT_EXECUTED",
+    "shared_publication": "NOT_EXECUTED",
+    "chatgpt_web_readback": "PENDING",
+    "shared_mcp_publisher_config_renderer_changes": 0
+  },
+  "writes_and_model_calls": {
+    "external_model_calls": 0,
+    "embedding_calls": 0,
+    "decisions_calls": 0,
+    "production_learner_evidence_writes": 0,
+    "production_formal_question_writes": 0,
+    "production_fsrs_writes": 0,
+    "production_personal_profile_writes": 0,
+    "production_navigation_writes": 0,
+    "fixture_profile_commits_in_difference": 3,
+    "fixture_seed_capture_events_in_difference": 2,
+    "fixture_D_correction_appends_in_difference": 1,
+    "fixture_duplicate_events_in_difference": 0
+  },
+  "reference_scope": [
+    {
+      "url": "https://aclanthology.org/2026.realm-1.43.pdf",
+      "use": "unrelated-record preservation criterion"
+    },
+    {
+      "url": "https://github.com/khannoussi-malek/PaperLab/blob/v0.3.1/backend/app/models/note.py",
+      "use": "provenance distinction mapped to existing source_refs, basis and evidence_status"
+    },
+    {
+      "url": "https://www.nand2tetris.org/project02",
+      "use": "external experiment reference only",
+      "learning_evidence_added": 0
+    }
+  ],
+  "rollback": {
+    "native_patch": "408-native-change.patch",
+    "reverse_dry_run": "git apply --reverse --check <delivery>/408-native-change.patch",
+    "dry_run": "PASS",
+    "executed": false,
+    "scope": "two code/test paths only; retain real learner history"
+  },
+  "replay_files": {
+    "408-native-change.patch": "2c3d2c08de099c6af8102ae147fadb9cc7e09dd252ae4c4e494bd915dccb3606",
+    "408-correction-review.patch": "76fe44916d80c22eae3af9080306dd6e9f7dc154ad43b900a7decdd6142c5c02",
+    "check_correction_isolation_408.py": "593e0de7d982112b2cf7e55a95a7a14d9e2dc977fd0b2213acc28bdde5e09762"
+  }
+}
