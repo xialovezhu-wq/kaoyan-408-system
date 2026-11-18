@@ -1,0 +1,1472 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>408 图解 · EXAM408-2099-Q43-P01</title><style>html{font:16px/1.55 system-ui,sans-serif;color:var(--foreground);background:var(--background);--background:#fff;--foreground:#17263a;--muted-foreground:#526578;--border:#ccd5df}body{margin:0;padding:clamp(10px,2.8vw,28px);min-width:0}button,input,select{font:inherit}button{cursor:pointer}:focus-visible{outline:2px solid #1878a2;outline-offset:2px}@media(prefers-color-scheme:dark){html{--background:#18232f;--foreground:#ecf2f7;--muted-foreground:#b2c4d4;--border:#465869}}</style></head><body>
+<section id="cs408-drawing-6f667f502ac71788" class="cs408-drawing" aria-label="机制图">
+  <h3 data-title hidden></h3>
+  <div class="diagram-lesson">
+    <div data-model></div>
+    <aside class="diagram-brief" aria-label="本步说明">
+      <span data-current-step class="text-small" hidden></span>
+      <p data-example hidden>机制示意</p>
+      <p data-condition hidden></p>
+      <p data-caption aria-live="polite" hidden></p>
+      <p data-rule hidden></p>
+    </aside>
+  </div>
+  <details data-derivation hidden>
+    <summary>查看推导</summary>
+    <div data-reasoning></div>
+  </details>
+</section>
+<style>#cs408-drawing-6f667f502ac71788 {
+  --ink:var(--foreground,#152747); --quiet:var(--muted-foreground,#536783);
+  --paper:var(--background,#fff); --frame:var(--border,#cbd8e5);
+  --accent:var(--viz-series-1,#17698f); --hit:var(--viz-series-2,#af5919);
+  --accent-soft:color-mix(in srgb,var(--accent) 12%,var(--paper));
+  font:inherit;color:var(--ink);max-width:52rem;margin:0 auto;
+}
+#cs408-drawing-6f667f502ac71788 [hidden] { display:none!important; }
+#cs408-drawing-6f667f502ac71788 [data-example] { font-size:.82em;color:var(--quiet);margin:.3rem 0 0; }
+#cs408-drawing-6f667f502ac71788 .diagram-controls { display:flex;align-items:center;justify-content:space-between;gap:.7rem;flex-wrap:wrap;margin:.25rem 0 .55rem; }
+#cs408-drawing-6f667f502ac71788 .diagram-nav { display:flex;align-items:center;gap:.35rem; }
+#cs408-drawing-6f667f502ac71788 .diagram-nav button { border:1px solid var(--frame);border-radius:.35rem;background:var(--paper);color:var(--ink);font:inherit;min-width:2rem;min-height:2rem;cursor:pointer; }
+#cs408-drawing-6f667f502ac71788 .diagram-nav button:disabled { opacity:.4;cursor:default; }
+#cs408-drawing-6f667f502ac71788 .diagram-nav input { max-width:8rem;accent-color:var(--accent); }
+#cs408-drawing-6f667f502ac71788 .diagram-stage { font-size:.9em;font-weight:650;margin-inline:.2em; }
+#cs408-drawing-6f667f502ac71788 .diagram-count { color:var(--hit);font-weight:650;font-variant-numeric:tabular-nums; }
+#cs408-drawing-6f667f502ac71788 .diagram-measures { display:flex;flex-wrap:wrap;gap:.25rem 1rem;color:var(--quiet);font-size:.87em; }
+#cs408-drawing-6f667f502ac71788 .diagram-measure-value { color:var(--ink);font-variant-numeric:tabular-nums; }
+#cs408-drawing-6f667f502ac71788 .diagram-scroll { overflow-x:auto; }
+#cs408-drawing-6f667f502ac71788 svg { display:block; }
+#cs408-drawing-6f667f502ac71788 .diagram-scene { font:inherit; }
+#cs408-drawing-6f667f502ac71788 .diagram-scene text, #cs408-drawing-6f667f502ac71788 .mechanism-svg text { fill:var(--ink);font-size:13px; }
+#cs408-drawing-6f667f502ac71788 .diagram-scene .diagram-zone { fill:var(--paper);stroke:var(--frame); }
+#cs408-drawing-6f667f502ac71788 .diagram-scene .diagram-zone-title { fill:var(--quiet);font-size:12px; }
+#cs408-drawing-6f667f502ac71788 .diagram-wire, #cs408-drawing-6f667f502ac71788 .mechanism-line { fill:none;stroke:var(--frame);stroke-width:1.4; }
+#cs408-drawing-6f667f502ac71788 .diagram-wire[data-active] { stroke:var(--accent);stroke-width:2.5; }
+#cs408-drawing-6f667f502ac71788 .diagram-wire[data-inactive] { stroke-dasharray:4 4; }
+#cs408-drawing-6f667f502ac71788 .diagram-edge-label { fill:var(--quiet);font-size:11px;paint-order:stroke;stroke:var(--paper);stroke-width:4px; }
+#cs408-drawing-6f667f502ac71788 .diagram-node { cursor:pointer;outline:none; }
+#cs408-drawing-6f667f502ac71788 .diagram-node .body, #cs408-drawing-6f667f502ac71788 .mechanism-box { fill:var(--paper);stroke:var(--frame);stroke-width:1.4; }
+#cs408-drawing-6f667f502ac71788 .diagram-node[data-active] .body, #cs408-drawing-6f667f502ac71788 .diagram-node[data-selected] .body { fill:var(--accent-soft);stroke:var(--accent);stroke-width:2; }
+#cs408-drawing-6f667f502ac71788 .diagram-node[data-read] .body { stroke:var(--hit);stroke-width:2.5; }
+#cs408-drawing-6f667f502ac71788 .diagram-node:focus-visible .body { stroke:var(--accent);stroke-width:3;stroke-dasharray:3 2; }
+#cs408-drawing-6f667f502ac71788 .diagram-value { fill:var(--quiet);font-size:11px;font-weight:500; }
+#cs408-drawing-6f667f502ac71788 .diagram-name { font-weight:600; }
+#cs408-drawing-6f667f502ac71788 .diagram-icon { fill:none;stroke:var(--accent);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round; }
+#cs408-drawing-6f667f502ac71788 .diagram-arrow, #cs408-drawing-6f667f502ac71788 .mechanism-arrowhead { fill:var(--accent); }
+#cs408-drawing-6f667f502ac71788 .mechanism-svg { max-width:100%;height:auto; }
+#cs408-drawing-6f667f502ac71788 .mechanism-line { stroke:var(--accent); }
+#cs408-drawing-6f667f502ac71788 .mechanism-line[data-lifeline],
+#cs408-drawing-6f667f502ac71788 .mechanism-line[data-time-axis] { stroke:var(--frame); }
+#cs408-drawing-6f667f502ac71788 .mechanism-line[data-current-step] { stroke-width:2.5; }
+#cs408-drawing-6f667f502ac71788 .mechanism-table { width:100%;table-layout:fixed;border-collapse:collapse; }
+#cs408-drawing-6f667f502ac71788 .mechanism-table :is(th,td) { padding:.38em .28em;border:1px solid var(--frame);overflow-wrap:anywhere; }
+#cs408-drawing-6f667f502ac71788 .mechanism-table [data-active] { background:var(--accent-soft);box-shadow:inset 0 -2px var(--accent);font-weight:650; }
+#cs408-drawing-6f667f502ac71788 .diagram-phase-controls { display:flex;flex-wrap:wrap;gap:.3rem;margin-block:.3rem .65rem; }
+#cs408-drawing-6f667f502ac71788 .diagram-phase-controls button { border:1px solid var(--frame);border-radius:.3rem;background:var(--paper);color:var(--ink);font:inherit;cursor:pointer;padding:.25rem .45rem; }
+#cs408-drawing-6f667f502ac71788 .diagram-phase-controls button[aria-pressed="true"] { background:var(--accent-soft);border-color:var(--accent); }
+#cs408-drawing-6f667f502ac71788 .mechanism-flow, #cs408-drawing-6f667f502ac71788 .mechanism-transition, #cs408-drawing-6f667f502ac71788 .mechanism-band { display:flex;align-items:center;gap:.4rem;flex-wrap:wrap; }
+#cs408-drawing-6f667f502ac71788 .mechanism-stage, #cs408-drawing-6f667f502ac71788 .mechanism-cell { padding:.3em .55em;border:1px solid var(--frame); }
+#cs408-drawing-6f667f502ac71788 .mechanism-offset { fill:var(--accent-soft); }
+#cs408-drawing-6f667f502ac71788 .serial-frame { display:grid;gap:2px;margin-block:.5rem; }
+#cs408-drawing-6f667f502ac71788 .serial-frame button,
+#cs408-drawing-6f667f502ac71788 .timing-choices button {
+  border:1px solid var(--frame);border-radius:.3rem;background:var(--paper);color:var(--ink);
+  padding:.5rem .15rem;font:inherit;cursor:pointer;text-align:center;
+}
+#cs408-drawing-6f667f502ac71788 .serial-frame button small { display:block;font-size:.86em; }
+#cs408-drawing-6f667f502ac71788 .serial-frame button[aria-pressed="true"],
+#cs408-drawing-6f667f502ac71788 .timing-choices button[aria-pressed="true"] { background:var(--accent-soft);border-color:var(--accent); }
+#cs408-drawing-6f667f502ac71788 .diagram-total { display:block;text-align:right;color:var(--quiet); }
+#cs408-drawing-6f667f502ac71788 .timing-choices { display:flex;gap:.3rem;margin-block:.4rem; }
+#cs408-drawing-6f667f502ac71788 .timing-choices button { padding:.25rem .45rem; }
+#cs408-drawing-6f667f502ac71788 .diagram-timing { width:100%;height:auto; }
+#cs408-drawing-6f667f502ac71788 .diagram-timing text { fill:var(--ink);font-size:14px; }
+#cs408-drawing-6f667f502ac71788 .timing-span { fill:color-mix(in srgb,var(--frame) 34%,var(--paper)); }
+#cs408-drawing-6f667f502ac71788 .timing-span.device[data-active] { fill:var(--accent-soft); }
+#cs408-drawing-6f667f502ac71788 .timing-span.cpu[data-active] { fill:color-mix(in srgb,var(--hit) 20%,var(--paper)); }
+#cs408-drawing-6f667f502ac71788 .question-timeline { display:block;width:100%;min-width:570px;height:auto; }
+#cs408-drawing-6f667f502ac71788 .question-timeline text { font-size:13px;fill:var(--ink); }
+#cs408-drawing-6f667f502ac71788 .timeline-block { fill:var(--accent-soft);stroke:var(--frame); }
+#cs408-drawing-6f667f502ac71788 .timeline-block[data-tone="2"] { fill:color-mix(in srgb,var(--hit) 17%,var(--paper)); }
+#cs408-drawing-6f667f502ac71788 .timeline-block[data-tone="3"] { fill:color-mix(in srgb,var(--frame) 40%,var(--paper)); }
+#cs408-drawing-6f667f502ac71788 .timeline-block[data-tone="4"] { fill:color-mix(in srgb,var(--accent) 25%,var(--paper)); }
+#cs408-drawing-6f667f502ac71788 .wave-picks { display:flex;gap:3px;margin:0 3.125%; }
+#cs408-drawing-6f667f502ac71788 .wave-picks button {
+  flex:1;border:1px solid var(--frame);border-radius:.3rem;padding:.35rem 0;
+  background:var(--paper);color:var(--ink);font:inherit;cursor:pointer;
+}
+#cs408-drawing-6f667f502ac71788 .wave-picks button[aria-pressed="true"] { background:var(--accent-soft);border-color:var(--accent); }
+#cs408-drawing-6f667f502ac71788 .wave-plot { width:100%;height:auto; }
+#cs408-drawing-6f667f502ac71788 .wave-plot text { fill:var(--ink);font-size:14px; }
+#cs408-drawing-6f667f502ac71788 .wave-bit { fill:var(--accent-soft); }
+#cs408-drawing-6f667f502ac71788 .wave-boundary, #cs408-drawing-6f667f502ac71788 .wave-mid { stroke:var(--frame);stroke-dasharray:4 3; }
+#cs408-drawing-6f667f502ac71788 .wave-mid { stroke-dasharray:1 4; }
+#cs408-drawing-6f667f502ac71788 .wave-cursor { stroke:var(--accent);stroke-width:1.6;stroke-dasharray:3 2; }
+#cs408-drawing-6f667f502ac71788 .wave-line { fill:none;stroke:var(--ink);stroke-width:2; }
+#cs408-drawing-6f667f502ac71788 .diagram-reasoning { white-space: pre-wrap; max-width: 70ch; line-height: 1.65; }
+
+/* Paper and ink follow the host theme. Keep the exam's orientation and topology. */
+#cs408-drawing-6f667f502ac71788 {
+  --board-ink:var(--foreground,#282724);
+  --board-paper:color-mix(in srgb,var(--background,#fff) 94%,var(--orange,#bb7a30));
+  --board-grid:color-mix(in srgb,var(--board-ink) 8%,transparent);
+  --board-current:color-mix(in srgb,var(--green,#699052) 21%,var(--background,#fff));
+  --board-note:color-mix(in srgb,var(--purple,#8c75a5) 10%,var(--background,#fff));
+  --board-line:color-mix(in srgb,var(--board-ink) 22%,var(--background,#fff));
+  color:var(--board-ink);container-type:inline-size;max-width:100%;
+}
+#cs408-drawing-6f667f502ac71788 .diagram-lesson {display:grid;gap:1rem;align-items:start}
+#cs408-drawing-6f667f502ac71788 .diagram-lesson > * {min-width:0}
+#cs408-drawing-6f667f502ac71788 .diagram-brief {display:grid;gap:.55rem;align-content:start}
+#cs408-drawing-6f667f502ac71788 .diagram-brief p {margin:0;text-wrap:pretty}
+#cs408-drawing-6f667f502ac71788 .diagram-brief:has(> p:not([hidden])) {border-inline-start:3px solid var(--board-line);padding-inline-start:.8rem}
+#cs408-drawing-6f667f502ac71788 [data-caption]:not([hidden]) {color:var(--board-ink);background:var(--board-note);padding:.5rem .65rem;border-radius:.4rem}
+#cs408-drawing-6f667f502ac71788 .diagram-scroll {
+  background-color:var(--board-paper);
+  background-image:repeating-linear-gradient(30deg,transparent 0 18px,var(--board-grid) 18px 19px,transparent 19px 37px),
+                   repeating-linear-gradient(150deg,transparent 0 18px,var(--board-grid) 18px 19px,transparent 19px 37px);
+  border:1px solid var(--board-line);border-radius:.65rem;scrollbar-width:thin
+}
+#cs408-drawing-6f667f502ac71788 .diagram-scene .diagram-zone {fill:color-mix(in srgb,var(--board-paper) 65%,transparent);stroke:var(--board-line)}
+#cs408-drawing-6f667f502ac71788 .diagram-node .body {fill:var(--board-paper);stroke:var(--board-ink)}
+#cs408-drawing-6f667f502ac71788 .diagram-node[data-active] .body {fill:var(--board-current);stroke:var(--board-ink)}
+#cs408-drawing-6f667f502ac71788 .diagram-node[data-selected] .body {stroke:var(--accent);stroke-width:3}
+#cs408-drawing-6f667f502ac71788 .diagram-packet {fill:var(--accent);stroke:var(--paper);stroke-width:1;pointer-events:none}
+#cs408-drawing-6f667f502ac71788 .diagram-workbench {display:grid;gap:.45rem}
+#cs408-drawing-6f667f502ac71788 .diagram-controls {display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap}
+#cs408-drawing-6f667f502ac71788 .diagram-count,#cs408-drawing-6f667f502ac71788 .diagram-measure-value {font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums;color:var(--board-ink)}
+#cs408-drawing-6f667f502ac71788 .diagram-count {background:var(--board-current);border-radius:.35rem;padding:.24rem .55rem}
+#cs408-drawing-6f667f502ac71788 .diagram-transport,#cs408-drawing-6f667f502ac71788 .diagram-condition {display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+#cs408-drawing-6f667f502ac71788 .diagram-rail {display:flex;gap:.3rem;flex-wrap:wrap}
+#cs408-drawing-6f667f502ac71788 .diagram-stop {display:inline-flex;align-items:center;gap:.32rem;white-space:normal;text-align:start}
+#cs408-drawing-6f667f502ac71788 .diagram-stop-num {border-radius:50%;padding:.03rem .36rem;border:1px solid var(--board-line);font-family:ui-monospace,monospace}
+#cs408-drawing-6f667f502ac71788 .diagram-stop[aria-current="step"] .diagram-stop-num {background:var(--board-current);color:var(--board-ink);border-color:var(--board-ink)}
+#cs408-drawing-6f667f502ac71788 .diagram-condition [aria-pressed="true"] {background:var(--board-current);color:var(--board-ink)}
+#cs408-drawing-6f667f502ac71788 .diagram-navigation {display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+#cs408-drawing-6f667f502ac71788 .diagram-navigation input {flex:1 1 5rem;max-width:15rem}
+@container (min-width:740px) {
+  #cs408-drawing-6f667f502ac71788 .diagram-lesson:has(.diagram-workbench):has(.diagram-brief > p:not([hidden])) {grid-template-columns:minmax(0,3fr) minmax(10rem,1fr)}
+}
+@media (prefers-reduced-motion:reduce) {#cs408-drawing-6f667f502ac71788 .diagram-packet {display:none}}
+#cs408-drawing-6f667f502ac71788 .diagram-object-face {fill:none;stroke:var(--board-ink);stroke-width:1.15;pointer-events:none}
+#cs408-drawing-6f667f502ac71788 .diagram-local-caption {color:var(--board-ink);margin:0}
+#cs408-drawing-6f667f502ac71788 .diagram-wire[data-operation="address"][data-active] {stroke-dasharray:5 3}
+#cs408-drawing-6f667f502ac71788 .diagram-wire[data-operation="disk-read"][data-active] {stroke:var(--hit)}
+#cs408-drawing-6f667f502ac71788 .diagram-packet[data-operation="disk-read"] {fill:var(--hit)}
+#cs408-drawing-6f667f502ac71788 .diagram-stop[data-before] .diagram-stop-num {background:color-mix(in srgb,var(--board-current) 56%,var(--paper))}
+#cs408-drawing-6f667f502ac71788 .diagram-wire[data-history] {stroke:var(--quiet);opacity:.44;stroke-dasharray:3 4}
+#cs408-drawing-6f667f502ac71788 .diagram-delta {margin-inline-end:auto;color:var(--quiet);font-variant-numeric:tabular-nums}
+#cs408-drawing-6f667f502ac71788 [data-current-step]:not([hidden]) {font-family:ui-monospace,monospace;color:var(--quiet)}
+</style>
+<script type="application/json" id="cs408-drawing-6f667f502ac71788-data">{"model":{"kind":"objects","height":370,"template":"vm-address-path-v1","bands":[{"label":"地址转换 · MMU","top":0.02,"bottom":0.62},{"label":"缺页处理 · 操作系统","top":0.71,"bottom":0.98}],"nodes":[{"id":"va","x":0.15,"y":0.22,"label":"VA","value":"VPN | 偏移","shape":"box"},{"id":"tlb","x":0.46,"y":0.22,"label":"TLB","shape":"table"},{"id":"pa","x":0.8,"y":0.22,"label":"PA","value":"页框号 | 偏移","shape":"box"},{"id":"pte","x":0.46,"y":0.48,"label":"页表项","shape":"table"},{"id":"fault","x":0.23,"y":0.85,"label":"缺页处理","shape":"box"},{"id":"fill","x":0.52,"y":0.85,"label":"装入页框","shape":"box"},{"id":"retry","x":0.81,"y":0.85,"label":"重试访存","shape":"box"}],"edges":[{"id":"lookup","from":"va","to":"tlb","label":"VPN","arrow":true},{"id":"hit","from":"tlb","to":"pa","label":"有效命中","arrow":true},{"id":"walk","from":"tlb","to":"pte","label":"未命中","arrow":true},{"id":"resolved","from":"pte","to":"pa","label":"驻留","arrow":true},{"id":"trap","from":"pte","to":"fault","label":"未驻留","arrow":true},{"id":"load","from":"fault","to":"fill","label":"","arrow":true},{"id":"retry-translation","from":"fill","to":"retry","label":"更新映射","arrow":true}],"frames":[{"label":"TLB 命中","active":["va","tlb","pa"],"edges":["lookup","hit"],"caption":"有效 TLB 项提供页框号，拼物理地址时页内偏移保持不变。","id":"tlb_hit","values":{"tlb":"命中"}},{"label":"查页表 · 驻留","active":["va","tlb","pte","pa"],"edges":["lookup","walk","resolved"],"values":{"pte":"存在位 1","tlb":"未命中"},"caption":"存在位为 1。取页框号，可回填 TLB，页内偏移原样保留。","id":"tlb_miss_present"},{"label":"查页表 · 未驻留","active":["va","tlb","pte","fault"],"edges":["lookup","walk","trap"],"values":{"pte":"存在位 0","tlb":"未命中"},"caption":"存在位为 0。进入缺页处理，当前访问还没有形成物理地址。","id":"tlb_miss_absent","hidden":["pa"]},{"label":"调页与重试","active":["fault","fill","retry"],"edges":["load","retry-translation"],"caption":"OS 调页成功并更新映射后，重新执行原访问。","id":"retry_after_recovery","values":{"tlb":"未命中"},"hidden":["pa"]}]},"aspect":"scoped_mechanism_example","compact":{"title":"TLB 未命中与缺页","key_condition":"地址已合法映射、访问权限满足、页表可查。缺页分支假设可以恢复。"},"derivation":[],"delivery_policy_version":"visual-first-408-v2","selection":{"schema":"cs408-visual-selection-v1","identity":"EXAM408-2099-Q43-P01","source_version":"8fd13beb320563a1b3889f5ec4253ed4f34d4cfaf6ba588a2623f6febf6fc21f","view":"direct","hint_level":5,"state_ids":["tlb_hit","tlb_miss_present","tlb_miss_absent","retry_after_recovery"],"content_sha256":"be85500ecee7307c1a612c8599b25c604158dc7b37a364f0c5fc3ec96f272c61","binding_sha256":"1b136b8393ed2de988dfd02f1029284c7df99962f77727d50c75c8f7d8474803"}}</script>
+<script>
+(() => {
+  const root = document.getElementById('cs408-drawing-6f667f502ac71788');
+  const {model, aspect, compact, derivation, selection} = JSON.parse(document.getElementById(root.id + '-data').textContent);
+  const host = root.querySelector('[data-model]');
+  function show(field, value) {
+    const el = root.querySelector('[data-' + field + ']');
+    el.textContent = value || '';
+    el.hidden = !value;
+  }
+  show('title', compact.title);
+  show('condition', compact.key_condition);
+  show('rule', compact.exam_rule);
+  show('caption', compact.step_caption || compact.first_action);
+  const reasoning = root.querySelector('[data-reasoning]');
+  for (const step of derivation) {
+    const heading = document.createElement('h4');
+    heading.textContent = step.title;
+    const text = document.createElement('p');
+    text.className = 'diagram-reasoning';
+    text.textContent = [step.text, step.return_to_reasoning].filter(Boolean).join('\n');
+    reasoning.append(heading, text);
+  }
+  root.querySelector('[data-derivation]').hidden = !derivation.length;
+  function drawQuestionDiagram(host, model, id, onStep, disclosure) {
+  host.classList.add("diagram-workbench");
+  const originalFrames = model.frames;
+  const alternatives = model.scenarios || [];
+  let scenario = 0;
+  let paused = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches || false;
+  const ns = "http://www.w3.org/2000/svg";
+  const svgElement = (parent, tag, attrs, value) => {
+    const el = document.createElementNS(ns, tag);
+    for (const [key, attr] of Object.entries(attrs)) el.setAttribute(key, attr);
+    if (value !== undefined) el.textContent = value;
+    parent.append(el);
+    return el;
+  };
+  const element = (parent, tag, cls, value) => {
+    const el = document.createElement(tag);
+    el.className = cls;
+    if (value !== undefined) el.textContent = value;
+    parent.append(el);
+    return el;
+  };
+  const controls = element(host, "div", "diagram-controls");
+  const left = element(controls, "div", "diagram-nav");
+  const button = (text, label) => {
+    const el = element(left, "button", "btn", text);
+    el.type = "button";
+    el.setAttribute("aria-label", label);
+    return el;
+  };
+  const prev = button("‹", "上一步");
+  const next = button("›", "下一步");
+  const slider = element(left, "input", "form-range");
+  slider.type = "range";
+  slider.min = "0";
+  slider.max = String(model.frames.length - 1);
+  slider.setAttribute("aria-label", "当前步骤");
+  const stepLabel = element(left, "span", "diagram-stage");
+  const count = element(controls, "output", "diagram-count");
+  const delta = element(controls, "span", "diagram-delta text-small");
+  const scroll = element(host, "div", "diagram-scroll");
+  const localCaption = onStep ? null : element(host, "p", "diagram-local-caption");
+  if (localCaption) localCaption.setAttribute("aria-live","polite");
+  const measures = element(host, "div", "diagram-measures");
+  const transport = element(controls, "div", "diagram-transport");
+  transport.setAttribute("aria-label", "本步路径演示");
+  const replay = element(transport, "button", "btn", "重播本步");
+  const pause = element(transport, "button", "btn");
+  replay.type = pause.type = "button";
+  const pathControl = element(host, "nav", "diagram-rail");
+  pathControl.setAttribute("aria-label", "按步骤查看机制");
+  const stops = originalFrames.map((f,index) => {
+    const stop = element(pathControl, "button", "btn diagram-stop");
+    stop.type = "button";
+    element(stop, "span", "diagram-stop-num", String(index+1));
+    element(stop, "span", "diagram-stop-label", f.label || "第 "+(index+1)+" 步");
+    stop.addEventListener("click", () => go(index));
+    return stop;
+  });
+  pathControl.hidden = stops.length < 2;
+  host.append(left);
+  left.classList.add("diagram-navigation");
+  const condition = element(host, "div", "diagram-condition");
+  condition.hidden = !alternatives.length;
+  if (alternatives.length) {
+    controls.before(condition);
+    element(condition, "span", "text-small", model.scenario_label || "条件");
+    for (const [i,variant] of alternatives.entries()) {
+      const option = element(condition, "button", "btn", variant.label);
+      option.type = "button";
+      option.addEventListener("click", () => { chooseScenario(i); paint(); save(); });
+    }
+  }
+  function chooseScenario(i) {
+    if (!Number.isInteger(i) || i<0 || i>=alternatives.length) return;
+    scenario = i;
+    model = {...model, frames: alternatives[i].frames};
+    for (const [j,b] of [...condition.querySelectorAll("button")].entries()) b.setAttribute("aria-pressed",String(i===j));
+  }
+  chooseScenario(0);
+  let step = model.initial || 0;
+  let selected = null;
+  const countRead = model.frames.some(frame => Number.isInteger(frame.count));
+  count.hidden = !countRead;
+  controls.hidden = model.frames.length < 2 && !countRead;
+  prev.hidden = next.hidden = slider.hidden = model.frames.length < 2;
+
+  let refreshCopyField;
+
+  function paint() {
+    if (!host.isConnected) return;
+    refreshCopyField?.();
+    const available = host.clientWidth || 680;
+    const minWidth = model.illustrated ? 280 : model.nodes.length > 6 ? 520 : 360;
+    const sceneWidth = Math.min(790, Math.max(available, minWidth));
+    const sceneHeight = model.height;
+    const pad = model.bands ? 0 : 73;
+    const padY = model.bands ? 0 : 51;
+    const frame = model.frames[step];
+    const frameEdges = new Set(frame.edges || []);
+    const past = new Set(model.keep_path_history ? model.frames.slice(0,step).flatMap(item=>item.edges || []) : []);
+    const links = frame.visible_edges ? model.edges.filter(edge => frame.visible_edges.includes(edge.id) || past.has(edge.id)) : model.edges;
+    const hidden = new Set(frame.hidden || []);
+    const highlight = new Set(frame.active || []);
+    const diagramRead = new Set(frame.reads || []);
+    const focused = host.querySelector(":focus[data-object]")?.dataset.object;
+    if (selected) {
+      highlight.add(selected);
+      for (const edge of links) {
+        if (edge.from !== selected && edge.to !== selected) continue;
+        highlight.add(edge.from);
+        highlight.add(edge.to);
+        frameEdges.add(edge.id);
+      }
+    }
+    scroll.replaceChildren();
+    const svg = svgElement(scroll, "svg", {
+      class: "diagram-scene", width: sceneWidth, height: sceneHeight,
+      viewBox: "0 0 " + sceneWidth + " " + sceneHeight, role: "group", "aria-label": "机制图",
+    });
+    for (const [i,stop] of stops.entries()) {
+      if (i===step) stop.setAttribute("aria-current","step"); else stop.removeAttribute("aria-current");
+      stop.toggleAttribute("data-before",i<step);
+    }
+    let moving = false;
+    const defs = svgElement(svg, "defs", {});
+    const arrowId = id + "-arrow";
+    const marker = svgElement(defs, "marker", {id: arrowId, viewBox: "0 0 10 8", refX: 9, refY: 4,
+      markerWidth: 6, markerHeight: 6, orient: "auto"});
+    svgElement(marker, "path", {d: "M0 0L10 4L0 8Z", class: "diagram-arrow"});
+    for (const {label, top, bottom} of model.bands || []) {
+      svgElement(svg, "rect", {x:1, y:top * sceneHeight, width:sceneWidth - 2,
+        height:(bottom - top) * sceneHeight, rx:10, class:"diagram-zone"});
+      svgElement(svg, "text", {x:16, y:top * sceneHeight + 20, class:"diagram-zone-title"}, label);
+    }
+    const xy = new Map(model.nodes.map(node => {
+      const [x,y] = frame.positions?.[node.id] || [node.x,node.y];
+      return [node.id, {x:pad+(sceneWidth-pad*2)*x, y:padY+(sceneHeight-padY*2)*y}];
+    }));
+    const nodeWidth = node => {
+      const here = xy.get(node.id);
+      const local = [...xy.entries()].filter(([other, position]) => other !== node.id &&
+                      Math.abs(position.y - here.y) < 48).map(([, position]) => Math.abs(position.x - here.x));
+      const estimate = node.label.length * (/[\u3000-\u9fff]/.test(node.label) ? 13 : 7.3) + 28;
+      const preferred = model.illustrated ? Math.max(estimate,sceneWidth>=520 ? 105 : 65) : estimate;
+      return Math.max(34, Math.min(preferred, 126, ...local.map(gap => gap - 11)));
+    };
+    const widths = new Map(model.nodes.map(node => [node.id, nodeWidth(node)]));
+    if (model.space_labels) {
+      const placed = [];
+      const inReadingOrder = [...model.nodes].sort((a,b) => a.y-b.y || a.x-b.x);
+      for (const node of inReadingOrder) {
+        const pos = xy.get(node.id);
+        const values = [node.value, ...model.frames.map(state => state.values?.[node.id])].filter(Boolean);
+        const measure = value => [...value].reduce((n,ch) => n+(/[\u3400-\u9fff]/.test(ch) ? 13 : 9),0);
+        const room = Math.max(30, Math.min(pos.x,sceneWidth-pos.x)*2-10);
+        const valueWidth = Math.min(room, Math.max(0,...values.map(measure)));
+        const width = Math.max(widths.get(node.id),valueWidth);
+        for (const previous of placed) {
+          if (Math.abs(pos.x-previous.x)<(previous.width+width)/2+5) {
+            pos.y = Math.max(pos.y,previous.y+(previous.hasValue?58:43));
+          }
+        }
+        placed.push({x:pos.x,y:pos.y,width,hasValue:values.length>0});
+      }
+      const finalHeight = Math.max(sceneHeight, ...placed.map(row => row.y+51));
+      svg.setAttribute("height",finalHeight);
+      svg.setAttribute("viewBox","0 0 "+sceneWidth+" "+finalHeight);
+    }
+    function shapeEdge(pos, x, y, width) {
+      const scale = 1 / Math.max(Math.abs(x) / (width/2 + 3), Math.abs(y) / 20, 1);
+      return [pos.x + x * scale, pos.y + y * scale];
+    }
+    for (const edge of links) {
+      if (hidden.has(edge.from) || hidden.has(edge.to)) continue;
+      const a = xy.get(edge.from), b = xy.get(edge.to);
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const active = frameEdges.has(edge.id);
+      const [x1,y1] = shapeEdge(a,dx,dy,widths.get(edge.from));
+      const [x2,y2] = shapeEdge(b,-dx,-dy,widths.get(edge.to));
+      const bend = edge.lane * sceneWidth;
+      const reverse = model.edges.some(peer => peer.from === edge.to && peer.to === edge.from && peer.arrow);
+      const span = Math.hypot(dx,dy) || 1;
+      const cx = (x1+x2)/2 - dy*19/span;
+      const cy = (y1+y2)/2 + dx*19/span;
+      const straight = reverse && edge.arrow
+        ? "M" + x1 + " " + y1 + " Q" + cx + " " + cy + " " + x2 + " " + y2
+        : "M" + x1 + " " + y1 + " L" + x2 + " " + y2;
+      const loop = "M" + (a.x-14) + " " + (a.y-9) + " C" + (a.x-59) + " " + (a.y-61) +
+                   " " + (a.x+57) + " " + (a.y-61) + " " + (a.x+14) + " " + (a.y-9);
+      const path = edge.from === edge.to ? loop : edge.lane
+        ? "M" + a.x + " " + y1 + " H" + bend + " V" + y2 + " H" + x2
+        : straight;
+      svgElement(svg, "path", {d:path, class:"diagram-wire", "data-connection":edge.id,
+        ...(edge.role ? {"data-operation":edge.role} : {}),
+        ...(past.has(edge.id) && !active ? {"data-history":""} : {}),
+        ...(active ? {"data-active":""} : {"data-inactive":""}),
+        ...(edge.arrow ? {"marker-end":"url(#" + arrowId + ")"} : {})});
+      // Replay only a directed transfer explicitly active in this public frame.
+      if (edge.arrow && frame.edges?.includes(edge.id)) {
+        const attrs={class:"diagram-packet","aria-hidden":"true","data-operation":edge.role || "transfer"};
+        const token=edge.role==="address"
+          ? svgElement(svg,"rect",{...attrs,x:-3,y:-3,width:6,height:6})
+          : svgElement(svg,"circle",{...attrs,r:4});
+        svgElement(token,"animateMotion",{path,dur:"1.45s",fill:"freeze",repeatCount:"1"});
+        moving=true;
+      }
+      const annotation = frame.edge_labels?.[edge.id] ?? edge.label;
+      if (annotation && (!model.bands || active)) {
+        const lx = edge.lane ? bend + 25 : (x1 + x2) / 2;
+        const ly = (y1 + y2) / 2 - 7;
+        svgElement(svg, "text", {x:lx, y:ly, "text-anchor":"middle", class:"diagram-edge-label"}, annotation);
+      }
+    }
+    for (const node of model.nodes) {
+      if (hidden.has(node.id)) continue;
+      const {x,y} = xy.get(node.id), w = widths.get(node.id);
+      const value = frame.values?.[node.id] ?? node.value;
+      const wasRead = diagramRead.has(node.id);
+      const group = svgElement(svg, "g", {transform:"translate("+x+" "+y+")",
+        role:"button", class:"diagram-node", tabindex:0, "data-object":node.id,
+        "aria-label":[node.label, value, wasRead ? "已读盘" : ""].filter(Boolean).join("，"),
+        "aria-pressed":String(selected === node.id),
+        ...(selected === node.id ? {"data-selected":""} : {}),
+        ...(highlight.has(node.id) ? {"data-active":""} : {}),
+        ...(wasRead ? {"data-read":""} : {})});
+      if (model.illustrated && node.shape === "disk") {
+        const radius = Math.max(22, w/2);
+        svgElement(group,"path",{class:"body",d:`M${-radius} -8a${radius} 8 0 0 1 ${2*radius} 0v18a${radius} 8 0 0 1 ${-2*radius} 0z`});
+        svgElement(group,"ellipse",{class:"diagram-object-face",cx:0,cy:-8,rx:radius,ry:8});
+      } else if (model.illustrated && node.shape === "folder") {
+        svgElement(group,"path",{class:"body",d:`M${-w/2} -16h${w*.37}l5 5h${w*.63-5}v25h${-w}z`});
+      } else if (model.illustrated && (node.shape === "table" || node.shape === "file")) {
+        svgElement(group,"path",{class:"body",d:`M${-w/2} -12l8 -6h${w}v25l-8 6h${-w}z`});
+        svgElement(group,"path",{class:"diagram-object-face",d:`M${-w/2} -12h${w}l8 -6M${w/2} -12v25`});
+      } else if (node.shape === "circle") {
+        svgElement(group,"circle",{class:"body",cx:0,cy:0,r:Math.min(w/2,21)});
+      } else {
+        svgElement(group,"rect",{class:"body",x:-w/2,y:-17,width:w,height:34,rx:node.shape==="disk"?11:5});
+      }
+      const icons = {
+        folder:"M-6 3V-5H-1L1-3H7V5H-6Z",
+        file:"M-5-7H2L6-3V7H-5Z M2-7V-3H6 M-2 0H3 M-2 3H3",
+        disk:"M-7-4C-7-9 7-9 7-4V4C7 9-7 9-7 4Z M-7-4C-7 1 7 1 7-4",
+        table:"M-7-6H7V6H-7Z M-7-2H7 M-7 2H7 M-2-2V6",
+      };
+      const glyph = model.illustrated ? null : icons[node.shape];
+      if (glyph) svgElement(group,"path",{class:"diagram-icon",d:glyph,transform:"translate("+(-w/2+12)+" 0)"});
+      const label = svgElement(group,"text",{x:glyph ? 8 : 0,y:model.illustrated && node.shape==="disk" ? 10 : 4,"text-anchor":"middle",class:"diagram-name"},node.label);
+      const usable = w - (glyph ? 20 : 8);
+      if (label.getComputedTextLength() > usable) {
+        label.setAttribute("textLength", String(usable));
+        label.setAttribute("lengthAdjust","spacingAndGlyphs");
+      }
+      if (value || wasRead) {
+        const label = svgElement(group,"text",{x:0,y:30,"text-anchor":"middle",class:"diagram-value"},
+          value || "已读盘");
+        const room = Math.max(30, Math.min(x, sceneWidth-x) * 2 - 10);
+        if (label.getComputedTextLength() > room) {
+          label.setAttribute("textLength", String(room));
+          label.setAttribute("lengthAdjust","spacingAndGlyphs");
+        }
+      }
+      const pick = () => { selected = selected === node.id ? null : node.id; paint(); save(); };
+      group.addEventListener("click",pick);
+      group.addEventListener("keydown",event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          pick();
+        }
+      });
+      if (focused === node.id) group.focus();
+    }
+    prev.disabled = step === 0;
+    next.disabled = step === model.frames.length - 1;
+    transport.hidden = !moving;
+    controls.hidden = !moving && !countRead;
+    pause.textContent = paused ? "播放" : "暂停";
+    pause.setAttribute("aria-label",paused ? "播放本步路径" : "暂停本步路径");
+    if (paused) svg.pauseAnimations?.();
+    slider.value = String(step);
+    stepLabel.textContent = frame.label || (model.frames.length > 1 ? (step+1) + "/" + model.frames.length : "");
+    slider.setAttribute("aria-valuetext",stepLabel.textContent);
+    count.hidden = !Number.isInteger(frame.count);
+    if (!count.hidden) count.textContent = "读盘 " + frame.count + " 次";
+    delta.hidden = count.hidden || step===0 || !Number.isInteger(model.frames[step-1].count);
+    if (!delta.hidden) {
+      const difference=frame.count-model.frames[step-1].count;
+      delta.textContent = "本步 " + (difference>=0 ? "+" : "") + difference + " 次";
+    }
+    measures.replaceChildren();
+    for (const [label,value] of frame.metrics || []) {
+      const metric=element(measures, "span", "diagram-measure", label+" ");
+      element(metric, "strong", "diagram-measure-value", value);
+    }
+    measures.hidden = !measures.childElementCount;
+    if (localCaption) {
+      localCaption.textContent = model.object_notes?.[selected] || frame.caption || "";
+      localCaption.hidden = !localCaption.textContent;
+    }
+    onStep?.(frame, step, selected);
+  }
+
+  const go = index => {
+    step = Math.max(0,Math.min(model.frames.length-1,index));
+    selected = null;
+    paint();
+    save();
+  };
+  function snapshot() {
+    if (!disclosure) return null;
+    return Object.freeze({
+      schema: disclosure.schema, identity: disclosure.identity, source_version: disclosure.source_version,
+      view: disclosure.view, hint_level: disclosure.hint_level, content_sha256: disclosure.content_sha256,
+      binding_sha256: disclosure.binding_sha256, state_id: disclosure.state_ids[step] || null,
+      selected_node: selected, selected_edge: null
+    });
+  }
+  const root = host.closest(".cs408-drawing");
+  if (root && disclosure) Object.defineProperty(root, "cs408Selection", { value: snapshot, configurable:true });
+  // This local control reads the same public frame the diagram paints.
+  // It does not send a message or write widget/learning state.
+  if (root && disclosure && model.template === "vm-address-path-v1" &&
+      disclosure.state_ids.includes("tlb_miss_present")) {
+    const group = element(host, "div", "diagram-copy");
+    const copy = element(group, "button", "btn", "复制当前状态");
+    copy.type = "button";
+    copy.title = "复制本步已公开条件，可粘贴到当前聊天继续讨论";
+    const status = element(group, "span", "text-small");
+    status.setAttribute("role", "status");
+    const field = element(group, "textarea", "diagram-copy-text");
+    field.readOnly = true;
+    field.rows = 5;
+    field.hidden = true;
+    field.setAttribute("aria-label", "可手动复制的当前状态");
+
+    function summary() {
+      const state = snapshot();
+      const frame = model.frames[step];
+      if (!frame?.id || state.state_id !== frame.id) return "";
+      const lines = [
+        "场景 " + model.template + " · " + state.identity,
+        "版本 " + state.source_version,
+        "公开阶段 " + state.view + " / L" + state.hint_level,
+        "当前步骤 " + state.state_id + " · " + frame.label,
+      ];
+      for (const id of ["tlb", "pte"]) {
+        const value = frame.values?.[id];
+        if (typeof value === "string" && frame.active?.includes(id) && !frame.hidden?.includes(id)) {
+          const node = model.nodes.find(node => node.id === id);
+          if (node) lines.push(node.label + "：" + value);
+        }
+      }
+      if (state.selected_node && !frame.hidden?.includes(state.selected_node)) {
+        const node = model.nodes.find(node => node.id === state.selected_node);
+        if (node) lines.push("选中对象 " + node.label);
+      }
+      if (frame.caption) lines.push(frame.caption);
+      return lines.join("\n");
+    }
+
+    refreshCopyField = () => {
+      if (field.hidden) status.textContent = "";
+      else field.value = summary();
+    };
+    copy.addEventListener("click", async () => {
+      const value = summary();
+      if (!value) return;
+      try {
+        await navigator.clipboard.writeText(value);
+        if (summary() === value) {
+          field.hidden = true;
+          status.textContent = "已复制，可粘贴到聊天。";
+        }
+      } catch {
+        field.value = summary();
+        field.hidden = false;
+        field.focus();
+        field.select();
+        status.textContent = "请复制下方已选文字。";
+      }
+    });
+  }
+  function save() {
+    // Topic cards control their own selection state.
+    if (!root) return;
+    const state = snapshot();
+    const result = window.openai?.setWidgetState?.({privateContent:{diagram:id, step, selected, state, scenario, paused},
+      ...(state ? {modelContent:{visual_selection:state, interaction_is_not_learning_evidence:true}} : {})});
+    result?.catch(() => {});
+  }
+  function restore(state) {
+    const saved = state?.privateContent;
+    if (saved?.diagram !== id) return;
+    if (disclosure && saved.state?.binding_sha256 !== disclosure.binding_sha256) return;
+    chooseScenario(saved.scenario);
+    if (typeof saved.paused==="boolean") paused=saved.paused;
+    const index = disclosure ? disclosure.state_ids.indexOf(saved.state.state_id) : saved.step;
+    if (!Number.isInteger(index) || index < 0 || index >= model.frames.length) return;
+    step = index;
+    const nodeId = disclosure ? saved.state.selected_node : saved.selected;
+    selected = model.nodes.some(node => node.id === nodeId && !model.frames[step].hidden?.includes(nodeId)) ? nodeId : null;
+    paint();
+  }
+  prev.addEventListener("click",() => go(step-1));
+  next.addEventListener("click",() => go(step+1));
+  slider.addEventListener("input",() => go(Number(slider.value)));
+  replay.addEventListener("click",() => {
+    const svg=scroll.querySelector("svg");
+    if (!svg) return;
+    svg.setCurrentTime?.(0);
+    if (paused) svg.pauseAnimations?.(); else svg.unpauseAnimations?.();
+    save();
+  });
+  pause.addEventListener("click",() => {
+    const svg=scroll.querySelector("svg");
+    if (!svg) return;
+    paused=!paused; if(paused) svg.pauseAnimations?.(); else svg.unpauseAnimations?.();
+    pause.textContent=paused?"播放":"暂停";
+    pause.setAttribute("aria-label",paused?"播放本步路径":"暂停本步路径");save();
+  });
+  host.onkeydown = event => {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.target.matches("input,select,textarea")) return;
+    if (event.key==="ArrowRight" || event.key==="ArrowLeft") {
+      event.preventDefault();go(step+(event.key==="ArrowRight"?1:-1));
+    } else if (event.key.toLowerCase()==="r" && !transport.hidden) {
+      event.preventDefault();replay.click();
+    }
+  };
+  const resize = new ResizeObserver(() => {
+    if (host.isConnected) paint();
+    else resize.disconnect();
+  });
+  resize.observe(host);
+  paint();
+  restore(window.openai?.widgetState);
+  if (host.closest(".cs408-drawing")) {
+    window.addEventListener("openai:set_globals",event=>restore(event.detail?.globals?.widgetState));
+  }
+}
+
+function drawSerialFrame(host, model) {
+  const frame = document.createElement("div");
+  frame.className = "serial-frame";
+  frame.setAttribute("role","group");
+  frame.setAttribute("aria-label","按真实位宽排列的字段");
+  frame.style.gridTemplateColumns = model.bits.map(field => field.width + "fr").join(" ");
+  host.append(frame);
+  for (const field of model.bits) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.dataset.field = field.key;
+    button.setAttribute("aria-pressed","false");
+    const label = document.createElement("span");
+    label.textContent = field.label;
+    const size = document.createElement("small");
+    size.textContent = field.width + " 位";
+    button.append(label,size);
+    frame.append(button);
+    button.addEventListener("click",() => {
+      const selected = button.getAttribute("aria-pressed") !== "true";
+      for (const peer of frame.children) peer.setAttribute("aria-pressed",String(peer === button && selected));
+    });
+  }
+  const total = document.createElement("output");
+  total.className = "diagram-total";
+  total.textContent = model.width + " 位";
+  host.append(total);
+}
+
+function drawInterruptTiming(host, model) {
+  const ns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(ns,"svg");
+  svg.setAttribute("viewBox","0 0 630 186");
+  svg.setAttribute("class","diagram-timing");
+  svg.setAttribute("role","img");
+  svg.setAttribute("aria-label","外设准备与 CPU 服务的重叠时序，分段示意");
+  host.append(svg);
+  const add = (tag, attrs, value) => {
+    const element = document.createElementNS(ns,tag);
+    for (const [key, value] of Object.entries(attrs)) element.setAttribute(key,value);
+    if (value !== undefined) element.textContent = value;
+    svg.append(element);
+    return element;
+  };
+  const controls = document.createElement("div");
+  controls.className = "timing-choices";
+  host.insertBefore(controls, svg);
+  let selected = 0;
+  const steps = model.busy_only ? ["每轮","累加忙时"] : ["相邻两轮","重叠","末次"];
+  for (const [index,value] of steps.entries()) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = value;
+    button.setAttribute("aria-pressed",String(selected === index));
+    button.addEventListener("click",() => {
+      selected = index;
+      for (const [i,peer] of [...controls.children].entries()) peer.setAttribute("aria-pressed",String(i === selected));
+      paint();
+    });
+    controls.append(button);
+  }
+  function paint() {
+    svg.replaceChildren();
+    const x0 = 70, response = 267, front = 320, tail = 399, endTail = 463, next = 605;
+    const rail = (from,to,y,value,kind,on) => {
+      add("rect",{x:from,y,width:to-from,height:31,rx:4,class:"timing-span "+kind,
+        ...(on ? {"data-active":""} : {})});
+      add("text",{x:(from+to)/2,y:y+20,"text-anchor":"middle"},value);
+    };
+    add("text",{x:16,y:40},"设备 D");
+    add("text",{x:16,y:94},"CPU");
+    rail(x0,response,22,model.device,"device",!model.busy_only && selected === 0);
+    if (selected !== 2 || model.busy_only) rail(tail,next,22,"下一字符","device",!model.busy_only && selected === 1);
+    rail(response,front,76,model.response,"cpu",selected !== 2);
+    rail(front,tail,76,model.front,"cpu",selected !== 2);
+    rail(tail,endTail,76,model.tail,"cpu",model.busy_only || selected >= 1);
+    add("line",{x1:tail,x2:tail,y1:54,y2:76,class:"diagram-wire","data-active":""});
+    for (const [x,text] of [[(response+front)/2,"响应"],[(front+tail)/2,"前 15 条"],[(tail+endTail)/2,"后 5 条"]]) {
+      add("text",{x,y:125,"text-anchor":"middle",class:"diagram-value"},text);
+    }
+    add("line",{x1:x0,x2:next,y1:142,y2:142,class:"diagram-wire"});
+    add("text",{x:x0,y:164,class:"diagram-zone-title"},"时间 →");
+    add("text",{x:next,y:164,"text-anchor":"end",class:"diagram-name"},
+      selected === steps.length-1 ? model.total : model.last);
+  }
+  paint();
+}
+
+function drawTimeline(host, model) {
+  const ns = "http://www.w3.org/2000/svg";
+  const scroll = document.createElement("div");
+  scroll.className = "diagram-scroll";
+  host.append(scroll);
+  const plot = document.createElementNS(ns, "svg");
+  const width = 720, left = 128, right = width - 26;
+  const height = 63 + 40 * model.lanes.length;
+  const x = point => left + (right-left) * (point-model.start) / (model.end-model.start);
+  plot.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  plot.setAttribute("class", "question-timeline");
+  plot.setAttribute("role", "img");
+  plot.setAttribute("aria-label", model.title);
+  scroll.append(plot);
+  const add = (tag, attributes, text) => {
+    const el = document.createElementNS(ns, tag);
+    for (const [key, value] of Object.entries(attributes)) el.setAttribute(key, value);
+    if (text !== undefined) el.textContent = text;
+    plot.append(el);
+  };
+  add("text", {x:12,y:25}, model.axis);
+  for (const [point, label] of model.ticks) {
+    add("line", {x1:x(point),x2:x(point),y1:33,y2:height-22,class:"wave-boundary"});
+    add("text", {x:x(point),y:24,"text-anchor":"middle"}, label);
+  }
+  for (const [index, {label, spans}] of model.lanes.entries()) {
+    const y = 34 + index*40;
+    add("text", {x:8,y:y+20,class:"diagram-name"}, label);
+    add("line", {x1:left,x2:right,y1:y+30,y2:y+30,class:"diagram-wire"});
+    for (const [start,end,value,tone] of spans) {
+      add("rect", {x:x(start)+1,y:y+2,width:x(end)-x(start)-2,height:26,rx:3,
+                   class:"timeline-block", "data-tone":tone});
+      add("text", {x:(x(start)+x(end))/2,y:y+20,"text-anchor":"middle"}, value);
+    }
+  }
+}
+
+function drawWaveforms(host, model) {
+  const ns = "http://www.w3.org/2000/svg";
+  const picks = document.createElement("div");
+  picks.className = "wave-picks";
+  picks.setAttribute("role","group");
+  picks.setAttribute("aria-label",model.title);
+  host.append(picks);
+  const plot = document.createElementNS(ns,"svg");
+  const width = 640, left = 20, cell = (width-40)/model.bits.length, height = model.traces.length * 112;
+  plot.setAttribute("class","wave-plot");
+  plot.setAttribute("viewBox",`0 0 ${width} ${height}`);
+  plot.setAttribute("role","img");
+  plot.setAttribute("aria-label",model.title);
+  host.append(plot);
+  const add = (tag, attrs, value) => {
+    const element = document.createElementNS(ns,tag);
+    for (const [key, value] of Object.entries(attrs)) element.setAttribute(key,value);
+    if (value !== undefined) element.textContent = value;
+    plot.append(element);
+  };
+  let selected = 0;
+  function draw() {
+    plot.replaceChildren();
+    for (const [row,trace] of model.traces.entries()) {
+      const y0 = row*112;
+      add("text",{x:left,y:y0+20,class:"diagram-name"},trace.label);
+      add("rect",{x:left+cell*selected,y:y0+24,width:cell,height:78,rx:3,class:"wave-bit"});
+      const level = value => y0+(value ? 48 : 80);
+      let path = "";
+      for (const [index,pair] of trace.levels.entries()) {
+        const x = left+index*cell;
+        add("line",{x1:x,y1:y0+32,x2:x,y2:y0+96,class:"wave-boundary"});
+        add("line",{x1:x+cell/2,y1:y0+33,x2:x+cell/2,y2:y0+96,class:"wave-mid"});
+        path += (index ? " V" + level(pair[0]) : "M" + x + " " + level(pair[0])) +
+          " H" + (x+cell/2) + " V" + level(pair[1]) + " H" + (x+cell);
+      }
+      add("line",{x1:width-left,y1:y0+32,x2:width-left,y2:y0+96,class:"wave-boundary"});
+      const cursor = left+cell*(selected+(model.mode==="middle"?.5:0));
+      add("line",{x1:cursor,y1:y0+26,x2:cursor,y2:y0+99,class:"wave-cursor"});
+      add("path",{d:path,class:"wave-line"});
+    }
+    for (const [index,button] of [...picks.children].entries()) {
+      button.setAttribute("aria-pressed",String(index===selected));
+    }
+  }
+  for (const [index,bit] of model.bits.entries()) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = bit;
+    button.setAttribute("aria-label",`第 ${index+1} 位，${bit}`);
+    button.addEventListener("click",() => {selected=index;draw();});
+    picks.append(button);
+  }
+  draw();
+}
+
+  function renderMechanism(panel, visual, markerId, {compact = false} = {}) {
+  const ns = 'http://www.w3.org/2000/svg';
+  const width = Math.max(260, Math.min(690, panel.clientWidth || 620));
+  const add = (parent, tag, attributes, text) => {
+    const el = document.createElementNS(ns, tag);
+    for (const [key, value] of Object.entries(attributes)) el.setAttribute(key, value);
+    if (text !== undefined) el.textContent = text;
+    parent.append(el);
+    return el;
+  };
+  function svg(height, label) {
+    const picture = add(panel, 'svg', {viewBox:`0 0 ${width} ${height}`, width, height,
+      role:'img', 'aria-label':label, class:'mechanism-svg', 'data-kind':visual.kind});
+    const defs = add(picture, 'defs', {});
+    const marker = add(defs, 'marker', {id:markerId, viewBox:'0 0 9 8',
+      refX:8, refY:4, markerWidth:7, markerHeight:7, orient:'auto'});
+    add(marker,'path',{d:'M0 0 L9 4 L0 8 Z',class:'mechanism-arrowhead'});
+    return picture;
+  }
+  function line(picture,x1,y1,x2,y2,arrow=false,attributes={}) {
+    return add(picture,'line',{x1,y1,x2,y2,class:'mechanism-line',
+      ...(arrow ? {'marker-end':`url(#${markerId})`} : {}),...attributes});
+  }
+  function route(picture,d,arrow=true,attributes={}) {
+    return add(picture,'path',{d,class:'mechanism-line',
+      ...(arrow ? {'marker-end':`url(#${markerId})`} : {}),...attributes});
+  }
+  function label(picture,x,y,value,attributes={}) {
+    return add(picture,'text',{x,y,'text-anchor':'middle',...attributes},value);
+  }
+  function fitLabel(text) {
+    const bounds=text.getBBox();
+    const shift=Math.max(4-bounds.x,0)-Math.max(bounds.x+bounds.width-(width-4),0);
+    if (shift) text.setAttribute('x',Number(text.getAttribute('x'))+shift);
+  }
+  function box(picture,x,y,w,h,extra={}) {
+    return add(picture,'rect',{x,y,width:w,height:h,class:'mechanism-box',...extra});
+  }
+  function choosePhase(labels, paint) {
+    const nav = document.createElement('div');
+    nav.className = 'diagram-phase-controls';
+    nav.setAttribute('role', 'group');
+    nav.setAttribute('aria-label', '图解步骤');
+    panel.append(nav);
+    const buttons = labels.map((value,index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = value;
+      button.addEventListener('click', () => select(index));
+      nav.append(button);
+      return button;
+    });
+    function select(index) {
+      for (const [i,button] of buttons.entries()) {
+        button.setAttribute('aria-pressed', String(i === index));
+      }
+      paint(index);
+    }
+    select(0);
+  }
+  function sequence() {
+    const height = 63 + visual.messages.length * 63;
+    if (visual.progressive) {
+      let picture;
+      choosePhase(visual.messages.map(message => message.label), index => {
+        picture?.remove();
+        picture = drawSequence(height, index, true);
+      });
+    } else {
+      drawSequence(height, visual.step, false);
+    }
+  }
+  function drawSequence(height, selected, progressive) {
+    const picture = svg(height, '时间向下的消息时序');
+    const start = 44, span = width - 86;
+    const positions = visual.actors.map((_,index) => start + span*index/(visual.actors.length-1));
+    line(picture,15,54,15,height-13,true,{'data-time-axis':'down'});
+    label(picture,15,38,'时');
+    for (const [index, actor] of visual.actors.entries()) {
+      const x = positions[index];
+      fitLabel(label(picture,x,22,actor,{'data-actor':index}));
+      line(picture,x,32,x,height-12,false,{'data-lifeline':index});
+    }
+    for (const [index, message] of visual.messages.entries()) {
+      if (progressive && index > selected) break;
+      const x1=positions[message.from],x2=positions[message.to],y=84+index*63;
+      const direction=Math.sign(x2-x1), middle=(x1+x2)/2;
+      const end=message.lost?x1+(x2-x1)*.72:x2-direction*3;
+      line(picture,x1+direction*2,y,end,y+8,!message.lost,{
+        'data-event':index,'data-from':message.from,'data-to':message.to,
+        ...(selected===index?{'data-current-step':'true'}:{}),
+        ...(message.lost?{'data-loss':'true','stroke-dasharray':'4 3'}:{})});
+      if (message.lost) label(picture,end,y+12,'×');
+      label(picture,middle,y-(message.fields?26:10),message.label,{'data-signal':index});
+      if (message.fields) {
+        const fields=label(picture,middle,y-10,undefined,{'data-fields':index,class:'mechanism-fields','xml:space':'preserve'});
+        for (const [position,value] of message.fields.split(/  +/).entries()) {
+          if (position) add(fields,'tspan',{},'  ');
+          const focused=(selected===undefined||selected===index)
+            &&value.toLowerCase().startsWith((visual.highlight||'')+'=');
+          add(fields,'tspan',focused?{'data-field-emphasis':''}:{},value);
+        }
+      }
+    }
+    return picture;
+  }
+  function address() {
+    const picture=svg(263,'有效分页映射。虚页号查页表，页框号进入物理地址，页内偏移原样保留。');
+    const x0=26, x1=width-26, bits=visual.widths;
+    const vmid=x0+(x1-x0)*(bits?(bits.va-bits.offset)/bits.va:.56);
+    const pmid=x0+(x1-x0)*(bits?(bits.pa-bits.offset)/bits.pa:.56);
+    const vhigh=(x0+vmid)/2, phigh=(x0+pmid)/2, voffset=(vmid+x1)/2, poffset=(pmid+x1)/2;
+    const tableLeft=x0+22, tableRight=Math.min(x0+(x1-x0)*.65,voffset-18,poffset-18), tableMid=(tableLeft+tableRight)/2;
+    const pfn=(tableMid+tableRight)/2;
+    const focus=(key)=>visual.highlight===key?{'data-current-step':'true'}:{};
+    route(picture,`M${vhigh} 65 V79 H${x0} V128 H${tableLeft-2}`,true,{'data-map-route':'vpn-to-pte',...focus('vpn')});
+    route(picture,`M${pfn} 145 V178 H${phigh} V205`,true,{'data-map-route':'pfn-to-pa',...focus('pfn')});
+    route(picture,`M${voffset} 65 V176 H${poffset} V205`,true,{'data-map-route':'offset','stroke-dasharray':'4 4',...focus('offset')});
+    fitLabel(label(picture,voffset+8,160,'原样保留',{'text-anchor':'start',class:'mechanism-small'}));
+    label(picture,x0,20,'虚拟地址 VA'+(bits?' · '+bits.va+' 位':''),{'text-anchor':'start'});
+    label(picture,x0,199,'物理地址 PA'+(bits?' · '+bits.pa+' 位':''),{'text-anchor':'start'});
+    for (const [top,left,mid,high,offset,total] of [[30,'虚页号 VPN',vmid,vhigh,voffset,bits?.va],[208,'页框号 PFN',pmid,phigh,poffset,bits?.pa]]) {
+      box(picture,x0,top,mid-x0,35,{'data-address-field':left});
+      box(picture,mid,top,x1-mid,35,{'data-address-field':'页内偏移',class:'mechanism-box mechanism-offset'});
+      const highLabel=mid-x0<95?left.slice(-3):left;
+      if (mid-x0>=40) label(picture,high,top+(bits?15:22),highLabel);
+      if (x1-mid>=36) label(picture,offset,top+(bits?15:22),x1-mid<55?'偏移':'页内偏移');
+      if (bits) {
+        if (mid-x0>=40) label(picture,high,top+29,(total-bits.offset)+' 位',{class:'mechanism-small'});
+        if (x1-mid>=36) label(picture,offset,top+29,bits.offset+' 位',{class:'mechanism-small'});
+      }
+    }
+    label(picture,tableLeft,98,'页表项',{'text-anchor':'start',class:'mechanism-small'});
+    for (const [start,end,name,value] of [[tableLeft,tableMid,'存在位','1'],[tableMid,tableRight,'页框号','PFN']]) {
+      box(picture,start,105,end-start,20);
+      box(picture,start,125,end-start,22,{class:'mechanism-box mechanism-offset'});
+      label(picture,(start+end)/2,119,name,{class:'mechanism-small'});
+      label(picture,(start+end)/2,140,value,{class:'mechanism-fields'});
+    }
+    label(picture,(tableLeft+tableRight)/2,163,'已驻留且权限通过',{class:'mechanism-small'});
+    const footer=bits?'VPN '+(bits.va-bits.offset)+' 位 · PFN '+(bits.pa-bits.offset)+' 位 · 偏移 '+bits.offset+' 位':
+      '位宽按题设，本图示意字段路径。';
+    label(picture,x0,256,footer,{'text-anchor':'start',class:'mechanism-small'});
+  }
+  function graph() {
+    const measure=document.createElement('canvas').getContext('2d');
+    measure.font=getComputedStyle(panel).font || '14px system-ui';
+    function wrap(value, maxWidth) {
+      const lines=[];
+      let current='';
+      for (const character of value) {
+        if (current && measure.measureText(current+character).width>maxWidth) {
+          lines.push(current);
+          current='';
+        }
+        current+=character;
+      }
+      lines.push(current);
+      return lines;
+    }
+    const nodes=[];
+    let top=6;
+    for (const row of visual.rows) {
+      const slot=width/row.length, w=Math.min(slot-12,166);
+      const planned=row.map(value=>({value,lines:wrap(value,w-13)}));
+      const h=Math.max(46,Math.max(...planned.map(node=>node.lines.length))*16+14);
+      planned.forEach((node,index)=>nodes.push({...node,x:slot*(index+.5),y:top+h/2,w,h}));
+      top+=h+34;
+    }
+    const picture=svg(top-28,'对象关系与连线');
+    for (const edge of visual.edges) {
+      const a=nodes[edge.from], b=nodes[edge.to], dx=b.x-a.x,dy=b.y-a.y;
+      // Preserve a connected edge while clipping it to the visible object boundaries.
+      const r1=Math.min(dx? (a.w/2+2)/Math.abs(dx):Infinity,dy?(a.h/2+2)/Math.abs(dy):Infinity);
+      const r2=Math.min(dx? (b.w/2+2)/Math.abs(dx):Infinity,dy?(b.h/2+2)/Math.abs(dy):Infinity);
+      const shift=visual.edges.some(other=>other.from===edge.to&&other.to===edge.from)?9:0;
+      const distance=Math.hypot(dx,dy), sx=-dy/distance*shift,sy=dx/distance*shift;
+      line(picture,a.x+dx*r1+sx,a.y+dy*r1+sy,b.x-dx*r2+sx,b.y-dy*r2+sy,edge.arrow,{'data-connection':`${edge.from}-${edge.to}`});
+      if (edge.label) fitLabel(label(picture,(a.x+b.x)/2+sx+(dx===0?9:0),(a.y+b.y)/2+sy-6,edge.label,{
+        class:'mechanism-small mechanism-edge-label',...(dx===0?{'text-anchor':'start'}:{})}));
+    }
+    for (const [index,node] of nodes.entries()) {
+      box(picture,node.x-node.w/2,node.y-node.h/2,node.w,node.h,{rx:4,'data-object':index});
+      const text=label(picture,node.x,node.y+5-(node.lines.length-1)*8,undefined,{'aria-label':node.value});
+      node.lines.forEach((row,index)=>add(text,'tspan',{x:node.x,dy:index?16:0},row));
+    }
+  }
+  const span = (name,content) => {
+    const el=document.createElement('span');
+    el.className=name;
+    el.textContent=content;
+    return el;
+  };
+  function flow() {
+    const row=document.createElement('div');
+    row.className='mechanism-flow';
+    row.setAttribute('aria-label','过程图');
+    visual.items.forEach((label,index)=>{
+      const part=document.createElement('div');
+      part.className='mechanism-transition';
+      if (index) {
+        const arrow=add(part,'svg',{width:21,height:13,viewBox:'0 0 21 13','aria-hidden':'true'});
+        add(arrow,'path',{d:'M0 6.5 H19 M14 2 L19 6.5 L14 11',class:'mechanism-line'});
+      }
+      part.append(span('mechanism-stage',label));
+      row.append(part);
+    });
+    panel.append(row);
+  }
+  function band() {
+    const frame=document.createElement('div');
+    frame.className='mechanism-band-frame';
+    for (const values of visual.rows) {
+      const row=document.createElement('div');
+      row.className='mechanism-band';
+      for (const cell of values) row.append(span('mechanism-cell',cell));
+      frame.append(row);
+    }
+    panel.append(frame);
+  }
+  function partition() {
+    const figure=document.createElement('div');
+    figure.className='mechanism-bitfigure';
+    figure.setAttribute('aria-label',visual.title);
+    const strip=document.createElement('div');
+    strip.className='mechanism-band-frame mechanism-partition';
+    for (const value of visual.fields) strip.append(span('mechanism-cell',value));
+    figure.append(strip,span('mechanism-field-note','字段顺序示意，位宽按题设。'));
+    panel.append(figure);
+  }
+  function fields() {
+    const figure=document.createElement('figure');
+    figure.className='mechanism-bitfigure';
+    figure.setAttribute('aria-label',visual.title+'的字段布局');
+    const caption=document.createElement('figcaption');
+    const amount=visual.fixed_bits%8===0 ? visual.fixed_bits/8+' B' : visual.fixed_bits+' 位';
+    caption.textContent=visual.group+' '+amount;
+    figure.append(caption);
+    const ruler=document.createElement('div');
+    ruler.className='mechanism-ruler';
+    ruler.append(span('mechanism-byte','位序'));
+    const scale=document.createElement('div');
+    scale.className='mechanism-bit-scale';
+    const labels=visual.word_bits===32?[0,8,16,24,31]:
+      [0,Math.floor(visual.word_bits/2),visual.word_bits-1];
+    for (const [index,position] of [...new Set(labels)].entries()) {
+      const tick=span('mechanism-tick',String(position));
+      tick.style.left=(position/visual.word_bits*100)+'%';
+      tick.dataset.edge=index===0?'first':position===visual.word_bits-1?'last':'';
+      scale.append(tick);
+    }
+    ruler.append(scale);
+    figure.append(ruler);
+    const outer=document.createElement('div');
+    outer.className='mechanism-packet';
+    const fixed=document.createElement('div');
+    fixed.className='mechanism-fixed';
+    const brace=add(fixed,'svg',{viewBox:'0 0 12 100',preserveAspectRatio:'none',class:'mechanism-brace','aria-hidden':'true'});
+    add(brace,'path',{d:'M1 1 Q7 1 7 10 V42 Q7 50 11 50 Q7 50 7 58 V90 Q7 99 1 99',
+      class:'mechanism-line','vector-effect':'non-scaling-stroke'});
+    const detail=document.createElement('p');
+    detail.className='mechanism-field-detail';
+    detail.setAttribute('aria-live','polite');
+    const controls=[];
+    const tiny=[];
+    const flagControls=[];
+    function choose(field) {
+      for (const [item,control] of controls) control.setAttribute('aria-pressed',String(item.key===field.key));
+      for (const [flag,control] of flagControls) control.setAttribute('aria-pressed',String(flag.key===field.key));
+      const end=field.start+field.bits-1;
+      const range=field.bits===1?String(field.start):field.start+'–'+end;
+      detail.textContent=field.label+' · 整体位 '+range+' · '+field.bits+' 位'+
+        (visual.tips[field.key]?'。'+visual.tips[field.key]:'');
+    }
+    for (const row of visual.rows) {
+      const line=document.createElement('div');
+      line.className='mechanism-bitrow';
+      const start=row.fields[0].start;
+      const words=row.bits/visual.word_bits;
+      const position=words>1 ? start/8+'–'+((start+row.bits)/8-1)+' B' :
+        start%8===0 ? start/8+' B' : start+' 位';
+      line.append(span('mechanism-byte',position));
+      const grid=document.createElement('div');
+      grid.className='mechanism-fields-grid';
+      grid.style.gridTemplateColumns='repeat('+visual.word_bits+',minmax(0,1fr))';
+      if (words>1) {
+        grid.style.minHeight=words*1.7+'em';
+        grid.dataset.wordCount=words;
+      }
+      for (const field of row.fields) {
+        const button=document.createElement('button');
+        button.type='button';
+        button.className='mechanism-field';
+        button.style.gridColumn='span '+Math.min(field.bits,visual.word_bits);
+        button.dataset.field=field.key;
+        button.dataset.start=field.start;
+        button.dataset.bits=field.bits;
+        button.setAttribute('aria-label',field.label+'，'+field.bits+' 位');
+        if (visual.highlight.includes(field.key)||visual.flags.some(flag=>visual.highlight.includes(flag.key)
+            &&flag.position>=field.start&&flag.position<field.start+field.bits)) button.dataset.focus='';
+        if (field.bits<=3) {
+          if (!visual.flags.some(flag=>flag.position>=field.start&&flag.position<field.start+field.bits)) {
+            tiny.push(field);
+          }
+          button.append(span('mechanism-field-dot',''));
+        } else {
+          button.append(span('mechanism-field-label',field.label),span('mechanism-field-bits',field.bits+' 位'));
+        }
+        button.addEventListener('click',()=>choose(field));
+        controls.push([field,button]);
+        grid.append(button);
+      }
+      line.append(grid);
+      fixed.append(line);
+    }
+    outer.append(fixed);
+    for (const [name,width] of visual.tail) {
+      const row=document.createElement('div');
+      row.className='mechanism-packet-tail';
+      row.append(span('mechanism-tail-name',name),span('mechanism-tail-width',width));
+      outer.append(row);
+    }
+    figure.append(outer);
+    if (visual.flags.length||tiny.length) {
+      const legend=document.createElement('div');
+      legend.className='mechanism-flag-ruler';
+      for (const flag of visual.flags) {
+        const cell=document.createElement('button');
+        cell.type='button';
+        cell.className='mechanism-flag';
+        cell.textContent=flag.position%visual.word_bits+' '+flag.label;
+        cell.title='整体位 '+flag.position+'，1 位';
+        cell.dataset.bitPosition=flag.position;
+        cell.dataset.field=flag.key;
+        if (visual.highlight.includes(flag.key)) cell.dataset.focus='';
+        const flagField={key:flag.key,label:flag.label+' 控制位',bits:1,start:flag.position};
+        cell.addEventListener('click',()=>choose(flagField));
+        flagControls.push([flagField,cell]);
+        legend.append(cell);
+      }
+      for (const field of tiny) {
+        legend.append(span('mechanism-flag',field.label+' '+field.bits+' 位'));
+      }
+      figure.append(legend);
+    }
+    if (visual.flags.length) figure.append(span('mechanism-field-note','控制位小格各占 1 位，数字为所在行的位编号。'));
+    figure.append(detail);
+    const notes=[visual.note,visual.source].filter(Boolean);
+    for (const note of notes) figure.append(span('mechanism-field-note',note));
+    panel.append(figure);
+    const first=[...controls,...flagControls].find(([field])=>visual.highlight.includes(field.key))||controls[0];
+    choose(first[0]);
+  }
+  function table() {
+    const grid=document.createElement('table');
+    grid.className='mechanism-table';
+    grid.dataset.kind=visual.kind;
+    grid.setAttribute('aria-label',visual.kind==='lanes'?'按时间对齐的活动':'字段与条目');
+    function paint({rows, marks = []}) {
+      grid.replaceChildren();
+      const active = new Set(marks.map(pair => pair.join('/')));
+      for (const [r,values] of rows.entries()) {
+        const row=grid.insertRow();
+        for (const [c,value] of values.entries()) {
+          const cell=document.createElement(r===0||c===0?'th':'td');
+          if (r===0||c===0) cell.scope=r===0?'col':'row';
+          if (value==='·') cell.dataset.idle='';
+          if (active.has(r+'/'+c)) cell.dataset.active='';
+          cell.textContent=value==='·'?'':value;
+          row.append(cell);
+        }
+      }
+    }
+    if (visual.phases) {
+      choosePhase(visual.phases.map(phase => phase.label), index => paint(visual.phases[index]));
+    } else {
+      paint(visual);
+    }
+    panel.append(grid);
+  }
+  function tree() {
+    const root=document.createElement('div');
+    root.className='mechanism-tree';
+    root.append(span('mechanism-stage',visual.root));
+    const branches=document.createElement('ul');
+    for (const label of visual.children) {
+      const li=document.createElement('li');
+      li.textContent=label;
+      branches.append(li);
+    }
+    root.append(branches);
+    panel.append(root);
+  }
+  function communication() {
+    const section = document.createElement('div');
+    section.className = 'communication-lesson';
+    const paragraph = (text, className = '') => {
+      const p = document.createElement('p');
+      p.textContent = text;
+      p.className = className;
+      section.append(p);
+      return p;
+    };
+    if (!compact) {
+      for (const formula of visual.formulas) paragraph(formula, 'communication-formula');
+      paragraph(visual.definitions);
+      paragraph(visual.example, 'text-small');
+      paragraph(visual.given);
+    }
+    const values = visual.diagram_values;
+    if (compact && values) {
+      if (visual.topic === 'symbol-rate') {
+        const picture = svg(108,'相位状态与码元速率');
+        const x0 = 56;
+        add(picture,'circle',{cx:x0,cy:52,r:30,class:'mechanism-box'});
+        for (let index=0; index<values.states; index++) {
+          const angle = index*2*Math.PI/values.states;
+          add(picture,'circle',{cx:x0+30*Math.cos(angle),cy:52+30*Math.sin(angle),r:3,class:'mechanism-arrowhead'});
+        }
+        line(picture,91,52,width*.48,52,true);
+        label(picture,x0,100,values.states+' 个相位');
+        label(picture,width*.57,48,values.bits+' bit/码元',{'text-anchor':'start'});
+        label(picture,width*.57,73,values.symbols+' Baud',{'text-anchor':'start'});
+      } else {
+        const picture = svg(117,'同带宽的两个容量算例');
+        const x0 = 82, span = width - x0 - 80;
+        label(picture,x0,17,values.bandwidth_khz+' kHz',{'text-anchor':'start'});
+        for (const [text, number, y] of [
+          ['理想信道',values.ideal_kbps,37], ['有噪声',values.noisy_kbps,77],
+        ]) {
+          const end = x0 + span * number / values.ideal_kbps;
+          box(picture,x0,y,end-x0,16,{rx:4,class:'mechanism-box mechanism-offset'});
+          label(picture,x0-10,y+12,text,{'text-anchor':'end'});
+          label(picture,end+9,y+12,number+' kbit/s',{'text-anchor':'start'});
+        }
+        label(picture,x0,113,'有噪声示例 · S/N='+values.power_ratio,{'text-anchor':'start',class:'mechanism-small'});
+      }
+      return;
+    }
+    if (visual.steps) {
+      const controls = document.createElement('div');
+      controls.className = 'viz-row';
+      const detail = document.createElement('p');
+      detail.setAttribute('aria-live', 'polite');
+      visual.steps.forEach((step, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn';
+        button.textContent = `${index + 1} ${step.title}`;
+        button.addEventListener('click', () => {
+          for (const peer of controls.children) peer.setAttribute('aria-pressed', String(peer === button));
+          detail.textContent = step.detail;
+        });
+        button.setAttribute('aria-pressed', String(index === 0));
+        controls.append(button);
+      });
+      detail.textContent = visual.steps[0].detail;
+      section.append(controls, detail);
+    }
+    if (visual.extra_example) {
+      const details = document.createElement('details');
+      const summary = document.createElement('summary');
+      summary.textContent = visual.extra_example.title;
+      details.append(summary);
+      for (const text of [visual.extra_example.given, ...visual.extra_example.steps]) {
+        const p = document.createElement('p');
+        p.textContent = text;
+        details.append(p);
+      }
+      section.append(details);
+    }
+    if (visual.topic === 'differential') {
+      const bits = visual.bits;
+      let previous = visual.initial_level;
+      const differential = bits.map(bit => {
+        const first = bit === 0 ? 1 - previous : previous;
+        previous = 1 - first;
+        return [first, previous];
+      });
+      const manchester = bits.map(bit => bit === 1 ? [1, 0] : [0, 1]);
+      const drawing = document.createElement('div');
+      const controls = document.createElement('div');
+      controls.className = 'viz-row';
+      const detail = document.createElement('p');
+      detail.setAttribute('aria-live', 'polite');
+      const render = index => {
+        drawing.replaceChildren();
+        for (const [name, levels] of [['曼彻斯特', manchester], ['差分曼彻斯特', differential]]) {
+          const title = document.createElement('p');
+          title.textContent = name;
+          drawing.append(title);
+          const w = Math.max(280, Math.min(690, panel.clientWidth || 620));
+          const picture = document.createElementNS(ns, 'svg');
+          picture.setAttribute('viewBox', `0 0 ${w} 112`);
+          picture.setAttribute('width', w);
+          picture.setAttribute('height', 112);
+          picture.setAttribute('class', 'mechanism-svg');
+          picture.setAttribute('role', 'img');
+          picture.setAttribute('aria-label', `${name}的八位波形，选中第${index + 1}位`);
+          const left = 22, step = (w - 30) / bits.length;
+          add(picture, 'rect', {x:left + index * step,y:10,width:step,height:90,
+            fill:'var(--viz-series-1)',opacity:'.12'});
+          const y = level => level ? 38 : 76;
+          let path = `M ${left - 16} ${y(visual.initial_level)}`;
+          levels.forEach((pair, i) => {
+            const x = left + i * step;
+            add(picture, 'line', {x1:x,y1:25,x2:x,y2:88,stroke:'var(--muted-foreground)','stroke-dasharray':'5 4'});
+            add(picture, 'line', {x1:x+step/2,y1:25,x2:x+step/2,y2:88,stroke:'var(--muted-foreground)','stroke-dasharray':'1 4'});
+            label(picture, x + step/2, 20, String(bits[i]));
+            path += ` H ${x} V ${y(pair[0])} H ${x + step/2} V ${y(pair[1])} H ${x + step}`;
+          });
+          add(picture, 'line', {x1:left+bits.length*step,y1:25,x2:left+bits.length*step,y2:88,
+            stroke:'var(--muted-foreground)','stroke-dasharray':'5 4'});
+          add(picture, 'path', {d:path,fill:'none',stroke:'var(--foreground)','stroke-width':2});
+          drawing.append(picture);
+        }
+        const prev = index === 0 ? visual.initial_level : differential[index - 1][1];
+        const mid = manchester[index][0] ? '高→低' : '低→高';
+        const start = prev === differential[index][0] ? '无跳变' : '有跳变';
+        detail.textContent = compact ? `位中 ${mid} · 位首 ${start}` :
+          `第${index + 1}位是 ${bits[index]}。曼彻斯特位中${mid}。差分曼彻斯特位首${start}，位中跳变用于同步。`;
+        for (const [i, button] of [...controls.children].entries()) button.setAttribute('aria-pressed', String(i === index));
+      };
+      bits.forEach((_, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn';
+        button.textContent = `第${index + 1}位`;
+        button.addEventListener('click', () => render(index));
+        controls.append(button);
+      });
+      section.append(drawing, controls, detail);
+      render(0);
+    }
+    if (!compact) paragraph(visual.note, 'text-small');
+    panel.append(section);
+  }
+  function datapath() {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'datapath-lesson';
+    const controls = document.createElement('div');
+    controls.className = 'viz-row';
+    const drawing = document.createElement('div');
+    const signals = document.createElement('p');
+    signals.className = 'datapath-signals';
+    const reason = document.createElement('p');
+    reason.setAttribute('aria-live', 'polite');
+    const objects = document.createElement('div');
+    objects.className = 'viz-row';
+    const detail = document.createElement('p');
+    detail.setAttribute('aria-live', 'polite');
+    let stage = 0;
+    const buttons = [];
+    const objectButtons = [];
+    function selectObject(name) {
+      detail.textContent = visual.objects[name];
+      for (const button of objectButtons) button.setAttribute('aria-pressed', String(button.dataset.object === name));
+    }
+    function draw() {
+      const state = visual.steps[stage];
+      drawing.replaceChildren();
+      const picture = document.createElementNS(ns, 'svg');
+      picture.setAttribute('viewBox', '0 0 680 420');
+      picture.setAttribute('class', 'mechanism-svg datapath-svg');
+      picture.setAttribute('role', 'img');
+      picture.setAttribute('aria-label', `单总线原图结构。${state.reason}`);
+      const defs = add(picture, 'defs', {});
+      const arrowId = markerId + '-datapath';
+      const marker = add(defs, 'marker', {id:arrowId, viewBox:'0 0 8 8',refX:7,refY:4,markerWidth:6,markerHeight:6,orient:'auto'});
+      add(marker, 'path', {d:'M0 0 L8 4 L0 8 Z',fill:'context-stroke'});
+      function wire(id, path, directed = true) {
+        const active = state.active.includes(id);
+        add(picture, 'path', {d:path,fill:'none',stroke:active?'var(--viz-series-1)':'var(--border)',
+          'stroke-width':active?3:1.5, ...(directed?{'marker-end':`url(#${arrowId})`}:{}), 'data-wire':id,
+          'data-active':String(active)});
+      }
+      function text(x,y,value,small=false) {
+        return add(picture,'text',{x,y,'text-anchor':'middle',...(small?{class:'mechanism-small'}:{})},value);
+      }
+      function component(name,x,y,w,h,value,muted=false) {
+        const group=add(picture,'g',{'data-component':name});
+        add(group,'rect',{x,y,width:w,height:h,rx:4,fill:muted?'var(--muted)':'var(--background)',
+          stroke:'var(--border)','stroke-width':1.5});
+        text(x+w/2,y+(value?20: h/2+5),name);
+        if(value) text(x+w/2,y+40,value);
+      }
+      component('主存储器',165,8,350,40,null,true);
+      wire('memory','M 340 48 V 72',false);
+      add(picture,'path',{d:'M 35 72 H 645',fill:'none',stroke:'var(--border)','stroke-width':2});
+      text(90,63,'系统总线',true);
+      for(const [name,x] of [['MAR',45],['MDR',205],['PC',365],['IR',525]]) {
+        component(name,x,105,85,42,null,true);
+        wire('context-'+name,`M ${x+42} 185 V 147`,false);
+      }
+      wire('mar-memory','M 87 105 V 72',false);
+      wire('mdr-memory','M 247 105 V 72',false);
+      add(picture,'path',{d:'M 30 185 H 650',fill:'none',stroke:'var(--foreground)','stroke-width':3});
+      text(116,176,'内部总线 · 16 位',true);
+      text(452,176,`当前驱动 ${state.driver} · 总线 ${state.bus}`,true);
+      wire('bus-y','M 90 185 V 245');
+      wire('gpr-out','M 577 257 V 185');
+      wire('bus-gpr','M 535 185 V 257');
+      wire('y-a','M 140 273 H 250 V 289');
+      wire('bus-b','M 375 185 V 289');
+      wire('alu-z','M 312 328 V 355');
+      wire('alu-fr','M 279 328 V 346 H 158 V 366');
+      wire('z-out','M 360 382 H 455 V 185');
+      component('Y',40,245,100,56,state.y);
+      component('GPRs',500,257,125,65,stage>=2?'目标寄存器 ← 8':'操作数来源');
+      const alu=add(picture,'g',{'data-component':'ALU'});
+      add(alu,'path',{d:'M 217 289 H 287 L 312 301 L 337 289 H 407 L 366 328 H 258 Z',
+        fill:'var(--background)',stroke:'var(--border)','stroke-width':1.5});
+      text(312,319,'ALU');
+      component('Z',265,355,95,56,state.z);
+      component('FR',100,366,105,38,null,true);
+      text(105,325,'Yin',true);
+      text(239,280,'A',true);text(387,280,'B',true);text(327,347,'F',true);
+      text(470,333,'Zout',true);text(579,241,'GPRout',true);text(522,241,'GPRin',true);
+      add(picture,'path',{d:'M 448 344 L 455 331 L 462 344 Z',fill:'var(--background)',stroke:'var(--foreground)'});
+      add(picture,'path',{d:'M 570 225 L 577 212 L 584 225 Z',fill:'var(--background)',stroke:'var(--foreground)'});
+      text(653,286,'rs / rd',true);
+      drawing.append(picture);
+      signals.textContent=state.signals;
+      reason.textContent=state.reason;
+      buttons.forEach((button,index)=>button.setAttribute('aria-pressed',String(index===stage)));
+    }
+    visual.steps.forEach((step,index)=>{
+      const button=document.createElement('button');
+      button.type='button';button.className='btn';button.textContent=`${index+1} ${step.title}`;
+      button.addEventListener('click',()=>{stage=index;draw();});
+      controls.append(button);buttons.push(button);
+    });
+    for(const name of ['Y','Z','Zout','ALU','GPRs','FR','BUS']) {
+      const button=document.createElement('button');
+      button.type='button';button.className='btn';button.textContent=name==='BUS'?'内部总线':name;
+      button.dataset.object=name;button.addEventListener('click',()=>selectObject(name));
+      objects.append(button);objectButtons.push(button);
+    }
+    wrapper.append(controls,drawing,signals,reason,objects,detail);
+    panel.append(wrapper);
+    draw();selectObject('Y');
+  }
+  const handlers={sequence,address,graph,flow,band,table,lanes:table,tree,fields,partition,communication,datapath};
+  handlers[visual.kind]();
+  if (visual.kind!=='fields' && visual.source) panel.append(span('mechanism-field-note',visual.source));
+}
+
+  const redraw = () => {
+    host.replaceChildren();
+    if (model.kind === 'objects') drawQuestionDiagram(host, model, root.id, (frame, step, selected) => {
+      show('current-step',model.frames.length>1 ? '第 '+(step+1)+' / '+model.frames.length+' 步 · '+frame.label : '');
+      show('caption', model.object_notes?.[selected] || frame.caption ||
+        (step === (model.initial || 0) ? compact.step_caption || compact.first_action : ''));
+    }, selection);
+    else if (model.kind === 'serial-frame') drawSerialFrame(host, model);
+    else if (model.kind === 'interrupt-timing') drawInterruptTiming(host, model);
+    else if (model.kind === 'timeline') drawTimeline(host, model);
+    else if (model.kind === 'waveform') drawWaveforms(host, model);
+    else renderMechanism(host, model, root.id + '-arrow', {compact:true});
+  };
+  redraw();
+  root.querySelector('[data-example]').hidden = !['scoped_mechanism_example','mechanism_sketch'].includes(aspect);
+})();
+</script>
+<script type="application/json" data-cs408-selection>{"schema":"cs408-visual-selection-v1","identity":"EXAM408-2099-Q43-P01","source_version":"8fd13beb320563a1b3889f5ec4253ed4f34d4cfaf6ba588a2623f6febf6fc21f","view":"direct","hint_level":5,"state_ids":["tlb_hit","tlb_miss_present","tlb_miss_absent","retry_after_recovery"],"content_sha256":"be85500ecee7307c1a612c8599b25c604158dc7b37a364f0c5fc3ec96f272c61","binding_sha256":"1b136b8393ed2de988dfd02f1029284c7df99962f77727d50c75c8f7d8474803"}</script>
+</body></html>

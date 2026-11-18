@@ -191,6 +191,12 @@ binds question-image-preflight.json. Its heuristic warnings are not visual accep
 source-backed image corrections belong to preparation, never the learning loop.
 Unrepaired visual defects remain explicit and do not trigger a learner-side fallback.
 
+## 讲题与快存的时延口径
+
+On the current user-selected model, target **10–20 seconds** from the learning request to the first substantive teaching text that gives a judgment, condition or actionable hint specific to the current question.
+
+完整快存交付以 **20–30 秒**为独立目标，从保存请求到已核回执、速记和获准的复盘图交付计时。只记录时按用户要求的回执计终点。占位进度和脚本运行时间单列。保留必要解释、保护范围和写入核验。沿用当前所选模型。
+
 ## Routine teaching
 
 All user-visible progress, reasoning summaries, errors and teaching prose are in
@@ -383,11 +389,6 @@ cold side; point queries do not scan records, ledgers or sources, call a remote 
 or rebuild. Keep direct/associated evidence, first result/repair and missing evidence
 distinct; these learning summaries never grade the current attempt or infer mastery.
 
-Target the first substantive teaching text in 10–20 seconds on the current user-selected
-teaching model, whichever one it is. Placeholder commentary
-does not meet the target. Skills cannot set or attest model, reasoning, fast mode,
-or service tier; only runtime measurement establishes actual latency.
-
 Verified formal writers invalidate and refresh the existing projection, including
 reviewed profile preservation and the knowledge hash routes. New learning Capture
 does not perform this formal refresh. The enhancement owner verifies the accepted
@@ -430,7 +431,7 @@ verify a shared replica only on explicit remote-access or external handoff reque
 ## Archive and historical recovery
 
 After verified formal terminal, `archive_408_conversation_package.py` verifies the
-canonical `/Volumes/T9-Data` sentinel, preserves exact raw bytes, publishes a locator
+canonical `/Volumes/EXAMPLE-ARCHIVE` sentinel, preserves exact raw bytes, publishes a locator
 and receipt, and only then clears eligible local heavy data. Stable display assets must
 already resolve in details. `FORMAL_COMMITTED_ARCHIVE_PENDING` resumes archive/display
 only; never replay apply. `needs_user|failed` keeps the complete local package.
@@ -448,7 +449,7 @@ historical events or imply learning success.
 新D输入/prepare只允许核验的EXAM408统考原题；按精确题面排除距目标日期不足14天曝光，候选全受阻则保留unresolved，不调用变式生成或复用变式。历史身份与已active/paused会话仍保留原合同。新版网页指令分别为正式加强v4.0和D真题备题v7.0。
 
 ## 旧网页交换文件的存储与恢复（仅显式交换）
-只在本机与GPT-6 Pro网页项目之间流转的文件放 `/Volumes/T9-Data/01_408/408网页中转/`，由 `scripts/web_transfer_root_408.py` 按T9哨兵核对后给出目录：日终加强输入（export_capture_day，分片随原包）、晨间选题输入（export_morning_input，显式导出）、显式外发晚间输入（evening_review export --web-handoff）、网页回包保全（stage_web_return）默认都写到T9；每批自建的出包/收尾工作目录也建在 `日终加强输入/`。显式--output/--output-dir、测试和临时仓库不受影响；正式库、个人摘要、回执、enhancement-intake包与web-D学习工作区留在本机。用户下载目录中的网页回包只在对应本地步骤成功后清理：`web_transfer_root_408.py archive-downloads --kind enhancement|morning-D|evening --label <日期> --file <原件>`，T9保全区已有逐字节相同副本就直接删除，否则复制校验后再删；未完成、PARTIAL或needs_user不清理。T9未挂载或卷身份不符时，保留已完成事实与原件，报告具体待归档/冷产物缺口；不得新建假挂载目录或把冷文件静默写回系统盘。恢复时沿同批身份只补失败的冷层，不重放正式写入。2026-09-27已把本机历史中转目录（review-deliveries下的morning-input、web-D与各日期目录，learning-deliveries，evening-review/inputs）逐文件校验迁到T9，前缀映射见 `kaoyan-408-details/MOVED_TO_T9.json`：旧回执里记录的本机路径按映射到T9查找，恢复旧日期D学习或重跑旧批次前先把对应目录复制回原位置。web-D仍是当日D学习的本机工作区；每次正式入库收尾时，把目标日期早于今天、且没有active/paused会话引用的web-D工作区用 `web_transfer_root_408.py move-tree --kind d-workspace --source <web-D/哈希目录> --relative <哈希>` 迁到T9。
+只在本机与GPT-6 Pro网页项目之间流转的文件放 `/Volumes/EXAMPLE-ARCHIVE/01_408/408网页中转/`，由 `scripts/web_transfer_root_408.py` 按T9哨兵核对后给出目录：日终加强输入（export_capture_day，分片随原包）、晨间选题输入（export_morning_input，显式导出）、显式外发晚间输入（evening_review export --web-handoff）、网页回包保全（stage_web_return）默认都写到T9；每批自建的出包/收尾工作目录也建在 `日终加强输入/`。显式--output/--output-dir、测试和临时仓库不受影响；正式库、个人摘要、回执、enhancement-intake包与web-D学习工作区留在本机。用户下载目录中的网页回包只在对应本地步骤成功后清理：`web_transfer_root_408.py archive-downloads --kind enhancement|morning-D|evening --label <日期> --file <原件>`，T9保全区已有逐字节相同副本就直接删除，否则复制校验后再删；未完成、PARTIAL或needs_user不清理。T9未挂载或卷身份不符时，保留已完成事实与原件，报告具体待归档/冷产物缺口；不得新建假挂载目录或把冷文件静默写回系统盘。恢复时沿同批身份只补失败的冷层，不重放正式写入。2026-09-27已把本机历史中转目录（review-deliveries下的morning-input、web-D与各日期目录，learning-deliveries，evening-review/inputs）逐文件校验迁到T9，前缀映射见 `kaoyan-408-details/MOVED_TO_T9.json`：旧回执里记录的本机路径按映射到T9查找，恢复旧日期D学习或重跑旧批次前先把对应目录复制回原位置。web-D仍是当日D学习的本机工作区；每次正式入库收尾时，把目标日期早于今天、且没有active/paused会话引用的web-D工作区用 `web_transfer_root_408.py move-tree --kind d-workspace --source <web-D/哈希目录> --relative <哈希>` 迁到T9。
 
 ## 408 linear explanation with interactive support (2026-10-17 correction)
 

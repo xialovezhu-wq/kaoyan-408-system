@@ -956,6 +956,7 @@ def _export_day(repo, study_date, *, output=None, cutoff=None, package_root=None
         else:
             add_bytes("START_HERE.md", (
                 "本地正式增强编纂\n\n"
+                "本包使用 kaoyan-408-enhancement-intake 的本机作者合同和原生唯一写者。\n"
                 "在当前已授权的本地会话中核对本包 Capture、原始消息/附件、固定快照及旧概况。按 TEACHING_ALIGNMENT_REQUIREMENTS.json 确认精确范围与原生版本。"
                 "逐题以真实首答、机制断点、提示后变化和未验证边界成稿。学情证据与考纲、真题的客观考法分开。\n"
                 "从 return-template 取字段，在经校验的本地工作目录生成正式成稿。确定性模板不能替代实际语义审核。"

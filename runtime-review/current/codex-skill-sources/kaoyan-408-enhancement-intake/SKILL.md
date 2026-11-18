@@ -6,7 +6,7 @@ description: "408 本地正式增强入库。核读原始 Capture，用 OpenAI e
 
 本机路径和解释器先按[共享路径约定](../_shared/kaoyan-408/local-paths.md)定位；下文仓库命令在已定位的项目目录执行，历史回执保留原字节。
 
-用户明确要求正式入库时，由当前会话直接完成学习证据审核、正文和本地提交；编纂和提交在本机。每个有实际内容的新正式批次须使用 OpenAI embeddings 与 Decisions，验回两类真实请求及其用途才可提交。只请求方案或只读检查时不正式提交。保留旧 Capture 的 awaiting_web_enhancement 状态和已有证据身份，通过同一原生事务正式处理，不为切换本地通道改历史记录。
+用户明确要求正式入库时，当前会话按本 Skill 和本机正式质量合同核原件、成稿、提交与验回。每个有实际内容的新正式批次须使用 OpenAI embeddings 与 Decisions，验回两类真实请求及其用途才可提交。只请求方案或只读检查时不正式提交。保留旧 Capture 的 awaiting_web_enhancement 状态和已有证据身份，通过同一原生事务正式处理，不为切换本地通道改历史记录。
 
 当日快存全部正式入库由 [daily-intake-curation 的当日正式收尾](../kaoyan-408-daily-intake-curation/references/daily-closeout.md) 统筹。本 Skill 负责正式数据与讲题读回，回执通过后由同一任务继续备好错点专项及全天 HTML。
 
@@ -47,4 +47,4 @@ description: "408 本地正式增强入库。核读原始 Capture，用 OpenAI e
 
 在增强目录使用 prepare --source-dir，原地恢复用 --resume-prepared。新正式批次走上述双 API 质量合同。apply/status 验回原件归档、准入/预测、父点三视图及每个KSP关键词、精确题讲法和本机来源版本。抽取本批确实更新的精确题及相关 KSP，按同版 question-worker 的真实 `resolve` 入口验回新断点、讲解切入、`next_check` 与适用的图解方案，核查 protected 的隐藏边界。预测日期用原学习日次日或已明确的 --forecast-date，恢复沿原身份。看板刷新后核对本批待处理交集，登记T9产物并读回。已正式提交但未完整验回时只恢复相应层。
 
-只有原事务已提交且需查证历史回执时才读[旧包兼容流程](references/existing-web-return.md)。本机既有资料和已审稿可直接读取，不能让用户手动搬运内部文件来完成正式入库。
+明确要求网页交接，或持有既有外部包需要恢复时，才读[显式交换与旧包兼容流程](references/existing-web-return.md)。`support/d408/enhancement-project-instructions.txt` 是网页作者的成稿合同。已封存回包按原身份在本机核源、裁决和提交。本机既有资料和已审稿可直接读取，不能让用户手动搬运内部文件来完成正式入库。

@@ -173,4 +173,4 @@ After successful helper return, immediately give the brief frozen feedback and e
 accepted next provenance label/surface. Image-only content may be shown directly or
 transcribed once from the now-visible original; do not add another image call or rewrite
 the same stem. Use whichever teaching model the user selected in the current conversation; never hard-code, recommend or switch a model. The target is
-first substantive feedback in 20–30 seconds; this call shape does not prove actual latency.
+first substantive feedback as defined in the [current timing contract](../../_shared/kaoyan-408/runtime-contract.md#讲题与快存的时延口径).

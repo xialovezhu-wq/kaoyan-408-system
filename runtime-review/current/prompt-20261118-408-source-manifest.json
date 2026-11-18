@@ -1,0 +1,338 @@
+{
+  "task_id": "PROMPT-20261118-408",
+  "review_base": "fc487268bf80269cf59e30513a6406efa343f69e",
+  "review_branch": "review/20261118-openai-prompts-408",
+  "source_commit_scope": "408 runtime and installed wrappers checked locally; prior manifests retain their historical versions",
+  "native_head": "bd26908dbfe1d77d080a7dabb99c3b4029f3dccb",
+  "files": [
+    {
+      "runtime_relative_path": "codex-skill-sources/_shared/kaoyan-408/runtime-contract.md",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/_shared/kaoyan-408/runtime-contract.md",
+      "runtime_sha256": "548658544433921e4774c0267180dd48c082265abf9236c3bee06a68e7290067",
+      "published_sha256": "a324c2d4c9abe18f4a57ce446df2d0fb3abb78132b45cf9197a5563575051fad",
+      "export": "review_baseline_plus_task_delta",
+      "installed_relative_path": "_shared/kaoyan-408/runtime-contract.md",
+      "installed_sha256": "548658544433921e4774c0267180dd48c082265abf9236c3bee06a68e7290067",
+      "previous_manifest_path": "runtime-review/current/codex-skill-sources/_shared/kaoyan-408/runtime-contract.md",
+      "native_before_sha256": "92776e38d4ca640d314e325ab6d83fe48f4141688a3a3295e13750b92eeb3e41",
+      "review_before_sha256": "1e7c54046da4f118cc480da3779ea6a8202fd282643a052e3f399172d3c901f9",
+      "redactions": [
+        [
+          "private-path-template",
+          2
+        ]
+      ]
+    },
+    {
+      "runtime_relative_path": "codex-skill-sources/_shared/kaoyan-408/scripts/validate_408_skills.py",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/_shared/kaoyan-408/scripts/validate_408_skills.py",
+      "runtime_sha256": "97990888ab88909d4f1353ed5759fddbd221c41387410a9beb7b44e7b1e4cbb8",
+      "published_sha256": "6853612811813a08cb6f93b8454f00e821ed1c09817c6163b8ac68681eadc7f6",
+      "export": "review_baseline_plus_task_delta",
+      "installed_relative_path": "_shared/kaoyan-408/scripts/validate_408_skills.py",
+      "installed_sha256": "97990888ab88909d4f1353ed5759fddbd221c41387410a9beb7b44e7b1e4cbb8",
+      "previous_manifest_path": "runtime-review/current/codex-skill-sources/_shared/kaoyan-408/scripts/validate_408_skills.py",
+      "native_before_sha256": "b816954f33a3ee41f676f1e043fc36567bc5b64cfc12021ab5e39a37c3785961",
+      "review_before_sha256": "01b02ba0bc242566de440dc4513c0ad6b2d29609345b167a1e38a3ebb7e06cbc",
+      "redactions": [
+        [
+          "private-path-template",
+          2
+        ]
+      ]
+    },
+    {
+      "runtime_relative_path": "codex-skill-sources/_shared/kaoyan-408/sidebar-delivery.md",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/_shared/kaoyan-408/sidebar-delivery.md",
+      "runtime_sha256": "7316bd96e2c1b82b084bb7282bd9e5b71826098682704f5a9bd963ce9b1fdf04",
+      "published_sha256": "7316bd96e2c1b82b084bb7282bd9e5b71826098682704f5a9bd963ce9b1fdf04",
+      "export": "current_dependency",
+      "installed_relative_path": "_shared/kaoyan-408/sidebar-delivery.md",
+      "installed_sha256": "7316bd96e2c1b82b084bb7282bd9e5b71826098682704f5a9bd963ce9b1fdf04"
+    },
+    {
+      "runtime_relative_path": "codex-skill-sources/kaoyan-408-daily-intake-curation/SKILL.md",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/kaoyan-408-daily-intake-curation/SKILL.md",
+      "runtime_sha256": "67bda48e7bdabcb06ffd8bca0c12370454e0e0bb4dc8a1775a3990240279b9c5",
+      "published_sha256": "67bda48e7bdabcb06ffd8bca0c12370454e0e0bb4dc8a1775a3990240279b9c5",
+      "export": "current_subject_source",
+      "installed_relative_path": "kaoyan-408-daily-intake-curation/SKILL.md",
+      "installed_sha256": "67bda48e7bdabcb06ffd8bca0c12370454e0e0bb4dc8a1775a3990240279b9c5",
+      "previous_manifest_path": "runtime-review/current/codex-skill-sources/kaoyan-408-daily-intake-curation/SKILL.md",
+      "native_before_sha256": "854e80c0dcc612becfe358770c46e16628966fd18c80d91c93a43aea31a201ef",
+      "review_before_sha256": "5383e2c1cca0a7ca4623e23431e3f48deae1c054af10b0ae682b72d3a9e35240"
+    },
+    {
+      "runtime_relative_path": "codex-skill-sources/kaoyan-408-daily-intake-curation/references/legacy-formal-recovery.md",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/kaoyan-408-daily-intake-curation/references/legacy-formal-recovery.md",
+      "runtime_sha256": "b639a977cc83f5cdaa840876465ca1c7244084ff6ae40953b00f6070223a6310",
+      "published_sha256": "89b3c363a4f56334a99543be992e44254b242104d66ab9fca28325c0c94fb8a7",
+      "export": "current_subject_source",
+      "installed_relative_path": "kaoyan-408-daily-intake-curation/references/legacy-formal-recovery.md",
+      "installed_sha256": "b639a977cc83f5cdaa840876465ca1c7244084ff6ae40953b00f6070223a6310",
+      "native_before_sha256": null,
+      "redactions": [
+        [
+          "archive-volume-uuid",
+          1
+        ],
+        [
+          "archive-volume-sentinel",
+          1
+        ],
+        [
+          "private-path-template",
+          2
+        ]
+      ]
+    },
+    {
+      "runtime_relative_path": "codex-skill-sources/kaoyan-408-daily-study-loop/SKILL.md",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/kaoyan-408-daily-study-loop/SKILL.md",
+      "runtime_sha256": "0acd64f3868fc0950a1b78c7d2d20e66c420f29642b524b6445df0b1b24594bd",
+      "published_sha256": "0acd64f3868fc0950a1b78c7d2d20e66c420f29642b524b6445df0b1b24594bd",
+      "export": "current_subject_source",
+      "installed_relative_path": "kaoyan-408-daily-study-loop/SKILL.md",
+      "installed_sha256": "0acd64f3868fc0950a1b78c7d2d20e66c420f29642b524b6445df0b1b24594bd",
+      "previous_manifest_path": "runtime-review/current/codex-skill-sources/kaoyan-408-daily-study-loop/SKILL.md",
+      "native_before_sha256": "839223bdec61cecf8464fb70f6ef4bd27583775a5347c3241e7baaca33b54038",
+      "review_before_sha256": "81589bf5161dc5592514a3458c5701015150b2a3fa02c5bb9cadb0fbcc6a84f3"
+    },
+    {
+      "runtime_relative_path": "codex-skill-sources/kaoyan-408-daily-study-loop/agents/openai.yaml",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/kaoyan-408-daily-study-loop/agents/openai.yaml",
+      "runtime_sha256": "df2a8809bc449263be47c498a465a947fb4541017c9973adf272fdd7d269fac1",
+      "published_sha256": "df2a8809bc449263be47c498a465a947fb4541017c9973adf272fdd7d269fac1",
+      "export": "current_subject_source",
+      "installed_relative_path": "kaoyan-408-daily-study-loop/agents/openai.yaml",
+      "installed_sha256": "df2a8809bc449263be47c498a465a947fb4541017c9973adf272fdd7d269fac1",
+      "previous_manifest_path": "runtime-review/current/codex-skill-sources/kaoyan-408-daily-study-loop/agents/openai.yaml",
+      "native_before_sha256": "fb3336b9a9002dcd07affd2b3c927d10bc651237983aa948a17250be35f77da4",
+      "review_before_sha256": "fb3336b9a9002dcd07affd2b3c927d10bc651237983aa948a17250be35f77da4"
+    },
+    {
+      "runtime_relative_path": "codex-skill-sources/kaoyan-408-daily-study-loop/references/legacy-one-call-turn.md",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/kaoyan-408-daily-study-loop/references/legacy-one-call-turn.md",
+      "runtime_sha256": "05d3431b9d7b3bede57bf86c314a814d6681e298e30f164e5d53dcba68f3af94",
+      "published_sha256": "05d3431b9d7b3bede57bf86c314a814d6681e298e30f164e5d53dcba68f3af94",
+      "export": "current_subject_source",
+      "installed_relative_path": "kaoyan-408-daily-study-loop/references/legacy-one-call-turn.md",
+      "installed_sha256": "05d3431b9d7b3bede57bf86c314a814d6681e298e30f164e5d53dcba68f3af94",
+      "previous_manifest_path": "runtime-review/current/codex-skill-sources/kaoyan-408-daily-study-loop/references/legacy-one-call-turn.md",
+      "native_before_sha256": "4828b65f94db326d748c1a37dd215cb451b6c1daac359855314ac575e76ddc67",
+      "review_before_sha256": "4828b65f94db326d748c1a37dd215cb451b6c1daac359855314ac575e76ddc67"
+    },
+    {
+      "runtime_relative_path": "codex-skill-sources/kaoyan-408-daily-study-loop/references/personalization-context.md",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/kaoyan-408-daily-study-loop/references/personalization-context.md",
+      "runtime_sha256": "93f5c7a340f39304160b9967bc18c2befaee6b674c4335ab472a54e7f7e3be9b",
+      "published_sha256": "fb8ddd1718b05172c9d7f674ca87ff4ae4f883f88283cfdc162fe38a0d4dd42a",
+      "export": "review_baseline_plus_task_delta",
+      "installed_relative_path": "kaoyan-408-daily-study-loop/references/personalization-context.md",
+      "installed_sha256": "93f5c7a340f39304160b9967bc18c2befaee6b674c4335ab472a54e7f7e3be9b",
+      "previous_manifest_path": "runtime-review/current/codex-skill-sources/kaoyan-408-daily-study-loop/references/personalization-context.md",
+      "native_before_sha256": "0fee81d3d5413cfab9592ea714574c2934bfca9a482d493890a34368e8e46969",
+      "review_before_sha256": "441e738284073b84a8fca55db3f6775710366745aad25459f2819d09e82352b9"
+    },
+    {
+      "runtime_relative_path": "codex-skill-sources/kaoyan-408-enhancement-intake/SKILL.md",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/kaoyan-408-enhancement-intake/SKILL.md",
+      "runtime_sha256": "efc584b2ab33fba517ef4f5e1857d66186e2682f7db7c4f7b45a3367ba82a3d2",
+      "published_sha256": "458164f35e0fff878635c521db743bdd5d0dfee6646b4cdd05ec0f9fe7362f44",
+      "export": "review_baseline_plus_task_delta",
+      "installed_relative_path": "kaoyan-408-enhancement-intake/SKILL.md",
+      "installed_sha256": "efc584b2ab33fba517ef4f5e1857d66186e2682f7db7c4f7b45a3367ba82a3d2",
+      "previous_manifest_path": "runtime-review/current/codex-skill-sources/kaoyan-408-enhancement-intake/SKILL.md",
+      "native_before_sha256": "57d8c8ad43445af193e3291e5df089c18e935a3456b8beff085c74670453d876",
+      "review_before_sha256": "8712267294a02da5ed3a8af58c80eba75b011aba35d7b07dacbf920515e6ed53"
+    },
+    {
+      "runtime_relative_path": "codex-skill-sources/kaoyan-408-question-worker/SKILL.md",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/kaoyan-408-question-worker/SKILL.md",
+      "runtime_sha256": "2d06389367d6e029cdfb5077a8cf6b8180eb0b91cec583c2f216d4bab631f8ce",
+      "published_sha256": "43823d3c500f903f34968ca22df80da76682465c0134379a2cf0142d28c3620a",
+      "export": "current_subject_source",
+      "installed_relative_path": "kaoyan-408-question-worker/SKILL.md",
+      "installed_sha256": "2d06389367d6e029cdfb5077a8cf6b8180eb0b91cec583c2f216d4bab631f8ce",
+      "previous_manifest_path": "runtime-review/current/codex-skill-sources/kaoyan-408-question-worker/SKILL.md",
+      "native_before_sha256": "e577e3250d2566de9658821dd283e2dfd81f31dd13de1bc3ec3cb1131b0846f3",
+      "review_before_sha256": "d0d76b944e32404e4d2cc5a6f1a6c585e105fd3940b395635f25ee9dc64e9109",
+      "redactions": [
+        [
+          "local-home-name",
+          1
+        ],
+        [
+          "external-T3-local-binding",
+          1
+        ]
+      ]
+    },
+    {
+      "runtime_relative_path": "codex-skill-sources/kaoyan-408-question-worker/references/chat-formatting.md",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/kaoyan-408-question-worker/references/chat-formatting.md",
+      "runtime_sha256": "9dd033923de631a464e6f05728f685df50ff674ec9447ba73b3d9ad56a142cb4",
+      "published_sha256": "9dd033923de631a464e6f05728f685df50ff674ec9447ba73b3d9ad56a142cb4",
+      "export": "current_dependency",
+      "installed_relative_path": "kaoyan-408-question-worker/references/chat-formatting.md",
+      "installed_sha256": "9dd033923de631a464e6f05728f685df50ff674ec9447ba73b3d9ad56a142cb4"
+    },
+    {
+      "runtime_relative_path": "codex-skill-sources/kaoyan-408-question-worker/references/full-teaching-contract.md",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/kaoyan-408-question-worker/references/full-teaching-contract.md",
+      "runtime_sha256": "3fd27776e77a9d35208542cff33bfbd0835eaa635eab3c969b2e7de820ae04f6",
+      "published_sha256": "3fd27776e77a9d35208542cff33bfbd0835eaa635eab3c969b2e7de820ae04f6",
+      "export": "current_subject_source",
+      "installed_relative_path": "kaoyan-408-question-worker/references/full-teaching-contract.md",
+      "installed_sha256": "3fd27776e77a9d35208542cff33bfbd0835eaa635eab3c969b2e7de820ae04f6",
+      "previous_manifest_path": "runtime-review/current/codex-skill-sources/kaoyan-408-question-worker/references/full-teaching-contract.md",
+      "native_before_sha256": "217b283e81d3dbe18810aae16115c23d52dd725f58bf568731aaee8ba940e85d",
+      "review_before_sha256": "83447b19a1a7b01f4da1c82dc95bf025e3a72a9e75e490eddee63143601f98c1"
+    },
+    {
+      "runtime_relative_path": "codex-skill-sources/kaoyan-408-question-worker/references/interactive-delivery.md",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/kaoyan-408-question-worker/references/interactive-delivery.md",
+      "runtime_sha256": "28b65774a519ebdc3321df7d781ca70c08e7f872ef3a27358c2a15963ecde993",
+      "published_sha256": "28b65774a519ebdc3321df7d781ca70c08e7f872ef3a27358c2a15963ecde993",
+      "export": "current_subject_source",
+      "installed_relative_path": "kaoyan-408-question-worker/references/interactive-delivery.md",
+      "installed_sha256": "28b65774a519ebdc3321df7d781ca70c08e7f872ef3a27358c2a15963ecde993",
+      "previous_manifest_path": "runtime-review/current/codex-skill-sources/kaoyan-408-question-worker/references/interactive-delivery.md",
+      "native_before_sha256": "f68378191e260d1e19718b38552a668bbd3d69dc1ae111c11ca178d51a5622e6",
+      "review_before_sha256": "f708b8fe9e5578057ad80b383f261ec1e4aaffb6189ecc12a9aca1fddb8f7114"
+    },
+    {
+      "runtime_relative_path": "codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md",
+      "runtime_sha256": "00d36fff373c3ff416ea143ef4fedc8b2eb1ce90483ed3a1596e19155f1c2c3b",
+      "published_sha256": "00d36fff373c3ff416ea143ef4fedc8b2eb1ce90483ed3a1596e19155f1c2c3b",
+      "export": "current_subject_source",
+      "installed_relative_path": "kaoyan-408-question-worker/references/personal-learning-context.md",
+      "installed_sha256": "00d36fff373c3ff416ea143ef4fedc8b2eb1ce90483ed3a1596e19155f1c2c3b",
+      "previous_manifest_path": "runtime-review/current/codex-skill-sources/kaoyan-408-question-worker/references/personal-learning-context.md",
+      "native_before_sha256": "88eb2c08a99c5002644181da6c2d41f2ce655c6f79a60b29abc143506464f988",
+      "review_before_sha256": "ffa607e67e885b34181dfddf88ef74ce9ed94c4c64b83fcbe0e5b2fc0db3776c"
+    },
+    {
+      "runtime_relative_path": "codex-skill-sources/kaoyan-408-wrong-intake/SKILL.md",
+      "published_relative_path": "runtime-review/current/codex-skill-sources/kaoyan-408-wrong-intake/SKILL.md",
+      "runtime_sha256": "bb6ceccabdc8a847aa4693d8930f38cd935ebd3adee8eb2ee241fc41fa9646b1",
+      "published_sha256": "f234a59abd10c288e9537d5d5cc8e0cf1747984314a9615688fb6d46dadc9421",
+      "export": "current_subject_source",
+      "installed_relative_path": "kaoyan-408-wrong-intake/SKILL.md",
+      "installed_sha256": "bb6ceccabdc8a847aa4693d8930f38cd935ebd3adee8eb2ee241fc41fa9646b1",
+      "previous_manifest_path": "runtime-review/current/codex-skill-sources/kaoyan-408-wrong-intake/SKILL.md",
+      "native_before_sha256": "164ffad1ee0c86b2f8d166bb0dd95521dc2d9a8fe4071add0549fb6d89ba1a42",
+      "review_before_sha256": "ccac798db5c77b6024baf5fe59486817908fbec90c417981c894c0b7a5cf62e8",
+      "redactions": [
+        [
+          "local-home-name",
+          1
+        ],
+        [
+          "external-T3-local-binding",
+          1
+        ]
+      ]
+    },
+    {
+      "runtime_relative_path": "scripts/question_diagram_408.py",
+      "published_relative_path": "runtime-review/current/examples/prompt-408/tlb-mechanism-source.py",
+      "runtime_sha256": "8c298a3092576fadefc9b93402f52cd2a550358e0f047a7c07726672aa8f0fa6",
+      "published_sha256": "c85a174d2eeed24e79244b0ef26e4c709a0de3ec378447d0b380b46304dd92b1",
+      "export": "native_function_excerpts"
+    },
+    {
+      "runtime_relative_path": "scripts/render_interactive_408.py",
+      "published_relative_path": "runtime-review/current/examples/prompt-408/tlb-native-entry.py",
+      "runtime_sha256": "2602ca8be6b30c039ba917a67d0f210e3f31c212c4e6e98166ddd3489867e3ec",
+      "published_sha256": "7c118ddde5b43e728f6baca0891eaecbe3262e71b123f8ac1d9572b331eb4454",
+      "export": "native_function_excerpts",
+      "previous_manifest_path": "runtime-review/current/scripts/render_interactive_408.py"
+    },
+    {
+      "runtime_relative_path": "AGENTS.md",
+      "published_relative_path": "runtime-review/current/project-instructions/AGENTS.md",
+      "runtime_sha256": "92fcdd626925294d9034abf466be44e30faba0fa79c6c50bb5647d5b1d516a94",
+      "published_sha256": "7225e03d393b0327f26ba3c29ab02f3c50a7590639c54925b193d20086030ccd",
+      "export": "only_changed_project_instructions",
+      "native_before_sha256": "f1fb234342a37a2389bcafff3b941e9a928167230f609f35a3c43fa7b809511b"
+    },
+    {
+      "runtime_relative_path": "CLAUDE.md",
+      "published_relative_path": "runtime-review/current/project-instructions/CLAUDE.md",
+      "runtime_sha256": "5021672aa7fa1f65f28fa858bee08b6ad77cb67015cbdc37de3d141d1e4a17e3",
+      "published_sha256": "7225e03d393b0327f26ba3c29ab02f3c50a7590639c54925b193d20086030ccd",
+      "export": "only_changed_project_instructions",
+      "native_before_sha256": "116dd9705c670b43f0e964d173e733647d26f63db78b570e01930d000c970b8d"
+    },
+    {
+      "runtime_relative_path": "scripts/export_capture_day_408.py",
+      "published_relative_path": "runtime-review/current/scripts/export_capture_day_408.py",
+      "runtime_sha256": "eac3eeca9f6a1b0a74edf7ffa7076e5751044366db1e416aa68de04fae568a84",
+      "published_sha256": "eac3eeca9f6a1b0a74edf7ffa7076e5751044366db1e416aa68de04fae568a84",
+      "export": "current_subject_source",
+      "previous_manifest_path": "runtime-review/current/scripts/export_capture_day_408.py",
+      "native_before_sha256": "8e7c04e988baa5158f5f2667eaaf7a3eb5c19cc184a1d10bb22bc66296ab3589",
+      "review_before_sha256": "8e7c04e988baa5158f5f2667eaaf7a3eb5c19cc184a1d10bb22bc66296ab3589"
+    },
+    {
+      "runtime_relative_path": "scripts/prepare_d_review_408.py",
+      "published_relative_path": "runtime-review/current/scripts/prepare_d_review_408.py",
+      "runtime_sha256": "5f50e9d597b3a62fd8342ca6698446ba072e91fbde8d391a2c59511145494b4e",
+      "published_sha256": "8f9911157fcc220a0ad7a3fa8e742609970aa8c98ee0428745ea6ef5fe4b2419",
+      "export": "review_baseline_plus_task_delta",
+      "previous_manifest_path": "runtime-review/current/scripts/prepare_d_review_408.py",
+      "native_before_sha256": "8f223914e62898bea5216f9e41ffd39f1e742194e4205d6986e3681ecd82073c",
+      "review_before_sha256": "2c54e2f022fddbac7a68840181315331cf1e0b80939cd35e7a185508766c828f"
+    },
+    {
+      "runtime_relative_path": "scripts/sidebar_visual_408.py",
+      "published_relative_path": "runtime-review/current/scripts/sidebar_visual_408.py",
+      "runtime_sha256": "a85f1f6b425bdbfff34f9b1b9311fdb19c0a45383fd54ce1be0ceb23790d6f67",
+      "published_sha256": "a85f1f6b425bdbfff34f9b1b9311fdb19c0a45383fd54ce1be0ceb23790d6f67",
+      "export": "current_dependency"
+    },
+    {
+      "runtime_relative_path": "scripts/visual_selection_408.py",
+      "published_relative_path": "runtime-review/current/scripts/visual_selection_408.py",
+      "runtime_sha256": "2fe657e66b38f837a1acd18f575ec96ba8ac663fd0360f31ead69734dcdf4588",
+      "published_sha256": "2fe657e66b38f837a1acd18f575ec96ba8ac663fd0360f31ead69734dcdf4588",
+      "export": "current_dependency"
+    },
+    {
+      "runtime_relative_path": "support/interactive-408/question-diagram.css",
+      "published_relative_path": "runtime-review/current/support/interactive-408/question-diagram.css",
+      "runtime_sha256": "a743472929c0d327307c3a76791a3e1efc7a3e8189541714bbe08a3783ecbf73",
+      "published_sha256": "a743472929c0d327307c3a76791a3e1efc7a3e8189541714bbe08a3783ecbf73",
+      "export": "current_dependency"
+    },
+    {
+      "runtime_relative_path": "support/interactive-408/question-diagram.html",
+      "published_relative_path": "runtime-review/current/support/interactive-408/question-diagram.html",
+      "runtime_sha256": "747142acf1e0134c8e051a4bfb56827cc50591a5e46a8c8144b463d51f3fd471",
+      "published_sha256": "747142acf1e0134c8e051a4bfb56827cc50591a5e46a8c8144b463d51f3fd471",
+      "export": "current_dependency"
+    },
+    {
+      "runtime_relative_path": "support/interactive-408/question-diagram.js",
+      "published_relative_path": "runtime-review/current/support/interactive-408/question-diagram.js",
+      "runtime_sha256": "6577c2754273c71095b2bb99fcc1dab6fb8d281867aa1d949e92778058d2e377",
+      "published_sha256": "6577c2754273c71095b2bb99fcc1dab6fb8d281867aa1d949e92778058d2e377",
+      "export": "current_subject_source",
+      "native_before_sha256": "4ac96bcd2f614b1188c0e063e2a6666cb0f6f9ea522f0e718883b28ed6b9b3c4"
+    }
+  ],
+  "synthetic_example": {
+    "path": "runtime-review/current/examples/prompt-408/tlb-current-state.html",
+    "sha256": "0d326f4fe3dd7aa854c5850122044e0aa33c8f0e91f1cbad82accdaa32658e5f",
+    "learner_data": false
+  },
+  "source_exporter_sha256": "d38d505d5d9286611a371874781c5b64592ff8d109ebde559a7c29271f688e34",
+  "out_of_scope": [
+    "T3 host code and configuration",
+    "learner evidence, corpora and databases",
+    "private filesystem and deployment bindings"
+  ],
+  "new_source_publication": "review_only"
+}

@@ -1,0 +1,141 @@
+#__CS408_DIAGRAM_ROOT__ {
+  --ink:var(--foreground,#152747); --quiet:var(--muted-foreground,#536783);
+  --paper:var(--background,#fff); --frame:var(--border,#cbd8e5);
+  --accent:var(--viz-series-1,#17698f); --hit:var(--viz-series-2,#af5919);
+  --accent-soft:color-mix(in srgb,var(--accent) 12%,var(--paper));
+  font:inherit;color:var(--ink);max-width:52rem;margin:0 auto;
+}
+#__CS408_DIAGRAM_ROOT__ [hidden] { display:none!important; }
+#__CS408_DIAGRAM_ROOT__ [data-example] { font-size:.82em;color:var(--quiet);margin:.3rem 0 0; }
+#__CS408_DIAGRAM_ROOT__ .diagram-controls { display:flex;align-items:center;justify-content:space-between;gap:.7rem;flex-wrap:wrap;margin:.25rem 0 .55rem; }
+#__CS408_DIAGRAM_ROOT__ .diagram-nav { display:flex;align-items:center;gap:.35rem; }
+#__CS408_DIAGRAM_ROOT__ .diagram-nav button { border:1px solid var(--frame);border-radius:.35rem;background:var(--paper);color:var(--ink);font:inherit;min-width:2rem;min-height:2rem;cursor:pointer; }
+#__CS408_DIAGRAM_ROOT__ .diagram-nav button:disabled { opacity:.4;cursor:default; }
+#__CS408_DIAGRAM_ROOT__ .diagram-nav input { max-width:8rem;accent-color:var(--accent); }
+#__CS408_DIAGRAM_ROOT__ .diagram-stage { font-size:.9em;font-weight:650;margin-inline:.2em; }
+#__CS408_DIAGRAM_ROOT__ .diagram-count { color:var(--hit);font-weight:650;font-variant-numeric:tabular-nums; }
+#__CS408_DIAGRAM_ROOT__ .diagram-measures { display:flex;flex-wrap:wrap;gap:.25rem 1rem;color:var(--quiet);font-size:.87em; }
+#__CS408_DIAGRAM_ROOT__ .diagram-measure-value { color:var(--ink);font-variant-numeric:tabular-nums; }
+#__CS408_DIAGRAM_ROOT__ .diagram-scroll { overflow-x:auto; }
+#__CS408_DIAGRAM_ROOT__ svg { display:block; }
+#__CS408_DIAGRAM_ROOT__ .diagram-scene { font:inherit; }
+#__CS408_DIAGRAM_ROOT__ .diagram-scene text, #__CS408_DIAGRAM_ROOT__ .mechanism-svg text { fill:var(--ink);font-size:13px; }
+#__CS408_DIAGRAM_ROOT__ .diagram-scene .diagram-zone { fill:var(--paper);stroke:var(--frame); }
+#__CS408_DIAGRAM_ROOT__ .diagram-scene .diagram-zone-title { fill:var(--quiet);font-size:12px; }
+#__CS408_DIAGRAM_ROOT__ .diagram-wire, #__CS408_DIAGRAM_ROOT__ .mechanism-line { fill:none;stroke:var(--frame);stroke-width:1.4; }
+#__CS408_DIAGRAM_ROOT__ .diagram-wire[data-active] { stroke:var(--accent);stroke-width:2.5; }
+#__CS408_DIAGRAM_ROOT__ .diagram-wire[data-inactive] { stroke-dasharray:4 4; }
+#__CS408_DIAGRAM_ROOT__ .diagram-edge-label { fill:var(--quiet);font-size:11px;paint-order:stroke;stroke:var(--paper);stroke-width:4px; }
+#__CS408_DIAGRAM_ROOT__ .diagram-node { cursor:pointer;outline:none; }
+#__CS408_DIAGRAM_ROOT__ .diagram-node .body, #__CS408_DIAGRAM_ROOT__ .mechanism-box { fill:var(--paper);stroke:var(--frame);stroke-width:1.4; }
+#__CS408_DIAGRAM_ROOT__ .diagram-node[data-active] .body, #__CS408_DIAGRAM_ROOT__ .diagram-node[data-selected] .body { fill:var(--accent-soft);stroke:var(--accent);stroke-width:2; }
+#__CS408_DIAGRAM_ROOT__ .diagram-node[data-read] .body { stroke:var(--hit);stroke-width:2.5; }
+#__CS408_DIAGRAM_ROOT__ .diagram-node:focus-visible .body { stroke:var(--accent);stroke-width:3;stroke-dasharray:3 2; }
+#__CS408_DIAGRAM_ROOT__ .diagram-value { fill:var(--quiet);font-size:11px;font-weight:500; }
+#__CS408_DIAGRAM_ROOT__ .diagram-name { font-weight:600; }
+#__CS408_DIAGRAM_ROOT__ .diagram-icon { fill:none;stroke:var(--accent);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round; }
+#__CS408_DIAGRAM_ROOT__ .diagram-arrow, #__CS408_DIAGRAM_ROOT__ .mechanism-arrowhead { fill:var(--accent); }
+#__CS408_DIAGRAM_ROOT__ .mechanism-svg { max-width:100%;height:auto; }
+#__CS408_DIAGRAM_ROOT__ .mechanism-line { stroke:var(--accent); }
+#__CS408_DIAGRAM_ROOT__ .mechanism-line[data-lifeline],
+#__CS408_DIAGRAM_ROOT__ .mechanism-line[data-time-axis] { stroke:var(--frame); }
+#__CS408_DIAGRAM_ROOT__ .mechanism-line[data-current-step] { stroke-width:2.5; }
+#__CS408_DIAGRAM_ROOT__ .mechanism-table { width:100%;table-layout:fixed;border-collapse:collapse; }
+#__CS408_DIAGRAM_ROOT__ .mechanism-table :is(th,td) { padding:.38em .28em;border:1px solid var(--frame);overflow-wrap:anywhere; }
+#__CS408_DIAGRAM_ROOT__ .mechanism-table [data-active] { background:var(--accent-soft);box-shadow:inset 0 -2px var(--accent);font-weight:650; }
+#__CS408_DIAGRAM_ROOT__ .diagram-phase-controls { display:flex;flex-wrap:wrap;gap:.3rem;margin-block:.3rem .65rem; }
+#__CS408_DIAGRAM_ROOT__ .diagram-phase-controls button { border:1px solid var(--frame);border-radius:.3rem;background:var(--paper);color:var(--ink);font:inherit;cursor:pointer;padding:.25rem .45rem; }
+#__CS408_DIAGRAM_ROOT__ .diagram-phase-controls button[aria-pressed="true"] { background:var(--accent-soft);border-color:var(--accent); }
+#__CS408_DIAGRAM_ROOT__ .mechanism-flow, #__CS408_DIAGRAM_ROOT__ .mechanism-transition, #__CS408_DIAGRAM_ROOT__ .mechanism-band { display:flex;align-items:center;gap:.4rem;flex-wrap:wrap; }
+#__CS408_DIAGRAM_ROOT__ .mechanism-stage, #__CS408_DIAGRAM_ROOT__ .mechanism-cell { padding:.3em .55em;border:1px solid var(--frame); }
+#__CS408_DIAGRAM_ROOT__ .mechanism-offset { fill:var(--accent-soft); }
+#__CS408_DIAGRAM_ROOT__ .serial-frame { display:grid;gap:2px;margin-block:.5rem; }
+#__CS408_DIAGRAM_ROOT__ .serial-frame button,
+#__CS408_DIAGRAM_ROOT__ .timing-choices button {
+  border:1px solid var(--frame);border-radius:.3rem;background:var(--paper);color:var(--ink);
+  padding:.5rem .15rem;font:inherit;cursor:pointer;text-align:center;
+}
+#__CS408_DIAGRAM_ROOT__ .serial-frame button small { display:block;font-size:.86em; }
+#__CS408_DIAGRAM_ROOT__ .serial-frame button[aria-pressed="true"],
+#__CS408_DIAGRAM_ROOT__ .timing-choices button[aria-pressed="true"] { background:var(--accent-soft);border-color:var(--accent); }
+#__CS408_DIAGRAM_ROOT__ .diagram-total { display:block;text-align:right;color:var(--quiet); }
+#__CS408_DIAGRAM_ROOT__ .timing-choices { display:flex;gap:.3rem;margin-block:.4rem; }
+#__CS408_DIAGRAM_ROOT__ .timing-choices button { padding:.25rem .45rem; }
+#__CS408_DIAGRAM_ROOT__ .diagram-timing { width:100%;height:auto; }
+#__CS408_DIAGRAM_ROOT__ .diagram-timing text { fill:var(--ink);font-size:14px; }
+#__CS408_DIAGRAM_ROOT__ .timing-span { fill:color-mix(in srgb,var(--frame) 34%,var(--paper)); }
+#__CS408_DIAGRAM_ROOT__ .timing-span.device[data-active] { fill:var(--accent-soft); }
+#__CS408_DIAGRAM_ROOT__ .timing-span.cpu[data-active] { fill:color-mix(in srgb,var(--hit) 20%,var(--paper)); }
+#__CS408_DIAGRAM_ROOT__ .question-timeline { display:block;width:100%;min-width:570px;height:auto; }
+#__CS408_DIAGRAM_ROOT__ .question-timeline text { font-size:13px;fill:var(--ink); }
+#__CS408_DIAGRAM_ROOT__ .timeline-block { fill:var(--accent-soft);stroke:var(--frame); }
+#__CS408_DIAGRAM_ROOT__ .timeline-block[data-tone="2"] { fill:color-mix(in srgb,var(--hit) 17%,var(--paper)); }
+#__CS408_DIAGRAM_ROOT__ .timeline-block[data-tone="3"] { fill:color-mix(in srgb,var(--frame) 40%,var(--paper)); }
+#__CS408_DIAGRAM_ROOT__ .timeline-block[data-tone="4"] { fill:color-mix(in srgb,var(--accent) 25%,var(--paper)); }
+#__CS408_DIAGRAM_ROOT__ .wave-picks { display:flex;gap:3px;margin:0 3.125%; }
+#__CS408_DIAGRAM_ROOT__ .wave-picks button {
+  flex:1;border:1px solid var(--frame);border-radius:.3rem;padding:.35rem 0;
+  background:var(--paper);color:var(--ink);font:inherit;cursor:pointer;
+}
+#__CS408_DIAGRAM_ROOT__ .wave-picks button[aria-pressed="true"] { background:var(--accent-soft);border-color:var(--accent); }
+#__CS408_DIAGRAM_ROOT__ .wave-plot { width:100%;height:auto; }
+#__CS408_DIAGRAM_ROOT__ .wave-plot text { fill:var(--ink);font-size:14px; }
+#__CS408_DIAGRAM_ROOT__ .wave-bit { fill:var(--accent-soft); }
+#__CS408_DIAGRAM_ROOT__ .wave-boundary, #__CS408_DIAGRAM_ROOT__ .wave-mid { stroke:var(--frame);stroke-dasharray:4 3; }
+#__CS408_DIAGRAM_ROOT__ .wave-mid { stroke-dasharray:1 4; }
+#__CS408_DIAGRAM_ROOT__ .wave-cursor { stroke:var(--accent);stroke-width:1.6;stroke-dasharray:3 2; }
+#__CS408_DIAGRAM_ROOT__ .wave-line { fill:none;stroke:var(--ink);stroke-width:2; }
+#__CS408_DIAGRAM_ROOT__ .diagram-reasoning { white-space: pre-wrap; max-width: 70ch; line-height: 1.65; }
+
+/* Paper and ink follow the host theme. Keep the exam's orientation and topology. */
+#__CS408_DIAGRAM_ROOT__ {
+  --board-ink:var(--foreground,#282724);
+  --board-paper:color-mix(in srgb,var(--background,#fff) 94%,var(--orange,#bb7a30));
+  --board-grid:color-mix(in srgb,var(--board-ink) 8%,transparent);
+  --board-current:color-mix(in srgb,var(--green,#699052) 21%,var(--background,#fff));
+  --board-note:color-mix(in srgb,var(--purple,#8c75a5) 10%,var(--background,#fff));
+  --board-line:color-mix(in srgb,var(--board-ink) 22%,var(--background,#fff));
+  color:var(--board-ink);container-type:inline-size;max-width:100%;
+}
+#__CS408_DIAGRAM_ROOT__ .diagram-lesson {display:grid;gap:1rem;align-items:start}
+#__CS408_DIAGRAM_ROOT__ .diagram-lesson > * {min-width:0}
+#__CS408_DIAGRAM_ROOT__ .diagram-brief {display:grid;gap:.55rem;align-content:start}
+#__CS408_DIAGRAM_ROOT__ .diagram-brief p {margin:0;text-wrap:pretty}
+#__CS408_DIAGRAM_ROOT__ .diagram-brief:has(> p:not([hidden])) {border-inline-start:3px solid var(--board-line);padding-inline-start:.8rem}
+#__CS408_DIAGRAM_ROOT__ [data-caption]:not([hidden]) {color:var(--board-ink);background:var(--board-note);padding:.5rem .65rem;border-radius:.4rem}
+#__CS408_DIAGRAM_ROOT__ .diagram-scroll {
+  background-color:var(--board-paper);
+  background-image:repeating-linear-gradient(30deg,transparent 0 18px,var(--board-grid) 18px 19px,transparent 19px 37px),
+                   repeating-linear-gradient(150deg,transparent 0 18px,var(--board-grid) 18px 19px,transparent 19px 37px);
+  border:1px solid var(--board-line);border-radius:.65rem;scrollbar-width:thin
+}
+#__CS408_DIAGRAM_ROOT__ .diagram-scene .diagram-zone {fill:color-mix(in srgb,var(--board-paper) 65%,transparent);stroke:var(--board-line)}
+#__CS408_DIAGRAM_ROOT__ .diagram-node .body {fill:var(--board-paper);stroke:var(--board-ink)}
+#__CS408_DIAGRAM_ROOT__ .diagram-node[data-active] .body {fill:var(--board-current);stroke:var(--board-ink)}
+#__CS408_DIAGRAM_ROOT__ .diagram-node[data-selected] .body {stroke:var(--accent);stroke-width:3}
+#__CS408_DIAGRAM_ROOT__ .diagram-packet {fill:var(--accent);stroke:var(--paper);stroke-width:1;pointer-events:none}
+#__CS408_DIAGRAM_ROOT__ .diagram-workbench {display:grid;gap:.45rem}
+#__CS408_DIAGRAM_ROOT__ .diagram-controls {display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap}
+#__CS408_DIAGRAM_ROOT__ .diagram-count,#__CS408_DIAGRAM_ROOT__ .diagram-measure-value {font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums;color:var(--board-ink)}
+#__CS408_DIAGRAM_ROOT__ .diagram-count {background:var(--board-current);border-radius:.35rem;padding:.24rem .55rem}
+#__CS408_DIAGRAM_ROOT__ .diagram-transport,#__CS408_DIAGRAM_ROOT__ .diagram-condition {display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+#__CS408_DIAGRAM_ROOT__ .diagram-rail {display:flex;gap:.3rem;flex-wrap:wrap}
+#__CS408_DIAGRAM_ROOT__ .diagram-stop {display:inline-flex;align-items:center;gap:.32rem;white-space:normal;text-align:start}
+#__CS408_DIAGRAM_ROOT__ .diagram-stop-num {border-radius:50%;padding:.03rem .36rem;border:1px solid var(--board-line);font-family:ui-monospace,monospace}
+#__CS408_DIAGRAM_ROOT__ .diagram-stop[aria-current="step"] .diagram-stop-num {background:var(--board-current);color:var(--board-ink);border-color:var(--board-ink)}
+#__CS408_DIAGRAM_ROOT__ .diagram-condition [aria-pressed="true"] {background:var(--board-current);color:var(--board-ink)}
+#__CS408_DIAGRAM_ROOT__ .diagram-navigation {display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+#__CS408_DIAGRAM_ROOT__ .diagram-navigation input {flex:1 1 5rem;max-width:15rem}
+@container (min-width:740px) {
+  #__CS408_DIAGRAM_ROOT__ .diagram-lesson:has(.diagram-workbench):has(.diagram-brief > p:not([hidden])) {grid-template-columns:minmax(0,3fr) minmax(10rem,1fr)}
+}
+@media (prefers-reduced-motion:reduce) {#__CS408_DIAGRAM_ROOT__ .diagram-packet {display:none}}
+#__CS408_DIAGRAM_ROOT__ .diagram-object-face {fill:none;stroke:var(--board-ink);stroke-width:1.15;pointer-events:none}
+#__CS408_DIAGRAM_ROOT__ .diagram-local-caption {color:var(--board-ink);margin:0}
+#__CS408_DIAGRAM_ROOT__ .diagram-wire[data-operation="address"][data-active] {stroke-dasharray:5 3}
+#__CS408_DIAGRAM_ROOT__ .diagram-wire[data-operation="disk-read"][data-active] {stroke:var(--hit)}
+#__CS408_DIAGRAM_ROOT__ .diagram-packet[data-operation="disk-read"] {fill:var(--hit)}
+#__CS408_DIAGRAM_ROOT__ .diagram-stop[data-before] .diagram-stop-num {background:color-mix(in srgb,var(--board-current) 56%,var(--paper))}
+#__CS408_DIAGRAM_ROOT__ .diagram-wire[data-history] {stroke:var(--quiet);opacity:.44;stroke-dasharray:3 4}
+#__CS408_DIAGRAM_ROOT__ .diagram-delta {margin-inline-end:auto;color:var(--quiet);font-variant-numeric:tabular-nums}
+#__CS408_DIAGRAM_ROOT__ [data-current-step]:not([hidden]) {font-family:ui-monospace,monospace;color:var(--quiet)}

@@ -497,7 +497,7 @@ def render_study_start(*, repo, details, body, handoff, handoff_path, receipt_pa
                        execution, supplements, pre_campaign_ids, ordered, receipt):
     prompt = f'''你是我的408晨间复盘学习会话。直接使用本对话中我当前选择的模型（任何模型都可以），本提示词不指定、不推荐、也不切换模型。
 
-所有面向我的进度说明、判断依据摘要、错误说明和教学正文都用中文，代码、命令与必要原文除外。目标20–30秒内给出首段实质个性化反馈；保存故障先说明实际缺口并给当前题反馈，保持本题和原请求，不让源码排障先于教学。
+所有面向我的进度说明、判断依据摘要、错误说明和教学正文都用中文，代码、命令与必要原文除外。首段实质个性化反馈沿本科讲题时延口径；保存故障先说明实际缺口并给当前题反馈，保持本题和原请求，不让源码排障先于教学。
 
 仓库：{repo}
 details：{details}
@@ -579,7 +579,6 @@ handoff中的teaching_index_path按正式question_id或补充request_id索引私
 所有说明与讲解用中文，遵守仓库聊天排版。现在从第一道尚未完成的题开始。
 '''
     prompt = prompt.replace("v9 d-supplement-context", "v10 d-supplement-context")
-    prompt = prompt.replace("目标20–30秒", "目标10–20秒")
     prompt += '''
 晨间题图在备题阶段处理，学习时直接展示返回的presentation_markdown或全部原图链接，不调用view_image、不裁图、放大、OCR或修图，不在展示下一题前求解。已有显示缺陷也不走学习中修图兜底，按同版已核本地题源标明具体显示缺口；保留真实题号、来源、答案依据和我的具体断点。
 答后D context一次返回当前题grading_reference和必要个人摘要，已有依据复用；不单独读答案文件。答案和理由核实后先给简短实质反馈，同轮继续保存；反馈不声称已保存，Capture与完整包校验通过后才展示后继。真实反馈由原生消息入口完整封存。

@@ -1,0 +1,62 @@
+<section id="__CS408_DIAGRAM_ROOT__" class="cs408-drawing" aria-label="机制图">
+  <h3 data-title hidden></h3>
+  <div class="diagram-lesson">
+    <div data-model></div>
+    <aside class="diagram-brief" aria-label="本步说明">
+      <span data-current-step class="text-small" hidden></span>
+      <p data-example hidden>机制示意</p>
+      <p data-condition hidden></p>
+      <p data-caption aria-live="polite" hidden></p>
+      <p data-rule hidden></p>
+    </aside>
+  </div>
+  <details data-derivation hidden>
+    <summary>查看推导</summary>
+    <div data-reasoning></div>
+  </details>
+</section>
+<style>__CS408_DIAGRAM_STYLE__</style>
+<script type="application/json" id="__CS408_DIAGRAM_ROOT__-data">__CS408_DIAGRAM_DATA__</script>
+<script>
+(() => {
+  const root = document.getElementById('__CS408_DIAGRAM_ROOT__');
+  const {model, aspect, compact, derivation, selection} = JSON.parse(document.getElementById(root.id + '-data').textContent);
+  const host = root.querySelector('[data-model]');
+  function show(field, value) {
+    const el = root.querySelector('[data-' + field + ']');
+    el.textContent = value || '';
+    el.hidden = !value;
+  }
+  show('title', compact.title);
+  show('condition', compact.key_condition);
+  show('rule', compact.exam_rule);
+  show('caption', compact.step_caption || compact.first_action);
+  const reasoning = root.querySelector('[data-reasoning]');
+  for (const step of derivation) {
+    const heading = document.createElement('h4');
+    heading.textContent = step.title;
+    const text = document.createElement('p');
+    text.className = 'diagram-reasoning';
+    text.textContent = [step.text, step.return_to_reasoning].filter(Boolean).join('\n');
+    reasoning.append(heading, text);
+  }
+  root.querySelector('[data-derivation]').hidden = !derivation.length;
+  __CS408_OBJECT_RUNTIME__
+  __CS408_RECAP_RUNTIME__
+  const redraw = () => {
+    host.replaceChildren();
+    if (model.kind === 'objects') drawQuestionDiagram(host, model, root.id, (frame, step, selected) => {
+      show('current-step',model.frames.length>1 ? '第 '+(step+1)+' / '+model.frames.length+' 步 · '+frame.label : '');
+      show('caption', model.object_notes?.[selected] || frame.caption ||
+        (step === (model.initial || 0) ? compact.step_caption || compact.first_action : ''));
+    }, selection);
+    else if (model.kind === 'serial-frame') drawSerialFrame(host, model);
+    else if (model.kind === 'interrupt-timing') drawInterruptTiming(host, model);
+    else if (model.kind === 'timeline') drawTimeline(host, model);
+    else if (model.kind === 'waveform') drawWaveforms(host, model);
+    else renderMechanism(host, model, root.id + '-arrow', {compact:true});
+  };
+  redraw();
+  root.querySelector('[data-example]').hidden = !['scoped_mechanism_example','mechanism_sketch'].includes(aspect);
+})();
+</script>

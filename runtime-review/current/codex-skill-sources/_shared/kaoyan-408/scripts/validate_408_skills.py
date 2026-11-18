@@ -334,6 +334,10 @@ def main() -> int:
             "session_id=null",
         ),
         "kaoyan-408-daily-intake-curation/SKILL.md": (
+            "backlog-plan", "embeddings", "Decisions", "唯一", "references/legacy-formal-recovery.md",
+            "FORMAL_COMMITTED_ARCHIVE_PENDING",
+        ),
+        "kaoyan-408-daily-intake-curation/references/legacy-formal-recovery.md": (
             "explicit",
             "capture-set SHA",
             "Ultra",
@@ -341,7 +345,7 @@ def main() -> int:
             "sol_curation_decision_408.py",
             "batch-size-1",
             "already_current",
-            "/Volumes/T9-Data",
+            "/Volumes/EXAMPLE-ARCHIVE",
             "FORMAL_COMMITTED_ARCHIVE_PENDING",
             "backlog-plan",
             "cutoff_date",
@@ -456,7 +460,7 @@ def main() -> int:
             "Check that the current stem satisfies the conditions",
             "source_version",
             "batch-size-1",
-            "/Volumes/T9-Data",
+            "/Volumes/EXAMPLE-ARCHIVE",
             "FORMAL_COMMITTED_ARCHIVE_PENDING",
         ):
             if fragment.lower() not in runtime_body.lower():

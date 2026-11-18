@@ -28,6 +28,12 @@ For `--known-version` use the native `version` of the response held in this chat
 
 ## Evidence, preferences and time
 
+先在本题和许可阶段内筛选，再组织短证据段。同一原件按原回合次序读，逐条保留 `actor` 或已核角色、原顺序、发生时间、提示依赖及更正链。跨原件的相同时刻不能用稳定 ID 推断先后，登记时间只说明何时入库。已获准的 `claim_view.claims` 及 `repair_evidence` 是有界依据；摘要的标识或排序不能替代原话与原顺序。没有原件就标明原话未知。
+
+例如题面给“TLB 未命中，但页面仍在内存”，用户先答“一定缺页”，助手提示核对驻留条件后，用户改为“需要查页表，但不一定缺页”。三者分开陈述；末句保留“不一定”及提示依赖。若只有已审核摘要，用间接引语。后来明确撤回的一条解释只用于说明修正经过。
+
+读订正时核对被替代的原判断、精确 KSP、适用条件、来源和 `supersedes`／`change_reason`。旧材料再次出现沿已接受替代链读取。不同条件的判断可同时有效，未裁决的冲突保持 `conflicted`；其他题、兄弟小问和其他科目的记录各按自己的身份使用。外部材料和教师解释只提供知识或讲法。
+
 Direct learner observations, question-associated sources, assistant explanations and reviewed interpretations retain different roles. `point_binding=explicit_point` with learner evidence can support a narrow personal claim; `question_associated`, formal summaries or assistant explanation alone cannot prove a learner error or independent repair.
 
 Use current claims according to their basis, evidence_status, lifecycle and source turns. A claim marked `unverified` can guide a check. Treat `legacy_unstructured` as navigation unless a specific observation can be supported by its source. Superseded and retracted claims remain historical. Reviewed means the author checked the evidence.

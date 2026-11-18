@@ -1,4 +1,4 @@
-# 408文字主线的交互辅助入口
+# 408 机制图交付
 
 ## 备题交接里的预制图解
 
@@ -9,10 +9,10 @@
 
 ```text
 python3 scripts/runtime_paths_408.py --run local_focused_training_408.py media --queue <queue> --ordinal <ordinal> --question-id <true_item_id> --binding-sha256 <binding_sha256> --stage <本轮允许阶段>
-python3 scripts/runtime_paths_408.py --run render_interactive_408.py --existing-fragment <interactive_2d.path> --expected-sha256 <interactive_2d.sha256> --output <当前任务可视化目录/本题阶段.html> --inline-root <当前任务可视化目录>
+python3 scripts/runtime_paths_408.py --run sidebar_visual_408.py --render render_interactive_408.py --existing-fragment <interactive_2d.path> --expected-sha256 <interactive_2d.sha256> --output <当前任务可视化目录/本题阶段.html> --inline-root <当前任务可视化目录>
 ```
 
-对片段用返回的 `visualize_reference`，生成的展示副本与原成品必须字节一致。历史完整 HTML 或独立 3D 成品沿其现有播放器或本地打开入口。可正常复用的成品优先于现场编译。遇到真实文件缺失、哈希或本题源图变化，先给能核实的文字反馈，按本轮阶段补当前题的图。只需更窄的提示时沿当前断点收窄，不公开完整文件。
+已有片段按 SHA 核验，交 [408 左侧 HTML 交付](../../_shared/kaoyan-408/sidebar-delivery.md) 的 `--html` 或 `--receipt` 包装成独立网页，保留已公开片段原字节。历史完整阅读页直接打开，预制三维走本文的侧栏入口。可正常复用的成品优先于现场编译。遇到真实文件缺失、哈希或本题源图变化，先给能核实的文字反馈，按本轮阶段补当前题的图。只需更窄的提示时沿当前断点收窄，不公开完整文件。
 
 ## 年度会话的已备单题课件
 
@@ -22,36 +22,50 @@ python3 scripts/runtime_paths_408.py --run render_interactive_408.py --existing-
 python3 scripts/runtime_paths_408.py --run exam_year_teaching_408.py use --id <当前精确EXAM408-2015题号> --view <protected|after_attempt|direct> --hint-level <当前实际级别>
 ```
 
-需要同轮出图时在同一个调用中加 `--output <本任务可视化目录>/<题号>-<阶段>.html --inline-root <本任务可视化目录>`，直接使用返回的 `visual.visualize_reference`。允许完整讲解才用 direct/5；提示轮用 after_attempt/1–4，只取独立 L1 帮助作为底稿，只有贴合本轮卡点才展示此预制图。需要在任一权限下收窄图中的对象或高亮时，按下文只出本轮局部，沿用原题区块和框架；不改完整课件等级。protected/0 不带输出参数，仅查询获准范围。需要同版语义确认可传 `--mechanism <已核KSP或机制词>`，同范围复用按主 Skill 传回执中的 `current_context.version`。
+需要同轮出图时在同一个调用中加 `--output <本任务可视化目录>/<题号>-<阶段>.html --inline-root <本任务可视化目录>`，此时在 `--run` 后加 `sidebar_visual_408.py --render`，使用返回的 `sidebar` 打开该 HTML。允许完整讲解才用 direct/5；提示轮用 after_attempt/1–4，只取独立 L1 帮助作为底稿，只有贴合本轮卡点才展示此预制图。需要在任一权限下收窄图中的对象或高亮时，按下文只出本轮局部，沿用原题区块和框架；不改完整课件等级。protected/0 不带输出参数，仅查询获准范围。需要同版语义确认可传 `--mechanism <已核KSP或机制词>`，同范围复用按主 Skill 传回执中的 `current_context.version`。
 
-复用 `current_context.question_exam_introduction`、同版题面范围和 `personal_read_receipt`，从本轮第一处断点调整 `framework` 的步骤和详略；把必要因果写进正文，不能用图代替。已配准的小问会在同次查询默认取本问 KSP，显式 `--mechanism` 优先并继续受本问范围门禁；旧证据只决定详略。缓存源有变化或线程不匹配时走已有精确只读入口，缺少有效个人记录时据当前作答讲解。若完成本题后走快存，继续用现有年度绑定和考点树入口。
+复用 `current_context.question_exam_introduction`、同版题面范围和 `personal_read_receipt`，从本轮第一处断点调整 `framework` 的步骤和详略；让图直接显示本步因果和决定它的条件，聊天用短句指出应看哪里。已配准的小问会在同次查询默认取本问 KSP，显式 `--mechanism` 优先并继续受本问范围门禁；旧证据只决定详略。缓存源有变化或线程不匹配时走已有精确只读入口，缺少有效个人记录时据当前作答讲解。若完成本题后走快存，继续用现有年度绑定和考点树入口。
+
+当旧年度课件所绑模板或图源已变化时，同一个 `use` 入口可返回基于当前题面重新独立审定的 L1。认 `source_verdict=rechecked_current_question` 和当前阶段回执。登记年度、当前题号、提示级及原始公开题面均须匹配。
 
 ## 真题完整图解（2026-11-09）
 
 完整讲解确有授权时，取 `local_syllabus_lessons.exact_lesson_identity` 和 `catalog_sha256`，按当前任务允许的热目录出图。独立小问使用它自己的精确 ID。
 
 ```text
-python3 scripts/runtime_paths_408.py --run source_visual_408.py render --identity <精确题号> --view direct --hint-level 5 --source-version <catalog_sha256> --catalog-version <catalog_sha256> --output <任务可视化目录>/exam-lesson.html --inline-root <任务可视化目录>
+python3 scripts/runtime_paths_408.py --run sidebar_visual_408.py --render source_visual_408.py render --identity <精确题号> --view direct --hint-level 5 --source-version <catalog_sha256> --catalog-version <catalog_sha256> --output <任务可视化目录>/exam-lesson.html --inline-root <任务可视化目录>
 ```
 
-入口先校验完整讲解授权、年度隔离和同版课程。保留原图的题使用原图课件。无题图的题可自动选已核对的本题机制图，例如 2022 年第 39 题的 TCP 关闭双纵轴。该图绑定当前精确题模板、源图计划哈希与本题实考大纲条目；失配或本机共享组件缺失时使用原有精确课件。只读本题文件，不按关键词套示例。回执给出可内联引用与线性步骤草稿。正文仍按本轮实际作答写清因果。只给局部或提示时使用下方安全场景入口。
+入口先校验完整讲解授权、年度隔离和同版课程，再交付本题机制图。矢量图保留获准的对象、连线、字段和状态。若只有同考点的客观模型，标为机制示意，并在正文给本题推理。回执的 `chat_delivery_mode=brief` 是当前默认，`chat_linear_text` 供同源详解或回退；图内只显示简短标签、数值、单位和当前状态。本题原图继续在题面或溯源入口查看。
+
+回执为 `source_verdict=mechanism_reviewed_grading_withheld` 时，图解按已核条件讲机制。按当前题源的判分限制处理字母结论。
+
+## 精确 KSP 专图
+
+在已有 direct/L5 授权时，从同次 `resolve` 取 `subpoint_lesson_identities` 中当前机制的精确小点，以及同版 `catalog_sha256`。讲某道真题带 `--current-question-id`，独立小问使用完整 Pxx。用户只点名精确小点学习时查询该 KSP，独立展示无需真题参数。
+
+```text
+python3 scripts/runtime_paths_408.py --run sidebar_visual_408.py --render source_visual_408.py render --identity <KSP-ID> --current-question-id <当前真题或Pxx> --view direct --hint-level 5 --source-version <catalog_sha256> --catalog-version <catalog_sha256> --output <任务可视化目录>/subpoint.html --inline-root <任务可视化目录>
+```
+
+课件只纳入精确小点已核的对象、关系和检查依据。单项仍需考纲审定、属于前置或纲外的派生材料留在教师库存。提示阶段继续走本问独立的 L1–L4 范围，完整专图只在已获 direct/L5 授权时展示。
 
 ## 常规缓存命中入口（2026-11-01）
 
-已核验的当前题3D课件优先直接调用，不为每次解释重新读Visualize全文、创建HTML或重渲染三阶段。明确3D请求使用现有统一入口的`requested_presentation: "three_d"`，同时提供当前精确题号、允许阶段、真实讲解目标；它不提升答案权限。显示成功会返回`visual_evidence_ref`，并在既有screen/evidence目录写非学习性的版本证明，快速保存按本会话/题号/消息时间自动纳入。
+已核验的本题三维按当前阶段直接读取。明确点名三维时使用原合同的 `requested_presentation: "three_d"`；递交当前讲解目标和权限，按本文预制三维入口在左侧打开。实际显示与文件准备分别核验。
 
 缓存不匹配或没有当前允许的局部时才制作新图；必要推理先给，复用同版已读个人依据。本文余下内容用于这种制作或交付故障，不要求每轮重读。
 
 
-先使用当前query/resolve或D/campaign返回的精确题模板、局部模板和有效个人摘要，组织本轮聊天中的文字主线；再选其中需要看清的抽象机制制作同轮辅助图，不把全部解题步骤自动转成界面。当前真实作答决定断点，`interaction`只绑定原有语义与交付要求，不证明用户使用过界面。首次制作读取当前Visualize Skill；同上下文复用协议及已验渲染器。
+当前 query/resolve 或 D/campaign 提供精确题模板、有效个人摘要和授权视图。优先用同版已验图解对准实际断点。首屏只留一个机制、必要条件和单位及当前步一句因果。请求全文、无障碍阅读或页面异常时交同范围文字。
 
 ## 从配方到当前场景
 
 `question_visual_template.lesson_bridge`（无精确题时用同次点/小点 `lesson_bridge`）可定位文字步骤与局部图配方的对应关系。只编译当前确需看清的机制；桥接中的考法候选、个人证据和完整教师材料不进入学生DOM。当前回答与本轮提示权限优先于预制步骤。
 
-先确定正文哪一步需要图，再核对当前题 `exam_visual_binding` 的实际原图。布局、字段、编号、箭头起终点、表中值与初态是解题条件，必须保留；原图只是参考背景、可以随意换成泛概念图的做法不再采用。优先按该结构清晰重绘，必要时在高清原图上精确标示当前对象和路径；不能只覆盖整图大框或整段重复文字。`source_visual_plan_review`退休的旧design/narrative不再进入新页面，经本轮审阅仍适用者才可复用。题面图、解析图、前问构造结果与后补机制图分别标明角色，原题无图不伪造图源。
+先确定哪一处机制需要用图，再核对当前题 `exam_visual_binding`。保留与推理有关的布局、字段、编号、箭头端点、表中值和初态。讲解界面使用图元重绘，题图只在题面或来源中查看。若缺少可靠绘制依据，按正文和已核局部交付并说明图解缺口。`source_visual_plan_review`退休的旧design/narrative不再进入新页面，经本轮审阅仍适用者才可复用。题面图、解析图、前问构造结果与后补机制图分别标明角色，原题无图不伪造图源。
 
-先在聊天正文说明本轮问题与解题路线，按逻辑连续解释“眼前看到什么、为什么发生、改变了谁、下一步受何约束”，必要前提与步骤不依赖点击。对应图解按拓扑、数据通路、位域、时间轴或活动网的真实结构重绘；点击对象、事件、活动、字段或步骤，展开可选择的局部核对文字。图前说明要看清什么，图后明确接续推理，不让用户自行寻找逻辑顺序。口述不得图片化，不机械朗读字段；模糊原图加蓝框、概念卡大概相连、逐题重复空泛说明均不算增强。`observe/reason/takeaway` 是作者核对因果的结构，学生界面应自然连贯，不必播报这三个标签。
+用图表达真实的拓扑、数据通路、位域、时序或活动关系。点击对象或步进后，只呈现该步已核状态和一句因果。预算过长先分步，保留适用条件和单位的完整语义。
 
 用 `syllabus_boundary` 和同次正式 `syllabus_context.teaching_boundary` 限定本题图的2027考纲范围。图上出现的其他设备按本问实际用途呈现。主线解决后的完整专题沿 `exam-oriented-teaching-flow.md` 单独交付。位宽、地址单位、角色、方向和状态按当前题校准。缺本问现成场景时据核验条件编译。当前回答决定断点，个人摘要辅助选路。
 
@@ -59,7 +73,7 @@ python3 scripts/runtime_paths_408.py --run source_visual_408.py render --identit
 
 `source_visual_408.py render` 的真题路径按顶部合同读取完整精确课程。非真题兼容设计仅在审定及明确 direct/L5 时走既有语义渲染器。历史 `compile_scene` 仅用于验证旧对象。
 
-文字与图解使用相同的本问范围和提示权限；“完整文字主线”在提示轮只指本轮获准内容，不要求提前给全解。预制完整lesson默认 `release_level=5`，模型安装也只接受5。普通提示轮由当前讲解者独立编译安全的局部lesson：先删除未允许的对象、数值、解释和状态，再明确设置本轮 `release_level=0..4`；绝不能直接给完整父题模型降级。`after_attempt`不等于公开答案许可。语义renderer只将界面字段写入前端，`source_basis`、原路径、私有修正证据不进入DOM。当前安全场景也可沿原 `render_interactive_408.py` 使用逐字段等级，但必须独立重绘机制，不默认原图热点。
+文字与图解使用相同的本问范围和提示权限。提示轮只公开许可内容。预制完整lesson默认 `release_level=5`，模型安装也只接受5。普通提示轮由当前讲解者独立编译安全的局部lesson：先删除未允许的对象、数值、解释和状态，再明确设置本轮 `release_level=0..4`；绝不能直接给完整父题模型降级。`after_attempt`不等于公开答案许可。语义renderer只将界面字段写入前端，`source_basis`、原路径、私有修正证据不进入DOM。当前安全场景也可沿原 `render_interactive_408.py` 使用逐字段等级，但必须独立重绘机制，不默认原图热点。
 
 每个界面文字值使用`{"text":"…","min_level":0}`。0只表示已公开题设/对象；1–4表示本轮相应提示层级已允许的内容；5是已获直接讲解授权的答案层。值是否泄题由当前讲解者审查，生成器不会替模型判断语义。节点的标签、展开解释，关系标签，状态标签和对象状态分别标级，不能因为节点已公开就顺带公开其解释。`after_attempt`仅表示已有尝试，绝不自动开放完整答案；完整讲解用`direct`且确有授权。
 
@@ -67,20 +81,34 @@ python3 scripts/runtime_paths_408.py --run source_visual_408.py render --identit
 
 ## 生成并直接显示
 
+### TLB 未命中与缺页对照
+
+点击步骤或可见对象后，用“复制当前状态”取得本问、场景版本、公开阶段、当前步和该步公开字段；若浏览器禁止写剪贴板，直接从原位文本框复制。消息中实际收到这份摘要时才可据它接着解释。旧图的静态 HTML 只证明可用步骤，未收到当前帧时沿用 `last_state_unknown`。自动送达、线程绑定与跨聊天恢复由共享 T3 验收；这次点击不记录复习或掌握。
+
+本问已准许讲清这两个机制、并确有混淆或用户点名时，将本轮实际 `resolve --view direct --personal-scope teaching --materials core` 的完整 JSON 交本机渲染入口。复用已有完整结果。独立公开示意可省略 `--current-context`。提示轮仍通过原入口独立编译已公开的局部。
+
+```text
+python3 scripts/runtime_paths_408.py --run sidebar_visual_408.py --render render_interactive_408.py --preset tlb-miss-vs-page-fault --current-context - --output <任务可视化目录>/tlb-contrast.html --inline-root <任务可视化目录>
+```
+
+同图比较 TLB 命中、TLB 未命中且页驻留、TLB 未命中且页不在内存。图以合法映射、权限满足、页表可查和缺页可恢复为条件。缺页当步不形成物理地址，调页成功后才重试。该示意不采用 Cache 或时钟计时模型。
+
+回执的 `display_binding` 绑定精确题或 Pxx、来源版本、允许视图、提示级、公开状态 ID 和内容哈希。可取得的选中状态仅在同一绑定下恢复。权限改变由原入口重新裁定。已渲染字节与实际聊天展示分别核对。没有最后一帧回执时记 `last_state_unknown`。
+
 只有已授权 direct/L5、且完整预制场景确实对应本轮所需机制时，才运行 `source_visual_408.py render`。需要收窄的图与安全提示局部使用 `render_semantic_408.py` 或原逐字段场景入口。完整父题和独立小问各有精确 ID。输出到本任务允许的持久化可视化目录，维护样例、过程输入和检查报告走已核验T9批次并登记。
 
 ```text
-python3 scripts/runtime_paths_408.py --run render_interactive_408.py --input - --output <本任务专用可视化目录>/mechanism.html --inline-root <本任务专用可视化目录>
+python3 scripts/runtime_paths_408.py --run sidebar_visual_408.py --render render_interactive_408.py --input - --output <本任务专用可视化目录>/mechanism.html --inline-root <本任务专用可视化目录>
 ```
 
 输入合同为仓库`schema/interactive-teaching-408-v1.md`。用`nodes`放可点击的具体对象；`rows`放空间排列；`edges`放有中文意义的有向关系；可选`states`放经核验的状态变化。不是英语主谓宾字段，不自动求解或生成因果关系。
 
 ### 同步步进与对照
 
-当前机制需要两条生命线、两种过程对齐或连续字段状态时，直接用本地共享图，正文与图同轮交付。流程默认可拖时间轴、点步号和状态；两侧共享步骤，相同指标用相同且唯一的字段标签逐行对齐。报文保留原版纵向生命线、箭头、丢失标记和已走过的轨迹。原题截图、原图热点和精确课件沿上面的专用入口。共享图先写本题已获准的局部场景，布局层只引用场景内对象。
+当前机制需要两条生命线、两种过程对齐或连续字段状态时，直接用本地共享图，正文与图同轮交付。流程默认可拖时间轴、点步号和状态；两侧共享步骤，相同指标用相同且唯一的字段标签逐行对齐。报文保留原版纵向生命线、箭头、丢失标记和已走过的轨迹。精确课件沿上面的专用入口。共享图先写本题已获准的局部场景，布局层只引用场景内对象。
 
 ~~~sh
-python3 scripts/runtime_paths_408.py --run render_interactive_408.py \
+python3 scripts/runtime_paths_408.py --run sidebar_visual_408.py --render render_interactive_408.py \
   --input - --inline-root "<当前任务可视化目录>" \
   --output "<当前任务可视化目录>/mechanism.html"
 ~~~
@@ -91,22 +119,24 @@ python3 scripts/runtime_paths_408.py --run render_interactive_408.py \
 
 讲公开机制可把 --input - 换成 --preset gbn-sr 或 --preset paging。这两项是独立示例，禁止替代实际题目题设、考频或已授权局部。正文仍讲清因果并可复用回执 chat_linear_text。带布局的请求默认自动选择 A2UI，适用于这里的 sequence 和 flow。需要回退时可用 --presentation native；原题图、热点、单独的旧格式场景和已生成图解仍走现有入口。
 
-生成后在同轮文字讲解的对应位置使用当前Visualize内容引用，保持文字主线独立可读：
-
-```text
-visualize{"path":"<当前任务绝对路径>/mechanism.html"}
-```
-
-仅输出路径、源码、Markdown下载链接、PNG或静态SVG都未完成交互交付。当前协议不可用则保留已成功的文字讲解，如实标明“交互辅助未成功交付”，只修复缺失层；不得把静态降级称作成功。数学公式/推导继续在聊天原生公式中呈现，不变成图像或塞进节点。
+生成后依 [408 左侧 HTML 交付](../../_shared/kaoyan-408/sidebar-delivery.md) 取得并实际打开 HTML。右栏讲清相关条件、本步结论及必要推导，附同一页的普通链接。正文中的数学公式继续使用原生排版。
 
 同一节点再次点击收起，Enter/Space可操作。步骤、报文和对象详情使用同一个界面状态。A2UI 挂载后仅更新已批准场景上的步号和对象键，原生回退同样可操作。状态保存只用于界面恢复，不写入学习记录或掌握度。
 
 日常复用已验模板，无须逐题浏览器验收。首次开发或真实显示故障才检查点击、展开收起、关系高亮、适用步进、键盘与主宽度布局；不得在验收中展示冻结后继题或写学习事件。
 
-## 客户端读取边界（2026-10-13实际报错修复）
+## 客户端读取与左侧打开
 
-终端可读写不代表内联可视化可读取。当前客户端对展示文件另做任务目录白名单和非符号链接校验；T9冷目录不能直接作为Visualize引用。浏览器预览通过也不能证明这层成功。
+热展示片段放本聊天实际提供的可视化目录，原附件与 T9 冷原件按原位保留。成品哈希确认后沿侧栏入口补独立 HTML 外壳。课件/题目/阶段变化时重新取得该范围的页面。文件就绪、原生打开请求、实际左页右聊是不同结果。
 
-实际在当前对话展示的副本属于热展示文件，放本任务环境明确提供的专用可视化目录，使用ASCII小写连字符文件名。从T9维护示例展示时保留冷原件，用同一渲染器的 `--existing-fragment <冷原件> --output <本任务专用可视化目录>/mechanism.html --inline-root <本任务专用可视化目录>` 建立字节一致的真实本地文件；不能用符号链接替代。过程脚本、截图和报告继续留T9。
+## 逐步场景的展示
 
-只有inline_path_preflight_passed=true才输出生成器返回的visualize_reference；该标记是路径预检，不是客户端实测。client_display_verified不会因文件写好或浏览器成功而变true。客户端报错时先查实际读取边界，再查脚本，不自动重做题库、学习或正式入库。
+参考 Designed to Scale 实际课程的操作方式。主图始终保留同一题的对象和版面，当前步、路径和计数同步变化。可直接点步骤，也可逐步查看；重播只再现本步已公开的动作，保留步号和计数。多种条件都有依据且当前允许比较时才给条件开关，切换后保持在同一步。点对象时只显示与该对象有关的一句说明；窄屏将说明放在图下。对时序、位域及报文保留原有坐标和方向。
+
+新增的章节、指标、结论和示例参数均须有本问、2027 原纲或经核机制例的来源，参考站仅提供界面样式和操作范式。参考站的系统设计课程及学习进度不进入 408 考点、考频或个人证据。
+
+## 预制三维与侧栏
+
+本机普通讲解沿本科 `scripts/sidebar_visual_408.py --spatial-context -` 送出当前题号、具体教学目标、卡点、意图、实际作答状态和允许阶段。确有空间收益时由当前讲解者给 `tutor_presentation=three_d`；仅当用户亲自点名才用 `requested_presentation`。只问概念时使用已核父点或 KSP 身份，读取登记的中性概念示例。在真题上下文一直使用当前精确题号。题面、L1 和已授权完整讲解分别读独立缓存；同一题有合适的较低提示可按该已核层展示。受保护阶段仅显示已知条件。
+
+侧栏使用预制场景的本问、阶段、版本、对象卡和本机播放器，旋转、步进、点选及复位沿同一份场景。客户端左页和右聊天的位置读回后才算已显示。仅当本次点名 iPad 时使用专用投屏及其 `inspected_ready` 回执。缺成品按原教学范围反馈，并在备题期用 `scripts/prepare_spatial_lessons_408.py --output-dir <经核验的T9冷目录> --id <精确题号>` 补该问。
